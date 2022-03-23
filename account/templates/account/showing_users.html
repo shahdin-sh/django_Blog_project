@@ -1,0 +1,21 @@
+{% extends 'blog\_base.html' %}
+
+{%block page_title%}
+Users
+{% endblock page_title %}
+
+{% block content %}
+   <div class="card shadow-sm my-3">
+    <div class="card-body">
+        <h1 class="card-text py-3">Username: {{user.username}}</h1>
+        <h1 class="card-text py-3">First name: {{user.first_name}}</h1>
+        <h1 class="card-text py-3">Last name: {{user.last_name}}</h1>
+        <h1 class="card-text py-3">Email: {{user.email}}</h1>
+    </div>
+   </div>
+   <style>
+    div{
+        text-align: center;
+    }
+   </style>
+{% endblock content %}

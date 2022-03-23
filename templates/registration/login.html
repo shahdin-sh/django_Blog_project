@@ -1,0 +1,25 @@
+{% extends 'blog\_base.html' %}
+
+{%block page_title%}
+Login
+{% endblock page_title %}
+
+{% block content %}
+    <form action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+        <button type="submit">Log In</button>
+    </form>
+    <style>
+        form{
+            background-color: darkgrey;
+            font-size: 1.2rem;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+        button{
+            background-color: #003366;
+        }
+    </style>
+{% endblock content %}
