@@ -1,4 +1,5 @@
 {% extends '_base.html' %}
+{% load crispy_forms_tags %}
 {%block page_title%}
 post_detail
 {% endblock page_title %}
@@ -11,12 +12,14 @@ post_detail
                     <h1>{{ post_detail.title }}</h1>
                     <p class="small text-muted mt-2">By: {{post_detail.author}}</p>
                     <p class="mt-2">{{post_detail.text}}</p>
-                    <div>
-                        <a href="{% url "post_edit_option" post_detail.id %}" class="btn btn-sm btn-warning">Edit</a>
-                    </div>
-                    <div>
-                        <a href="{% url "post_delete_option" post_detail.id %}" class="btn btn-sm btn-danger">Delete</a>
-                    </div>
+                    {% if post_detail.author.id == user.id %}
+                        <div>
+                            <a href="{% url "post_edit_option" post_detail.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        </div>
+                        <div>
+                            <a href="{% url "post_delete_option" post_detail.id %}" class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                    {% endif %}
                 </div>
                 {% if not comments %}
                 <div class="card shadow my-3 p-5">
@@ -24,31 +27,38 @@ post_detail
                         No comments yet! Be the first one.
                 </div>
                 {% endif %}
+                {% if comments %}
                 <div class="d-flex justify-content-center">
                     <div class="card shadow my-3 p-5 w-sm-75 w-100" id="comments_box">
-                        {% if comments %}
-                             {% for i in comments %}
-                                {% if i.is_active %}
-                                <div class="border-bottom mb-3" id="each_comments_box">
-                                    <h5 class="mb-3">{{ i.user.username }}</h5>
-                                    {% if i.recommended %}
-                                        <div class="happy_face"><h6 class="mb-3">:)</h6></div>
-                                    {% elif not i.recommended %}
-                                        <div class="sad_face"><h6 class="mb-3">:(</h6></div>
-                                    {% endif %}
-                                    <h6 class="mb-3">  زمان انتشار: {{ i.datetime_comment }}</h6>
-                                    <p>{{ i.comment_text|linebreaks }}</p>
-                                </div>
+                         {% for i in comments %}
+                            {% if i.is_active %}
+                            <div class="border-bottom mb-3" id="each_comments_box">
+                                <h5 class="mb-3">{{ i.user.username }}</h5>
+                                {% if i.recommended %}
+                                    <div class="happy_face"><h6 class="mb-3">:)</h6></div>
+                                {% elif not i.recommended %}
+                                    <div class="sad_face"><h6 class="mb-3">:(</h6></div>
                                 {% endif %}
-                             {% endfor %}
-                        {% endif %}
+                                <h6 class="mb-3">release: {{ i.datetime_comment }}</h6>
+                                <p>{{ i.comment_text|linebreaks }}</p>
+                            </div>
+                            {% endif %}
+                         {% endfor %}
                     </div>
                 </div>
+                {% endif %}
+                {% if not user.is_authenticated %}
+                     <div class="d-flex justify-content-center">
+                        <div class="card shadow my-3 p-5 w-sm-75 w-100" id="comments_box">
+                         for publishing comments you must first <a href="{% url 'signup' %}">sign in</a> or <a href="{% url 'login' %}">log in</a> into the site.
+                        </div>
+                     </div>
+                {% endif %}
                 <div class="card shadow my-3 p-5">
                     <h3>Add new comment:</h3>
                     <form method="POST">
                         {% csrf_token %}
-                        {{ comment_form}}
+                        {{ comment_form|crispy}}
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>

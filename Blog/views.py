@@ -2,7 +2,8 @@ from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
 from .forms import *
 from django.views import generic
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 class PostListView(generic.ListView):
     model = Post
@@ -42,15 +43,24 @@ class PostCreatView(generic.CreateView):
         return reverse('post_view_of_blog')
 
 
-class PostEditView(generic.UpdateView):
+class PostEditView(UserPassesTestMixin, generic.UpdateView):
     model = Post
     form_class = NewPostFrom
     template_name = 'blog/add_post.html'
 
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
 
-class PostDeleteView(generic.DeleteView):
+
+class PostDeleteView(UserPassesTestMixin,generic.DeleteView):
     model = Post
     template_name = 'blog/delete_post_view'
     success_url = reverse_lazy('post_delete_option')
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
+
 
 
