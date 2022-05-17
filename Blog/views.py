@@ -4,6 +4,7 @@ from .forms import *
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.http import Http404
 
 class PostListView(generic.ListView):
     model = Post
@@ -62,5 +63,42 @@ class PostDeleteView(UserPassesTestMixin,generic.DeleteView):
         obj = self.get_object()
         return obj.author == self.request.user
 
+
+@login_required
+def comment_update_view(request, pk, comment_id):
+    auth = 0
+    auth_check = Comment.objects.all().filter(user_id=request.user.id)
+    for i in auth_check:
+        if i.pk == comment_id:
+            auth = i.pk
+    if auth != 0:
+        books = get_object_or_404(Post, pk=pk)
+        comment = books.comments.all().filter(pk=comment_id).get()
+        form = CommentForm(request.POST or None, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('books_detail', pk)
+        return render(request, 'blog/comment_update_view.html', {'form': form})
+    else:
+        raise Http404()
+
+
+@login_required
+def comment_delete_view(request, pk, comment_id):
+    auth = 0
+    auth_check = Comment.objects.all().filter(user_id=request.user.id)
+    for i in auth_check:
+        if i.pk == comment_id:
+            auth = i.pk
+    if auth != 0:
+        post = get_object_or_404(Post, pk=pk)
+        comment = post.comments.all().filter(pk=comment_id).get()
+        if request.method == 'POST':
+            comment.delete()
+            return redirect('post_detail', pk)
+        return render(request, 'blog/comment_delete_view.html', {'comment': comment,
+                                                                 'post': post})
+    else:
+        raise Http404()
 
 

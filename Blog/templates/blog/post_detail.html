@@ -31,6 +31,7 @@ post_detail
                 <div class="d-flex justify-content-center">
                     <div class="card shadow my-3 p-5 w-sm-75 w-100" id="comments_box">
                          {% for i in comments %}
+                             {{ i.id }}
                             {% if i.is_active %}
                             <div class="border-bottom mb-3" id="each_comments_box">
                                 <h5 class="mb-3">{{ i.user.username }}</h5>
@@ -41,6 +42,8 @@ post_detail
                                 {% endif %}
                                 <h6 class="mb-3">release: {{ i.datetime_comment }}</h6>
                                 <p>{{ i.comment_text|linebreaks }}</p>
+                                {% if i.user.id == user.id %}
+                                {% endif %}
                             </div>
                             {% endif %}
                          {% endfor %}

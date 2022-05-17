@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-
+{% load crispy_forms_tags %}
 {%block page_title%}
 add_post
 {% endblock page_title %}
@@ -13,7 +13,7 @@ add_post
                     <form method="POST">
                         {% csrf_token %}
                         <table>
-                            <ul>{{ form.as_table }}</ul>
+                            <ul>{{ form|crispy }}</ul>
                         </table>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
