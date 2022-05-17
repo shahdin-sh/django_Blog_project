@@ -6,3 +6,9 @@ class NewPostFrom(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'text', 'author', 'status']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['comment_text', 'recommended']

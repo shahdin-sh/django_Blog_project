@@ -1,4 +1,4 @@
-
+from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
 from .forms import *
 from django.views import generic
@@ -13,10 +13,25 @@ class PostListView(generic.ListView):
         return Post.objects.filter(status='pub').order_by('-datetime_modified')
 
 
-class PostDetailView(generic.DetailView):
-    model = Post
-    template_name = 'blog/post_detail.html'
-    context_object_name = 'post'
+def post_detail_view(request, pk):
+    post_detail = get_object_or_404(Post, pk=pk)
+    comments = post_detail.comments.all().order_by('-datetime_comment')
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.post = post_detail
+            new_comment.user = request.user
+            new_comment.save()
+            comment_form = CommentForm()
+    else:
+        comment_form = CommentForm()
+    dic = {
+        'post_detail': post_detail,
+        'comments': comments,
+        'comment_form': comment_form,
+    }
+    return render(request, 'blog/post_detail.html', dic)
 
 
 class PostCreatView(generic.CreateView):
@@ -37,6 +52,5 @@ class PostDeleteView(generic.DeleteView):
     model = Post
     template_name = 'blog/delete_post_view'
     success_url = reverse_lazy('post_delete_option')
-
 
 

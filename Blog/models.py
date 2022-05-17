@@ -1,5 +1,6 @@
 from django.db import models
 from django.shortcuts import reverse
+from django.contrib.auth import get_user_model
 
 
 class Post(models.Model):
@@ -20,3 +21,14 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_detail_view', args=[self.id])
 
+
+class Comment(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    comment_text = models.TextField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    datetime_comment = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+    recommended = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.comment_text

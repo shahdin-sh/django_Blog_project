@@ -127,3 +127,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'post_view_of_blog'
 LOGOUT_REDIRECT_URL = 'post_view_of_blog'
+
+
+#crispy forms setting
+CRISPY_TEMPLATE_PACk = 'bootstrap4'
