@@ -8,6 +8,6 @@ urlpatterns = [
     path('add/', login_required(PostCreatView.as_view()), name='post_view_add'),
     path('<int:pk>/edit/', login_required(PostEditView.as_view()), name='post_edit_option'),
     path('<int:pk>/delete/', login_required(PostDeleteView.as_view()), name='post_delete_option'),
-    path('<int:pk>/update/<int:comment_id>/comment', comment_update_view, name='comment_update-view'),
-    path('<int:pk>/delete/<int:comment_id>/comment', comment_delete_view, name='comment_delete-view')
+    path('<int:pk>/update/<int:comment_id>/comment', comment_update_view, name='comment_update_view'),
+    path('<int:pk>/delete/<int:comment_id>/comment', comment_delete_view, name='comment_delete_view')
 ]

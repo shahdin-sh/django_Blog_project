@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import Http404
 
+
 class PostListView(generic.ListView):
     model = Post
     template_name = 'blog/post_list.html'
@@ -77,7 +78,7 @@ def comment_update_view(request, pk, comment_id):
         form = CommentForm(request.POST or None, instance=comment)
         if form.is_valid():
             form.save()
-            return redirect('books_detail', pk)
+            return redirect('books_detail_view', pk)
         return render(request, 'blog/comment_update_view.html', {'form': form})
     else:
         raise Http404()
@@ -95,7 +96,7 @@ def comment_delete_view(request, pk, comment_id):
         comment = post.comments.all().filter(pk=comment_id).get()
         if request.method == 'POST':
             comment.delete()
-            return redirect('post_detail', pk)
+            return redirect('post_detail_view', pk)
         return render(request, 'blog/comment_delete_view.html', {'comment': comment,
                                                                  'post': post})
     else:
