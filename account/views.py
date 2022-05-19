@@ -1,15 +1,21 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
-from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from .forms import UserForm
+from .forms import UserForm, UserCreateForm
 from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
 
 
-class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
-    template_name = 'registration/signup.html'
-    success_url = reverse_lazy('login')
+def signup_view(request):
+    form = UserCreateForm(request.POST)
+    if form.is_valid():
+        form.save()
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password1')
+        user = authenticate(username=username, password=password)
+        login(request, user)
+        return redirect('post_view_of_blog')
+    return render(request, 'registration/signup.html', {'form': form})
 
 
 def profile(request):
