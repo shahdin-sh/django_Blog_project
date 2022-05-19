@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-
+{% load crispy_forms_tags %}
 {%block page_title%}
 Signup
 {% endblock page_title %}
@@ -7,19 +7,7 @@ Signup
 {% block content %}
     <form action="" method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
         <button type="submit">Sign up</button>
     </form>
-    <style>
-        form{
-            background-color: navajowhite;
-            font-size: 1.2rem;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-        }
-        button{
-            background-color: #003366;
-        }
-    </style>
 {% endblock content %}

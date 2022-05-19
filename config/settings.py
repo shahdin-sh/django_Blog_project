@@ -130,5 +130,8 @@ LOGIN_REDIRECT_URL = 'post_view_of_blog'
 LOGOUT_REDIRECT_URL = 'post_view_of_blog'
 
 
-#crispy forms setting
+# crispy forms setting
 CRISPY_TEMPLATE_PACk = 'bootstrap4'
+
+# EMAIL CONFIG
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
