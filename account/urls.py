@@ -4,5 +4,5 @@ from .views import *
 
 urlpatterns = [
     path('signup', SignUpView.as_view(), name='signup'),
-    path('', showing_accounts_list, name='accounts_view')
+    path('', profile, name='accounts_view')
 ]
