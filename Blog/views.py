@@ -57,7 +57,7 @@ class PostEditView(UserPassesTestMixin, generic.UpdateView):
 
 class PostDeleteView(UserPassesTestMixin,generic.DeleteView):
     model = Post
-    template_name = 'blog/delete_post_view'
+    template_name = 'blog/delete_post.html'
     success_url = reverse_lazy('post_delete_option')
 
     def test_func(self):
