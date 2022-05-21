@@ -31,8 +31,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="{% url 'post_view_of_blog' %}">Home</a>
-                <a class="nav-link" href="{% url 'post_view_of_blog' %}">Blog</a>
+                <a class="nav-link " aria-current="page" href="{% url 'post_view_of_blog' %}">Home</a>
                 <a class="nav-link" href="{% url 'post_view_add' %}">Add Post</a>
                  {% if user.is_authenticated %}
                     <a class="nav-link" href="{% url 'accounts_view' %}">Profile</a>
