@@ -3,7 +3,7 @@ from .models import Post, Comment
 
 
 class Postadmin(admin.ModelAdmin):
-    list_display = ('title', 'status', 'datetime_modified')
+    list_display = ('title', 'status', 'datetime_modified', 'favorite')
     ordering = ['datetime_modified']
 
 

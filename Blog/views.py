@@ -7,13 +7,16 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import Http404
 
 
-class PostListView(generic.ListView):
-    model = Post
-    template_name = 'blog/post_list.html'
-    context_object_name = 'post_list'
-
-    def get_queryset(self):
-        return Post.objects.filter(status='pub').order_by('-datetime_modified')
+def post_list_view(request):
+    post = Post.objects.all()
+    form = FavoritePost()
+    if form.is_valid():
+        form.save()
+    dic = {
+        'post': post,
+        'form': form
+    }
+    return render(request, 'blog/post_list.html', dic )
 
 
 def post_detail_view(request, pk):
