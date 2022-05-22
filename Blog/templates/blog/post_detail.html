@@ -13,13 +13,6 @@ post_detail
                     {{ post_detaile.favorite }}
                     <p class="small text-muted mt-2">By: {{post_detail.author}}</p>
                     <p class="mt-2">{{post_detail.text}}</p>
-                    {% if user.is_authenticated %}
-                        <form method="POST">
-                            {% csrf_token %}
-                            {{ form.favorite }}
-                             <button type="submit" class="btn btn-primary">Submit</button>
-                         </form>
-                    {% endif %}
                     {% if post_detail.author.id == user.id %}
                         <div>
                             <a href="{% url "post_edit_option" post_detail.id %}" class="btn btn-sm btn-warning">Edit</a>

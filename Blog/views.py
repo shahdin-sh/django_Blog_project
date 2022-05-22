@@ -5,6 +5,7 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import Http404
+from django.core.paginator import Paginator
 
 
 def post_list_view(request):
@@ -17,10 +18,6 @@ def post_list_view(request):
 
 def post_detail_view(request, pk):
     post_detail = get_object_or_404(Post, pk=pk)
-    form = NewPostFrom(request.POST)
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
     comments = post_detail.comments.all().order_by('-datetime_comment')
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -36,7 +33,6 @@ def post_detail_view(request, pk):
         'post_detail': post_detail,
         'comments': comments,
         'comment_form': comment_form,
-        'form': form,
     }
     return render(request, 'blog/post_detail.html', dic)
 
@@ -110,3 +106,16 @@ def comment_delete_view(request, pk, comment_id):
 def favorite_post_view(request):
     fav_posts = Post.objects.all().filter(favorite=True)
     return render(request, 'blog/fav_posts_view.html', {'fav_post': fav_posts})
+
+
+def user_posts_view(request):
+    current_user = request.user.id
+    post_bool = Post.objects.all().filter(author=current_user).exists()
+    posts_pg = Post.objects.all().filter(author=current_user)
+    paginator = Paginator(posts_pg, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    dic = {'user_posts_auth': post_bool,
+           'post': page_obj,
+           }
+    return render(request, 'blog/user_posts_view.html', dic)
