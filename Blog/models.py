@@ -14,7 +14,7 @@ class Post(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     datetime_modified = models.DateTimeField(auto_now=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=10)
-    favorite = models.BooleanField(default=False)
+    favorite = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title

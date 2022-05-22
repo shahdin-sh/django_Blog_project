@@ -9,18 +9,18 @@ from django.http import Http404
 
 def post_list_view(request):
     post = Post.objects.all()
-    form = FavoritePost()
-    if form.is_valid():
-        form.save()
     dic = {
         'post': post,
-        'form': form
     }
-    return render(request, 'blog/post_list.html', dic )
+    return render(request, 'blog/post_list.html', dic)
 
 
 def post_detail_view(request, pk):
     post_detail = get_object_or_404(Post, pk=pk)
+    form = NewPostFrom(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
     comments = post_detail.comments.all().order_by('-datetime_comment')
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -36,6 +36,7 @@ def post_detail_view(request, pk):
         'post_detail': post_detail,
         'comments': comments,
         'comment_form': comment_form,
+        'form': form,
     }
     return render(request, 'blog/post_detail.html', dic)
 
@@ -106,3 +107,6 @@ def comment_delete_view(request, pk, comment_id):
         raise Http404()
 
 
+def favorite_post_view(request):
+    fav_posts = Post.objects.all().filter(favorite=True)
+    return render(request, 'blog/fav_posts_view.html', {'fav_post': fav_posts})

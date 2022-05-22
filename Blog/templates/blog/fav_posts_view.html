@@ -6,12 +6,15 @@ Post list
     <div class="container mt-4">
         <div class="row">
             <div class="col-9">
-                {% for i in post %}
+                {% for i in fav_posts %}
                 <div class="card shadow-sm my-3">
                     <div class="card-body">
                         <h5 class="card-title">{{i.title}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted small py-2">By {{i.author}}</h6>
                         <h6 class="card-subtitle mb-2 text-muted small py-2">{{i.date_created}}</h6>
+                         {% if user.is_authenticated %}
+                             <h6 class="card-subtitle mb-2 text-muted small py-2">{{ form }}</h6>
+                         {% endif %}
                         <p class="card-text py-3">{{i.text}}</p>
                         <div class="btn btn-sm">
                             <a href="{% url "post_detail_view" i.id %}">Read More</a>

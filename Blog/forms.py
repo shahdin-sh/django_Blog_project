@@ -14,7 +14,3 @@ class CommentForm(forms.ModelForm):
         fields = ['comment_text', 'recommended']
 
 
-class FavoritePost(forms.ModelForm):
-    class Meta:
-        model = Post
-        fields = ['favorite']
