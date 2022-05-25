@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import Post, Comment, Favorite
 
 
 class Postadmin(admin.ModelAdmin):
-    list_display = ('title', 'status', 'datetime_modified', 'favorite')
+    list_display = ('title', 'status', 'datetime_modified')
     ordering = ['datetime_modified']
 
 
@@ -12,5 +12,10 @@ class CommentAdmin(admin.ModelAdmin):
     ordering = ['-datetime_comment']
 
 
+class FavPostAdmin(admin.ModelAdmin):
+    list_display = ('user', 'fav_post')
+
+
 admin.site.register(Post, Postadmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(Favorite, FavPostAdmin)

@@ -103,11 +103,6 @@ def comment_delete_view(request, pk, comment_id):
         raise Http404()
 
 
-def favorite_post_view(request):
-    fav_posts = Post.objects.all().filter(favorite=True)
-    return render(request, 'blog/fav_posts_view.html', {'fav_post': fav_posts})
-
-
 def user_posts_view(request):
     current_user = request.user.id
     post_bool = Post.objects.all().filter(author=current_user).exists()
@@ -119,3 +114,10 @@ def user_posts_view(request):
            'post': page_obj,
            }
     return render(request, 'blog/user_posts_view.html', dic)
+
+
+def user_fav_view(request):
+    fav = Favorite.objects.all().filter(user_id=request.user.id)
+    return render(request, 'blog/user_fav_posts_view.html', {'fav_post': fav})
+
+

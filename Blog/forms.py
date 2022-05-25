@@ -5,7 +5,7 @@ from .models import *
 class NewPostFrom(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'text', 'author', 'status', 'favorite']
+        fields = ['title', 'text', 'author', 'status']
 
 
 class CommentForm(forms.ModelForm):
@@ -14,3 +14,7 @@ class CommentForm(forms.ModelForm):
         fields = ['comment_text', 'recommended']
 
 
+class FavoritePostForm(forms.ModelForm):
+    class Meta:
+        model = Favorite
+        fields = ['fav_post']
