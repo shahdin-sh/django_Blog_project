@@ -10,9 +10,19 @@ post_detail
             <div class="col-9">
                 <div class="card shadow my-3 p-5">
                     <h1>{{ post_detail.title }}</h1>
-                    {{ post_detaile.favorite }}
                     <p class="small text-muted mt-2">By: {{post_detail.author}}</p>
                     <p class="mt-2">{{post_detail.text}}</p>
+                    {% if user.is_authenticated %}
+                        {% if not fav %}
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ fav_form }}
+                                 <button type="submit">add to your favorite</button>
+                            </form>
+                        {% elif fav %}
+                            <a href="#" class="mt-2">Remove from your favorite</a>
+                        {% endif %}
+                    {% endif %}
                     {% if post_detail.author.id == user.id %}
                         <div>
                             <a href="{% url "post_edit_option" post_detail.id %}" class="btn btn-sm btn-warning">Edit</a>

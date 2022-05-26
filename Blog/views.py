@@ -29,10 +29,18 @@ def post_detail_view(request, pk):
             comment_form = CommentForm()
     else:
         comment_form = CommentForm()
+    fav_form = FavoritePostForm(request.POST or None,  initial={'user': request.user,
+                                                             'fav_post': post_detail})
+    user_fav_post_check = Favorite.objects.all().filter(user_id=request.user.id, fav_post_id=pk)
+    if fav_form.is_valid():
+        fav_form.save()
+        return redirect('post_detail_view', pk)
     dic = {
         'post_detail': post_detail,
         'comments': comments,
         'comment_form': comment_form,
+        'fav_form': fav_form,
+        'fav': user_fav_post_check
     }
     return render(request, 'blog/post_detail.html', dic)
 
@@ -117,7 +125,6 @@ def user_posts_view(request):
 
 
 def user_fav_view(request):
-    fav = Favorite.objects.all().filter(user_id=request.user.id)
-    return render(request, 'blog/user_fav_posts_view.html', {'fav_post': fav})
+    pass
 
 
