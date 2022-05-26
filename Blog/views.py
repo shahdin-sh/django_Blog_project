@@ -130,8 +130,11 @@ def user_posts_view(request):
 def user_fav_view(request):
     current_user = request.user.id
     user_fav_post = Post.objects.all().filter(fav_post__user_id=current_user).order_by('-date_created')
+    paginator = Paginator(user_fav_post, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     dic = {
-        'user_fav_post': user_fav_post
+        'user_fav_post': page_obj
     }
     return render(request, 'blog/user_fav_posts_view.html', dic)
 
