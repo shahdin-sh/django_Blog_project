@@ -16,7 +16,7 @@ post_detail
                         {% if not fav %}
                             <form method="post">
                                 {% csrf_token %}
-                                {{ fav_form }}
+                                {{ fav_form|crispy }}
                                  <button type="submit">add to your favorite</button>
                             </form>
                         {% elif fav %}

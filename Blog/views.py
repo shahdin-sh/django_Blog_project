@@ -10,8 +10,11 @@ from django.core.paginator import Paginator
 
 def post_list_view(request):
     post = Post.objects.all().order_by('-date_created')
+    paginator = Paginator(post, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     dic = {
-        'post': post,
+        'post': page_obj,
     }
     return render(request, 'blog/post_list.html', dic)
 
