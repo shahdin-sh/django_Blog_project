@@ -9,7 +9,7 @@ from django.core.paginator import Paginator
 
 
 def post_list_view(request):
-    post = Post.objects.all()
+    post = Post.objects.all().order_by('-date_created')
     dic = {
         'post': post,
     }
@@ -31,10 +31,10 @@ def post_detail_view(request, pk):
         comment_form = CommentForm()
     fav_form = FavoritePostForm(request.POST or None,  initial={'user': request.user,
                                                              'fav_post': post_detail})
-    user_fav_post_check = Favorite.objects.all().filter(user_id=request.user.id, fav_post_id=pk)
     if fav_form.is_valid():
         fav_form.save()
         return redirect('post_detail_view', pk)
+    user_fav_post_check = Favorite.objects.all().filter(user_id=request.user.id, fav_post_id=pk)
     dic = {
         'post_detail': post_detail,
         'comments': comments,
@@ -125,6 +125,11 @@ def user_posts_view(request):
 
 
 def user_fav_view(request):
-    pass
+    current_user = request.user.id
+    user_fav_post = Post.objects.all().filter(fav_post__user_id=current_user).order_by('-date_created')
+    dic = {
+        'user_fav_post': user_fav_post
+    }
+    return render(request, 'blog/user_fav_posts_view.html', dic)
 
 
