@@ -20,7 +20,7 @@ post_detail
                                  <button type="submit">add to your favorite</button>
                             </form>
                         {% elif fav %}
-                            <a href="#" class="mt-2">Remove from your favorite</a>
+                            <a href="{% url 'delete_fav_user_post' post_detail.id %}" class="mt-2">Remove from your favorite</a>
                         {% endif %}
                     {% endif %}
                     {% if post_detail.author.id == user.id %}

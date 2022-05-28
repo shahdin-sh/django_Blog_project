@@ -49,24 +49,27 @@ def post_detail_view(request, pk):
 
 
 class PostCreatView(generic.CreateView):
-    form_class = NewPostFrom
+    form_class = NewPostForm
     template_name = 'blog/add_post.html'
 
     def get_success_url(self):
         return reverse('post_view_of_blog')
 
 
-class PostEditView(UserPassesTestMixin, generic.UpdateView):
+class PostUpdateView(UserPassesTestMixin, generic.UpdateView):
     model = Post
-    form_class = NewPostFrom
+    form_class = NewPostForm
     template_name = 'blog/add_post.html'
+
+    def get_success_url(self):
+        return reverse('post_view_of_blog')
 
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user
 
 
-class PostDeleteView(UserPassesTestMixin,generic.DeleteView):
+class PostDeleteView(UserPassesTestMixin, generic.DeleteView):
     model = Post
     template_name = 'blog/delete_post.html'
     success_url = reverse_lazy('post_delete_option')
@@ -138,4 +141,17 @@ def user_fav_view(request):
     }
     return render(request, 'blog/user_fav_posts_view.html', dic)
 
+
+def delete_fav_user_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    current_user = request.user.id
+    fav_user_post = Favorite.objects.all().filter(user_id=current_user, fav_post_id=pk)
+    if request.method == 'POST':
+        fav_user_post.delete()
+        return redirect('post_detail_view', pk)
+    dic = {
+        'fav_user_post': fav_user_post,
+        'post': post
+    }
+    return render(request, 'blog/remove_fav_user_post.html', dic)
 
