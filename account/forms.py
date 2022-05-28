@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from django.contrib.auth import get_user_model
 
 
 class UserForm(forms.ModelForm):
@@ -11,11 +12,11 @@ class UserForm(forms.ModelForm):
 
 
 class UserCreateForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-
-    def __init__(self, *args, **kwargs):
-        super(UserCreateForm, self).__init__(*args, **kwargs)
-
-        for fieldname in ['username', 'password1', 'password2']:
-            self.fields[fieldname].help_text = None
-
+    class Meta:
+        model = get_user_model()
+        fields = ("first_name", "last_name",
+                  "email", "username", "password1", "password2")
+        for i in fields:
+            help_texts = {
+                'i': None
+            }

@@ -5,18 +5,13 @@ from .forms import UserForm, UserCreateForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.views import generic
 
 
-def signup_view(request):
-    form = UserCreateForm(request.POST)
-    if form.is_valid():
-        form.save()
-        username = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password1')
-        user = authenticate(username=username, password=password)
-        login(request, user)
-        return redirect('post_view_of_blog')
-    return render(request, 'registration/signup.html', {'form': form})
+class SignUpView(generic.CreateView):
+    form_class = UserCreateForm
+    template_name = 'registration/signup.html'
+    success_url = reverse_lazy('login')
 
 
 @login_required
