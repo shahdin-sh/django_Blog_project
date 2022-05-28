@@ -1,0 +1,105 @@
+{% extends '_base.html' %}
+{%block page_title%}
+User_profile
+{% endblock page_title %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-9">
+                <div class="card shadow my-3 p-5">
+                    <h3>Profile</h3>
+                    <ol>
+                        <li><span>username:</span> {{ user.username }}</li>
+                        <li><span>firstname:</span> {{ user.first_name }}</li>
+                        <li><span>lastname:</span> {{user.last_name}}</li>
+                        <li><span>email:</span> {{ user.email }}</li>
+                        {% if user_post %}
+                            <li><span>number of posts: </span>{{ user_post }}</li>
+                        {% elif not user_post %}
+                            <li>number of posts: None</li>
+                        {% endif %}
+                    </ol>
+                    <a href="{% url 'edit_user_profile_view' %}">edit profile</a>
+                </div>
+            </div>
+            <div class="col-3">
+                    <div class="card my-4">
+                        <h5 class="card-header">About</h5>
+                        <div class="card-body">
+                            <p class="card-text">We love python and django. So we created a blog site to share our
+                                thoughts</p>
+                            <a href="#"
+                               class="btn btn-sm btn-danger">
+                                More...
+                            </a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        ol{
+            border: 1px solid #003366;
+            font-size: 1.5rem;
+            padding: 1rem;
+            list-style: none;
+        }
+        span{
+            font-weight: bold;
+            color: #CC3434;
+        }
+    </style>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

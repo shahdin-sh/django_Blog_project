@@ -34,7 +34,7 @@
                     <a class="nav-link " aria-current="page" href="{% url 'post_view_of_blog' %}">Home</a>
                     <a class="nav-link" href="{% url 'post_view_add' %}">Add Post</a>
                      {% if user.is_authenticated %}
-                        <a class="nav-link" href="{% url 'accounts_view' %}">Profile</a>
+                        <a class="nav-link" href="{% url 'user_profile_view' %}">Profile</a>
                         <a class="nav-link" href="{% url 'user_fav_post_view' %}">favorite</a>
                         <a class="nav-link" href="{% url 'user_post_view' %}"> {{ user.username }} posts</a>
                      {% endif %}
