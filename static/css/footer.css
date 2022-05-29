@@ -9,6 +9,9 @@
     background-color:black;
     color: white;
 }
+.footer p{
+    margin: 2%;
+}
 .icon{
     display: flex;
     flex-direction: row-reverse;

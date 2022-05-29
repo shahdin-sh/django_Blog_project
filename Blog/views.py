@@ -120,7 +120,7 @@ def comment_delete_view(request, pk, comment_id):
 def user_posts_view(request):
     current_user = request.user.id
     post_bool = Post.objects.all().filter(author=current_user).exists()
-    posts_pg = Post.objects.all().filter(author=current_user)
+    posts_pg = Post.objects.all().filter(author=current_user).order_by('-date_created')
     paginator = Paginator(posts_pg, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

@@ -4,7 +4,6 @@
 {% endblock page_title %}
 
 {% block content %}
-    <h1>Your posts</h1>
     {% if user_posts_auth == False %}
         <div class="d-flex justify-content-center mt-3" id="main_signin_container">
             <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-xs-6 bg-white m-3 m-sm-5 border rounded px-4 pt-4 pb-3 shadow" id="signin_container">
@@ -18,36 +17,21 @@
         </div>
          <div class="col-3">
     {% elif user_posts_auth == True %}
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-9">
-                    {% for i in post %}
-                    <div class="card shadow-sm my-3">
-                        <div class="card-body">
-                            <h5 class="card-title">{{i.title}}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted small py-2">By {{i.author}}</h6>
-                            <h6 class="card-subtitle mb-2 text-muted small py-2">{{i.date_created}}</h6>
-                            <p class="card-text py-3">{{i.text}}</p>
-                            <div class="btn btn-sm">
-                                <a href="{% url "post_detail_view" i.id %}">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="col-3">
-                    <div class="card my-4">
-                        <h5 class="card-header">About</h5>
-                        <div class="card-body">
-                            <p class="card-text">We love python and django. So we created a blog site to share our
-                                thoughts</p>
-                            <a href="#"
-                               class="btn btn-sm btn-danger">
-                                More...
-                            </a>
+        <div class="post_container">
+            <div class="post">
+                {% for i in post %}
+                <div class="card shadow-sm my-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{i.title}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted small py-2">By {{i.author}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted small py-2">{{i.date_created}}</h6>
+                        <p class="card-text py-3">{{i.text}}</p>
+                        <div class="btn btn-sm">
+                            <a href="{% url "post_detail_view" i.id %}">Read More</a>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
         <nav aria-label="Page navigation">
