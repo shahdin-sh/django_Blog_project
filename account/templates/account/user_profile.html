@@ -18,6 +18,7 @@ User_profile
                             <li><span>number of posts: </span>{{ user_post }}</li>
                         {% elif not user_post %}
                             <li>number of posts: None</li>
+                            <a href="{% url 'post_view_add' %}">Do you want to Create one?</a>
                         {% endif %}
                     </ol>
                     <a href="{% url 'edit_user_profile_view' %}">edit profile</a>
