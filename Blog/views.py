@@ -20,9 +20,20 @@ def post_list_view(request):
 
 
 def post_detail_view(request, pk):
+    # post with its pk or id.
     post_detail = get_object_or_404(Post, pk=pk)
+    # favorite post Backend for login users.
+    fav_form = FavoritePostForm(request.POST or None, initial={'user': request.user,
+                                                               'fav_post': post_detail})
+    if fav_form.is_valid():
+        fav_form.save()
+        return redirect('post_detail_view', pk)
+    user_fav_post_check = Favorite.objects.all().filter(user_id=request.user.id, fav_post_id=pk)
+    # comments section.
     comments = post_detail.comments.all().order_by('-datetime_comment')
-    if request.method == 'POST':
+    none_user_comments = post_detail.nu_comment.all().order_by('-datetime_comment')
+    # comment form for users who are logging in the site.
+    if request.method == 'POST' and request.user.is_authenticated:
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
@@ -32,19 +43,27 @@ def post_detail_view(request, pk):
             comment_form = CommentForm()
     else:
         comment_form = CommentForm()
-    fav_form = FavoritePostForm(request.POST or None,  initial={'user': request.user,
-                                                             'fav_post': post_detail})
-    if fav_form.is_valid():
-        fav_form.save()
-        return redirect('post_detail_view', pk)
-    user_fav_post_check = Favorite.objects.all().filter(user_id=request.user.id, fav_post_id=pk)
+    # comment form for users who are not logging in the site.
+    if request.method == 'POST' and not request.user.is_authenticated:
+        none_user_comment_form = NoneLoginUserCommentForm(request.POST)
+        if none_user_comment_form.is_valid():
+            new_none_user_comment = none_user_comment_form.save(commit=False)
+            new_none_user_comment.post = post_detail
+            new_none_user_comment.save()
+            none_user_comment_form = NoneLoginUserCommentForm()
+    else:
+        none_user_comment_form = NoneLoginUserCommentForm
+        # gathering all variables for post_detail_template down below.
     dic = {
         'post_detail': post_detail,
         'comments': comments,
         'comment_form': comment_form,
+        'none_user_comment': none_user_comments,
+        'none_user_comment_form': none_user_comment_form,
         'fav_form': fav_form,
         'fav': user_fav_post_check
     }
+    # rendering the request.
     return render(request, 'blog/post_detail.html', dic)
 
 
