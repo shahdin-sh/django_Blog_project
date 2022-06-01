@@ -21,7 +21,3 @@ class FavoritePostForm(forms.ModelForm):
         fields = ['fav_post', 'user']
 
 
-class NoneLoginUserCommentForm(forms.ModelForm):
-    class Meta:
-        model = NoneUserComment
-        fields = ['name', 'email', 'comment_text', 'recommended']

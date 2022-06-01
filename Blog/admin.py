@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment, Favorite, NoneUserComment
+from .models import Post, Comment, Favorite
 
 
 class Postadmin(admin.ModelAdmin):
@@ -8,12 +8,7 @@ class Postadmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'comment_text', 'post', 'datetime_comment', 'is_active')
-    ordering = ['-datetime_comment']
-
-
-class NoneUserCommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'comment_text', 'post', 'datetime_comment', 'is_active')
+    list_display = ('user', 'name', 'email', 'comment_text', 'post', 'datetime_comment', 'is_active')
     ordering = ['-datetime_comment']
 
 
@@ -24,4 +19,3 @@ class FavPostAdmin(admin.ModelAdmin):
 admin.site.register(Post, Postadmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Favorite, FavPostAdmin)
-admin.site.register(NoneUserComment, NoneUserCommentAdmin)

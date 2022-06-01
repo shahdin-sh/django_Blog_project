@@ -24,6 +24,8 @@ class Post(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, null=True)
+    email = models.EmailField(max_length=200, null=True)
     comment_text = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     datetime_comment = models.DateTimeField(auto_now_add=True)
@@ -32,16 +34,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.comment_text
-
-
-class NoneUserComment(models.Model):
-    name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=200)
-    comment_text = models.TextField()
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='nu_comment')
-    datetime_comment = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(default=True)
-    recommended = models.BooleanField(default=True)
 
 
 class Favorite(models.Model):

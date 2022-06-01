@@ -39,13 +39,14 @@ post_detail
                     </div>
                 {% endif %}
             </div>
-            {% if comments or none_user_comment %}
+            {% if comments %}
                 <div class="d-flex justify-content-center">
                     <div class="card shadow my-3 p-5 w-sm-75 w-100" id="comments_box">
                          {% for i in comments %}
                             {% if i.is_active %}
                                 <div id="each_comments_box">
                                     <h5 class="mb-3">{{ i.user.username }}</h5>
+                                    <h5 class="mb-3">{{ i.name }}</h5>
                                     {% if i.recommended %}
                                         <div class="happy_face"><h6 class="mb-3">:)</h6></div>
                                     {% elif not i.recommended %}
@@ -61,23 +62,9 @@ post_detail
                                 </div>
                             {% endif %}
                          {% endfor %}
-                         {% for i in none_user_comment %}
-                            {% if i.is_active %}
-                                <div id="each_comments_box">
-                                    <h5 class="mb-3">{{ i.name }}</h5>
-                                    {% if i.recommended %}
-                                        <div class="happy_face"><h6 class="mb-3">:)</h6></div>
-                                    {% elif not i.recommended %}
-                                        <div class="sad_face"><h6 class="mb-3">:(</h6></div>
-                                    {% endif %}
-                                    <h6 class="mb-3">release: {{ i.datetime_comment }}</h6>
-                                    <p>{{ i.comment_text|linebreaks }}</p>
-                                </div>
-                            {% endif %}
-                         {% endfor %}
                     </div>
                 </div>
-            {% elif not comments or none_user_comment %}
+            {% elif not comments %}
                 <div class="card shadow my-3 p-5">
                     <h3>There is no comment for this post yet! Be the First one :)</h3>
                 </div>
@@ -96,7 +83,7 @@ post_detail
                     <h3>Add new comment:</h3>
                     <form method="POST">
                         {% csrf_token %}
-                        {{ none_user_comment_form|crispy }}
+                        {{ comment_form|crispy}}
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                     <h4> Wanna <a href="{% url 'login' %}">Login</a> first?</h4>
