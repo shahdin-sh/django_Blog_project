@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import Http404
 from django.core.paginator import Paginator
+from django.contrib.auth.models import User
 
 
 def post_list_view(request):
@@ -31,13 +32,28 @@ def post_detail_view(request, pk):
     user_fav_post_check = Favorite.objects.all().filter(user_id=request.user.id, fav_post_id=pk)
     # comments section.
     comments = post_detail.comments.all().order_by('-datetime_comment')
-    if request.method == 'POST':
+    # comment form for logging users
+    if request.method == 'POST' and request.user.is_authenticated:
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
             new_comment.post = post_detail
             new_comment.user = request.user
             new_comment.save()
+            comment_form = CommentForm()
+    else:
+        comment_form = CommentForm()
+    # comment form for not logging users
+    if request.method == 'POST' and not request.user.is_authenticated:
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            # filtering form values
+            new_comment.post = post_detail
+            new_comment.user = None
+            # saving form values
+            new_comment.save()
+            # emptying forms section
             comment_form = CommentForm()
     else:
         comment_form = CommentForm()

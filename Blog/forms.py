@@ -1,6 +1,5 @@
 from django import forms
 from .models import *
-from django.contrib.auth.models import User
 
 
 class NewPostForm(forms.ModelForm):
@@ -12,7 +11,7 @@ class NewPostForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['comment_text', 'recommended']
+        fields = ['name', 'email', 'comment_text', 'recommended']
 
 
 class FavoritePostForm(forms.ModelForm):
