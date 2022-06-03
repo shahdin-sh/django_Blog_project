@@ -1,9 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from Blog.models import Post
 from django.urls import reverse_lazy
-from .forms import UserForm, UserCreateForm
+from .forms import  UserCreateForm, UserForm
 from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.views import generic
 
@@ -36,3 +35,7 @@ def edit_profile(request):
     else:
         form = UserForm(instance=user)
     return render(request, 'account/edit_profile.html', context={'form': form})
+
+
+def user_profile_pic(request):
+    pass
