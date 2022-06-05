@@ -8,6 +8,7 @@
     font-weight: bold;
     background-color:black;
     color: white;
+    border: #d11b27 solid 3px;
 }
 .footer p{
     margin: 2%;

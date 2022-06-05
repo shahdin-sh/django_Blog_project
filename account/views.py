@@ -1,5 +1,7 @@
 from django.shortcuts import redirect, get_object_or_404, render
 from Blog.models import Post
+from django.views import generic
+from django.urls import reverse
 from django.urls import reverse_lazy
 from .forms import UserCreateForm, UserForm, UserProfilePicForm
 from django.contrib.auth.models import User
@@ -18,8 +20,10 @@ class SignUpView(generic.CreateView):
 def user_profile(request):
     current_user_id = request.user.id
     user_post = Post.objects.all().filter(author_id=current_user_id)
+    user_pic = UserProfilePic.objects.all().filter(user_id=current_user_id)
     dic = {
         'user_post': len(user_post),
+        'user_pic': user_pic,
     }
     return render(request, 'account/user_profile.html', dic)
 
@@ -37,15 +41,4 @@ def edit_profile(request):
         form = UserForm(instance=user)
     return render(request, 'account/edit_profile.html', context={'form': form})
 
-
-@login_required
-def user_profile_pic(request):
-    current_user_id = request.user.id
-    user = UserProfilePic.objects.all().filter(user_id=current_user_id)
-    form = UserProfilePicForm(request.POST or None, instance=user)
-    if form.is_valid():
-        form.save()
-        return redirect('user_profile_view')
-    dic = {'form': form, }
-    return render(request, 'account/upload_user_pic', dic)
 

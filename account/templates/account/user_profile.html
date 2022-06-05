@@ -8,32 +8,58 @@ User_profile
         <div class="post">
             <div class="card shadow my-3 p-5">
                 <h3>Profile</h3>
-                <ol>
-                    <li><span>username:</span> {{ user.username }}</li>
-                    <li><span>firstname:</span> {{ user.first_name }}</li>
-                    <li><span>lastname:</span> {{user.last_name}}</li>
-                    <li><span>email:</span> {{ user.email }}</li>
-                    {% if user_post %}
-                        <li><span>number of posts: </span>{{ user_post }}</li>
-                    {% elif not user_post %}
-                        <li>number of posts: None</li>
-                        <a href="{% url 'post_view_add' %}">Do you want to Create one?</a>
-                    {% endif %}
-                </ol>
+                <div class="user_profile_container">
+                    <div class="user_profile_info">
+                        <ol>
+                            <li><span>username:</span> {{ user.username }}</li>
+                            <li><span>firstname:</span> {{ user.first_name }}</li>
+                            <li><span>lastname:</span> {{user.last_name}}</li>
+                            <li><span>email:</span> {{ user.email }}</li>
+                            {% if user_post %}
+                                <li><span>number of posts: </span>{{ user_post }}</li>
+                            {% elif not user_post %}
+                                <li>number of posts: None</li>
+                                <a href="{% url 'post_view_add' %}">Do you want to Create one?</a>
+                            {% endif %}
+                        </ol>
+                    </div>
+                    <div class="user_profile_avatar">
+                        {% for i in user_pic %}
+                            <img src="{{ i.profile_pic.url }}" alt="Avatar" class="user_avatar">
+                        {% endfor%}
+                    </div>
+                </div>
                 <a href="{% url 'edit_user_profile_view' %}">edit profile</a>
             </div>
         </div>
     </div>
     <style>
-        ol{
-            border: 1px solid #003366;
+        .user_profile_container{
+             border: 1px solid #003366;
+        }
+        .user_profile_info ol{
             font-size: 1.5rem;
             padding: 1rem;
             list-style: none;
         }
-        span{
+        .user_profile_info span{
             font-weight: bold;
             color: #CC3434;
+        }
+        .user_profile_container{
+            display: flex;
+            flex-direction: row;
+        }
+        @media screen and (min-width:640px){
+             .user_profile_avatar {
+                max-width: 40%;
+                text-align: center;
+            }
+            .user_profile_avatar .user_avatar {
+                border-radius: 50%;
+                width: 50%;
+                margin-top: 10%;
+            }
         }
     </style>
 {% endblock content %}
