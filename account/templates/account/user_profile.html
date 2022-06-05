@@ -1,4 +1,5 @@
 {% extends '_base.html' %}
+{% load static %}
 {%block page_title%}
 User_profile
 {% endblock page_title %}
@@ -24,9 +25,13 @@ User_profile
                         </ol>
                     </div>
                     <div class="user_profile_avatar">
-                        {% for i in user_pic %}
-                            <img src="{{ i.profile_pic.url }}" alt="Avatar" class="user_avatar">
-                        {% endfor%}
+                        {% if user_pic %}
+                            {% for i in user_pic %}
+                                <img src="{{ i.profile_pic.url }}" alt="Avatar" class="user_avatar">
+                            {% endfor%}
+                        {% elif not user_pic %}
+                             <img src="{% static 'images/img_avatar.png' %}" alt="Avatar" class="user_avatar">
+                        {% endif %}
                     </div>
                 </div>
                 <a href="{% url 'edit_user_profile_view' %}">edit profile</a>
@@ -57,7 +62,7 @@ User_profile
             }
             .user_profile_avatar .user_avatar {
                 border-radius: 50%;
-                width: 50%;
+                width: 60%;
                 margin-top: 10%;
             }
         }
