@@ -57,7 +57,23 @@ class UploadUserAvatar(generic.CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+class UpdateUserAvatar(generic.UpdateView):
+    form_class = UserProfilePicForm
+    model = UserProfilePic
+    template_name = 'account/update_user_pic.html'
 
+    def get_success_url(self):
+        return reverse('user_profile_view')
+
+    def get_object(self, queryset=None):
+        pic = UserProfilePic.objects.all().filter(user_id=self.request.user.id).get()
+        return pic
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 
