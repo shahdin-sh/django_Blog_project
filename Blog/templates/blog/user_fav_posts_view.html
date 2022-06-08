@@ -33,6 +33,17 @@ Post list
             </div>
         {% endif %}
     </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination  justify-content-center mt-3">
+        {% if user_fav_post.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ user_fav_post.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link" href="?page={{ user_fav_post.number }}">{{ user_fav_post.number }}</a></li>
+        {% if user_fav_post.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ user_fav_post.next_page_number }}">Next</a></li>
+        {% endif %}
+        </ul>
+    </nav>
     <style>
     #signin_container .icons{
         text-align: center;
