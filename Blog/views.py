@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, get_object_or_404, render
+from django.shortcuts import redirect, get_object_or_404, render, HttpResponseRedirect
 from django.urls import reverse_lazy
 from .forms import *
 from django.views import generic
@@ -79,7 +79,13 @@ class PostCreatView(generic.CreateView):
     template_name = 'blog/add_post.html'
 
     def get_success_url(self):
-        return reverse('post_view_of_blog')
+        return reverse('post_detail_view', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class PostUpdateView(UserPassesTestMixin, generic.UpdateView):
@@ -88,7 +94,7 @@ class PostUpdateView(UserPassesTestMixin, generic.UpdateView):
     template_name = 'blog/add_post.html'
 
     def get_success_url(self):
-        return reverse('post_view_of_blog')
+        return reverse('post_detail_view', kwargs={'pk': self.object.pk})
 
     def test_func(self):
         obj = self.get_object()
@@ -98,11 +104,13 @@ class PostUpdateView(UserPassesTestMixin, generic.UpdateView):
 class PostDeleteView(UserPassesTestMixin, generic.DeleteView):
     model = Post
     template_name = 'blog/delete_post.html'
-    success_url = reverse_lazy('post_delete_option')
 
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user
+
+    def get_success_url(self):
+        return reverse('post_view_of_blog')
 
 
 @login_required
