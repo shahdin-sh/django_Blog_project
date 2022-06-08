@@ -76,5 +76,12 @@ class UpdateUserAvatar(generic.UpdateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-
+@login_required
+def delete_user_avatar(request):
+    current_user_id = request.user.id
+    current_user_avatar = UserProfilePic.objects.all().filter(user_id=current_user_id).get()
+    if request.method == 'POST':
+        current_user_avatar.delete()
+        return redirect('user_profile_view')
+    return render(request, 'account/delete_current_user_avatar.html', {'current_user_avatar': current_user_avatar})
 

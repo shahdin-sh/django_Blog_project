@@ -35,7 +35,8 @@ User_profile
                     </div>
                 </div>
                 {% if user_pic %}
-                    <p><a href="{% url 'edit_user_profile_view' %}">edit profile</a> | <a href="{% url 'update_user_profile_pic' %}">change your avatar</a></p>
+                    <p><a href="{% url 'edit_user_profile_view' %}">Edit profile</a> | <a href="{% url 'update_user_profile_pic' %}">Change your avatar</a> |
+                        <a href="{% url 'delete_user_profile_pic' %}">Delete avatar</a></p>
                 {% elif not user_pic %}
                     <p><a href="{% url 'edit_user_profile_view' %}">edit profile</a> | <a href="{% url 'add_user_profile_pic' %}">add avatar</a></p>
                 {% endif %}
