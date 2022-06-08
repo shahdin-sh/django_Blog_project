@@ -66,7 +66,7 @@ class UpdateUserAvatar(generic.UpdateView):
         return reverse('user_profile_view')
 
     def get_object(self, queryset=None):
-        pic = UserProfilePic.objects.all().filter(user_id=self.request.user.id).get()
+        pic = get_object_or_404(UserProfilePic.objects.all().filter(user_id=self.request.user.id))
         return pic
 
     def form_valid(self, form):
@@ -79,7 +79,7 @@ class UpdateUserAvatar(generic.UpdateView):
 @login_required
 def delete_user_avatar(request):
     current_user_id = request.user.id
-    current_user_avatar = UserProfilePic.objects.all().filter(user_id=current_user_id).get()
+    current_user_avatar = get_object_or_404(UserProfilePic.objects.all().filter(user_id=current_user_id))
     if request.method == 'POST':
         current_user_avatar.delete()
         return redirect('user_profile_view')

@@ -108,7 +108,7 @@ def comment_update_view(request, pk, comment_id):
             auth = i.pk
     if auth != 0:
         books = get_object_or_404(Post, pk=pk)
-        comment = books.comments.all().filter(pk=comment_id).get()
+        comment = get_object_or_404(books.comments.all().filter(pk=comment_id))
         form = CommentForm(request.POST or None, instance=comment)
         if form.is_valid():
             form.save()
@@ -127,7 +127,7 @@ def comment_delete_view(request, pk, comment_id):
             auth = i.pk
     if auth != 0:
         post = get_object_or_404(Post, pk=pk)
-        comment = post.comments.all().filter(pk=comment_id).get()
+        comment = get_object_or_404(post.comments.all().filter(pk=comment_id))
         if request.method == 'POST':
             comment.delete()
             return redirect('post_detail_view', pk)
