@@ -17,6 +17,5 @@ class CommentForm(forms.ModelForm):
 class FavoritePostForm(forms.ModelForm):
     class Meta:
         model = Favorite
-        fields = ['fav_post', 'user']
-
+        exclude = ('fav_post', 'user',)
 

@@ -24,11 +24,17 @@ def post_detail_view(request, pk):
     # post with its pk or id.
     post_detail = get_object_or_404(Post, pk=pk)
     # favorite post Backend for login users.
-    fav_form = FavoritePostForm(request.POST or None, initial={'user': request.user,
-                                                               'fav_post': post_detail})
-    if fav_form.is_valid():
-        fav_form.save()
-        return redirect('post_detail_view', pk)
+    if request.method == 'POST':
+        fav_form = FavoritePostForm(request.POST)
+        if fav_form.is_valid():
+            new_fav = fav_form.save(commit=False)
+            new_fav.user = request.user
+            new_fav.fav_post = post_detail
+            fav_form.save()
+            fav_form = FavoritePostForm()
+            return redirect('post_detail_view', pk)
+    else:
+        fav_form = FavoritePostForm()
     user_fav_post_check = Favorite.objects.all().filter(user_id=request.user.id, fav_post_id=pk)
     # comments section.
     comments = post_detail.comments.all().order_by('-datetime_comment')
