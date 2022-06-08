@@ -26,4 +26,4 @@ class UserCreateForm(UserCreationForm):
 class UserProfilePicForm(forms.ModelForm):
     class Meta:
         model = UserProfilePic
-        fields = ('profile_pic', )
+        fields = ('profile_pic',)

@@ -1,10 +1,10 @@
-from django.shortcuts import redirect, get_object_or_404, render
+from django.shortcuts import redirect, get_object_or_404, render, HttpResponseRedirect
 from Blog.models import Post
-from django.views import generic
+# from django.views import generic
 from django.urls import reverse
 from django.urls import reverse_lazy
 from .forms import UserCreateForm, UserForm, UserProfilePicForm
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views import generic
 from .models import *
@@ -40,5 +40,25 @@ def edit_profile(request):
     else:
         form = UserForm(instance=user)
     return render(request, 'account/edit_profile.html', context={'form': form})
+
+
+class UploadUserAvatar(generic.CreateView):
+    form_class = UserProfilePicForm
+    model = UserProfilePic
+    template_name = 'account/upload_user_pic.html'
+
+    def get_success_url(self):
+        return reverse('user_profile_view')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+
+
+
+
 
 

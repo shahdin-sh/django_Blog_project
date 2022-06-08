@@ -11,8 +11,8 @@ upload_user_profile
                 <h3>Profile Picture</h3>
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form|crispy }}
-                    <button type="submit" value="submit" class="btn btn-primary mt-3">Fix your profile photo</button>
+                    {{ form.profile_pic|as_crispy_field }}
+                    <button type="submit" class="btn btn-primary mt-3">Change your profile photo</button>
                 </form>
                 <a href="{% url 'user_profile_view' %}">back to your previous profile page</a>
             </div>
