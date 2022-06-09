@@ -178,8 +178,11 @@ def user_fav_view(request):
     paginator = Paginator(user_fav_post, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    # get user profile pic
+    user_pic = UserProfilePic.objects.all()
     dic = {
-        'user_fav_post': page_obj
+        'user_fav_post': page_obj,
+        'user_pic': user_pic,
     }
     return render(request, 'blog/user_fav_posts_view.html', dic)
 
