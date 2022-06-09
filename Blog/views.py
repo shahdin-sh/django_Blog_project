@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import Http404
 from django.core.paginator import Paginator
-from django.contrib.auth.models import User
+from account.models import UserProfilePic
 
 
 def post_list_view(request):
@@ -14,8 +14,12 @@ def post_list_view(request):
     paginator = Paginator(post, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    # get user profile pic
+    user_pic = UserProfilePic.objects.all()
+    # dic
     dic = {
         'post': page_obj,
+        'user_pic': user_pic,
     }
     return render(request, 'blog/post_list.html', dic)
 

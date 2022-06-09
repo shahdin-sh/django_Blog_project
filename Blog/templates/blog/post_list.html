@@ -8,12 +8,21 @@ Post list
 
 {% block content %}
     <div class="post_container">
-            <div class="post">
-                {% for i in post %}
+        <div class="post">
+            {% for i in post %}
                 <div class="card shadow-sm my-3">
                     <div class="card-body">
                         <h5 class="card-title">{{i.title}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted small py-2">By {{i.author}}</h6>
+                        <div class="user_information">
+                            <h6 class="card-subtitle mb-2 text-muted small py-2">By {{i.author}}</h6>
+                            {% for j in user_pic %}
+                                {% if j.user_id == i.author_id %}
+                                    <img src="{{ j.profile_pic.url }}" alt="Avatar" class="user_avatar">
+                                {% elif j.user_id != i.author_id %}
+                                  <img src="{% static 'images/img_avatar.png' %}" alt="Avatar2" class="user_avatar">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                         <h6 class="card-subtitle mb-2 text-muted small py-2">{{i.date_created}}</h6>
                         <p class="card-text py-3">{{i.text|truncatewords:40}}</p>
                         <div class="btn btn-sm">
@@ -21,8 +30,8 @@ Post list
                         </div>
                     </div>
                 </div>
-                {% endfor %}
-            </div>
+            {% endfor %}
+        </div>
     </div>
      <nav aria-label="Page navigation">
         <ul class="pagination  justify-content-center mt-3">
@@ -35,6 +44,21 @@ Post list
         {% endif %}
         </ul>
      </nav>
+    <style>
+        .user_information{
+            display: flex;
+            flex-direction: row;
+            gap: 2%;
+        }
+        .user_information h6{
+            margin-top: 1%;
+        }
+        .user_avatar{
+            width: 5%;
+            border-radius: 50%;
+            border: #CC3434 3px solid;
+        }
+    </style>
 {% endblock content %}
 
 
