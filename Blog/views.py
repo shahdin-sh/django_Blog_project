@@ -27,6 +27,18 @@ def post_list_view(request):
 def post_detail_view(request, pk):
     # post with its pk or id.
     post_detail = get_object_or_404(Post, pk=pk)
+    # comments section.
+    comments = post_detail.comments.all().order_by('-datetime_comment')
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.post = post_detail
+            new_comment.user = request.user
+            new_comment.save()
+            comment_form = CommentForm()
+    else:
+        comment_form = CommentForm()
     # favorite post Backend for login users.
     if request.method == 'POST':
         fav_form = FavoritePostForm(request.POST)
@@ -40,34 +52,7 @@ def post_detail_view(request, pk):
     else:
         fav_form = FavoritePostForm()
     user_fav_post_check = Favorite.objects.all().filter(user_id=request.user.id, fav_post_id=pk)
-    # comments section.
-    comments = post_detail.comments.all().order_by('-datetime_comment')
-    # comment form for logging users
-    if request.method == 'POST' and request.user.is_authenticated:
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.post = post_detail
-            new_comment.user = request.user
-            new_comment.save()
-            comment_form = CommentForm()
-            return redirect('post_detail_view', pk)
-    else:
-        comment_form = CommentForm()
-    # comment form for not logging users
-    if request.method == 'POST' and not request.user.is_authenticated:
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            # filtering form values
-            new_comment.post = post_detail
-            new_comment.user = None
-            # saving form values
-            new_comment.save()
-            # emptying forms section
-            comment_form = CommentForm()
-    else:
-        comment_form = CommentForm()
+    # a dictionary as a context
     dic = {
         'post_detail': post_detail,
         'comments': comments,
@@ -126,12 +111,12 @@ def comment_update_view(request, pk, comment_id):
         if i.pk == comment_id:
             auth = i.pk
     if auth != 0:
-        books = get_object_or_404(Post, pk=pk)
-        comment = get_object_or_404(books.comments.all().filter(pk=comment_id))
+        post = get_object_or_404(Post, pk=pk)
+        comment = get_object_or_404(post.comments.all().filter(pk=comment_id))
         form = CommentForm(request.POST or None, instance=comment)
         if form.is_valid():
             form.save()
-            return redirect('books_detail_view', pk)
+            return redirect('post_detail_view', pk)
         return render(request, 'blog/comment_update_view.html', {'form': form})
     else:
         raise Http404()

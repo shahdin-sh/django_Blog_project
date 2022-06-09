@@ -8,7 +8,7 @@ class Postadmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'name', 'email', 'comment_text', 'post', 'datetime_comment', 'is_active')
+    list_display = ('comment_text', 'post', 'datetime_comment', 'is_active')
     ordering = ['-datetime_comment']
 
 

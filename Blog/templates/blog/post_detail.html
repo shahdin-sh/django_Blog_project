@@ -45,12 +45,7 @@ post_detail
                          {% for i in comments %}
                             {% if i.is_active %}
                                 <div id="each_comments_box">
-                                    {% if i.user.username != None %}
-                                        <h5 class="mb-3">{{ i.user.username }}</h5>
-                                    {% endif %}
-                                    {% if i.name != None %}
-                                        <h5 class="mb-3">{{ i.name }}</h5>
-                                    {% endif %}
+                                    <h5 class="mb-3">{{ i.user.username }}</h5>
                                     {% if i.recommended %}
                                         <div class="happy_face"><h6 class="mb-3">:)</h6></div>
                                     {% elif not i.recommended %}
@@ -58,6 +53,10 @@ post_detail
                                     {% endif %}
                                     <h6 class="mb-3">release: {{ i.datetime_comment }}</h6>
                                     <p>{{ i.comment_text|linebreaks }}</p>
+                                    {% if i.user.id == user.id %}
+                                        <span><a href="{% url 'comment_update_view' post_detail.id i.id %}">Edit</a> |
+                                        <a href="{% url 'comment_delete_view' post_detail.id i.id %}">Delete</a></span>
+                                    {% endif %}
                                 </div>
                             {% endif %}
                          {% endfor %}
@@ -73,31 +72,16 @@ post_detail
                     <h3>Add new comment:</h3>
                     <form method="POST">
                         {% csrf_token %}
-                        {{ comment_form.comment_text|as_crispy_field }}
-                        {{ comment_form.recommended|as_crispy_field }}
+                        {{ comment_form|crispy }}
                         <button type="submit" class="btn btn-primary">Submit</button>
                      </form>
                  </div>
             {% elif not user.is_authenticated %}
                  <div class="card shadow my-3 p-5">
-                    <h3>Add new comment:</h3>
-                    <form method="POST">
-                        {% csrf_token %}
-                        {{ comment_form.name|as_crispy_field }}
-                        {{ comment_form.email|as_crispy_field }}
-                        {{ comment_form.comment_text|as_crispy_field }}
-                        {{ comment_form.recommended|as_crispy_field }}
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                    <p><span class="notice">Notice:</span> for editing your comment or deleting it, you must <a href="{% url 'login' %}">Sign up</a> in the site with the email you have given in the comment box!</p>
+                 for writing comments please <span><a href="{% url 'signin' %}">Sign IN</a> |
+                     <a href="{% url 'login' %}">Login</a></span> first!!!
                  </div>
             {% endif %}
         </div>
     </div>
-    <style>
-        .notice{
-            color: #d11b27;
-            font-weight: bold;
-        }
-    </style>
 {% endblock content %}
