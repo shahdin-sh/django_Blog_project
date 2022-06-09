@@ -51,6 +51,7 @@ def post_detail_view(request, pk):
             new_comment.user = request.user
             new_comment.save()
             comment_form = CommentForm()
+            return redirect('post_detail_view', pk)
     else:
         comment_form = CommentForm()
     # comment form for not logging users
@@ -162,8 +163,11 @@ def user_posts_view(request):
     paginator = Paginator(posts_pg, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    # get user profile pic
+    user_pic = UserProfilePic.objects.all()
     dic = {'user_posts_auth': post_bool,
            'post': page_obj,
+           'user_pic': user_pic
            }
     return render(request, 'blog/user_posts_view.html', dic)
 
