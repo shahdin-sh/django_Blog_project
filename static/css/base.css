@@ -13,13 +13,15 @@ body{
    margin-right: 10%;
 }
 .header{
-    background-color: black;
-    width: 100%;
+    background-color: #003366;
     color: white;
-    border: 2px solid  #d11b27;
+    border: 3px solid  #d11b27;
     display: flex;
     flex-direction: row;
-    gap: 30%;
+}
+.header .page_title{
+    flex-grow:0.8;
+    text-align: center;
 }
 .header p{
     font-size: 1.2rem;

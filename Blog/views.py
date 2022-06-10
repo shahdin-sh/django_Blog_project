@@ -14,13 +14,10 @@ def post_list_view(request):
     paginator = Paginator(post, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    # get user profile pic
-    user_pic = UserProfilePic.objects.all()
     # dic
     page_title = 'HomePage'
     dic = {
         'post': page_obj,
-        'user_pic': user_pic,
         'page_title': page_title
     }
     return render(request, 'blog/post_list.html', dic)
@@ -155,12 +152,9 @@ def user_posts_view(request):
     paginator = Paginator(posts_pg, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    # get user profile pic
-    user_pic = UserProfilePic.objects.all()
     page_title = "Your Posts"
     dic = {'user_posts_auth': post_bool,
            'post': page_obj,
-           'user_pic': user_pic,
            'page_title': page_title,
            }
     return render(request, 'blog/user_posts_view.html', dic)
