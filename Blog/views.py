@@ -17,9 +17,11 @@ def post_list_view(request):
     # get user profile pic
     user_pic = UserProfilePic.objects.all()
     # dic
+    page_title = 'HomePage'
     dic = {
         'post': page_obj,
         'user_pic': user_pic,
+        'page_title': page_title
     }
     return render(request, 'blog/post_list.html', dic)
 
@@ -53,12 +55,14 @@ def post_detail_view(request, pk):
         fav_form = FavoritePostForm()
     user_fav_post_check = Favorite.objects.all().filter(user_id=request.user.id, fav_post_id=pk)
     # a dictionary as a context
+    page_title = f'Post Detail id:{pk}'
     dic = {
         'post_detail': post_detail,
         'comments': comments,
         'comment_form': comment_form,
         'fav_form': fav_form,
-        'fav': user_fav_post_check
+        'fav': user_fav_post_check,
+        'page_title': page_title
     }
     # rendering the request.
     return render(request, 'blog/post_detail.html', dic)
@@ -117,7 +121,8 @@ def comment_update_view(request, pk, comment_id):
         if form.is_valid():
             form.save()
             return redirect('post_detail_view', pk)
-        return render(request, 'blog/comment_update_view.html', {'form': form})
+        page_title = f'Update Comment {comment_id}'
+        return render(request, 'blog/comment_update_view.html', {'form': form, 'page_title': page_title})
     else:
         raise Http404()
 
@@ -135,8 +140,10 @@ def comment_delete_view(request, pk, comment_id):
         if request.method == 'POST':
             comment.delete()
             return redirect('post_detail_view', pk)
+        page_title = f'Delete Comment {comment_id}'
         return render(request, 'blog/comment_delete_view.html', {'comment': comment,
-                                                                 'post': post})
+                                                                 'post': post,
+                                                                 'page_title': page_title})
     else:
         raise Http404()
 
@@ -150,9 +157,11 @@ def user_posts_view(request):
     page_obj = paginator.get_page(page_number)
     # get user profile pic
     user_pic = UserProfilePic.objects.all()
+    page_title = "Your Posts"
     dic = {'user_posts_auth': post_bool,
            'post': page_obj,
-           'user_pic': user_pic
+           'user_pic': user_pic,
+           'page_title': page_title,
            }
     return render(request, 'blog/user_posts_view.html', dic)
 
@@ -163,11 +172,10 @@ def user_fav_view(request):
     paginator = Paginator(user_fav_post, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    # get user profile pic
-    user_pic = UserProfilePic.objects.all()
+    page_title = "Your Favorite Posts"
     dic = {
         'user_fav_post': page_obj,
-        'user_pic': user_pic,
+        'page_title': page_title,
     }
     return render(request, 'blog/user_fav_posts_view.html', dic)
 

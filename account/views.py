@@ -4,7 +4,7 @@ from Blog.models import Post
 from django.urls import reverse
 from django.urls import reverse_lazy
 from .forms import UserCreateForm, UserForm, UserProfilePicForm
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views import generic
 from .models import *
@@ -21,9 +21,11 @@ def user_profile(request):
     current_user_id = request.user.id
     user_post = Post.objects.all().filter(author_id=current_user_id)
     user_pic = UserProfilePic.objects.all().filter(user_id=current_user_id)
+    page_title = 'Profile'
     dic = {
         'user_post': len(user_post),
         'user_pic': user_pic,
+        'page_title': page_title
     }
     return render(request, 'account/user_profile.html', dic)
 
@@ -39,7 +41,9 @@ def edit_profile(request):
             return redirect('user_profile_view')
     else:
         form = UserForm(instance=user)
-    return render(request, 'account/edit_profile.html', context={'form': form})
+    page_title = 'Edit Profile'
+    return render(request, 'account/edit_profile.html', context={'form': form,
+                                                                 'page_title': page_title})
 
 
 class UploadUserAvatar(generic.CreateView):
@@ -83,5 +87,7 @@ def delete_user_avatar(request):
     if request.method == 'POST':
         current_user_avatar.delete()
         return redirect('user_profile_view')
-    return render(request, 'account/delete_current_user_avatar.html', {'current_user_avatar': current_user_avatar})
+    page_title = 'Delete Avatar'
+    return render(request, 'account/delete_current_user_avatar.html', {'current_user_avatar': current_user_avatar,
+                                                                       'page_title': page_title})
 

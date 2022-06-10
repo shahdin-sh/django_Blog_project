@@ -56,7 +56,7 @@
             <p><a href="{% url 'signup' %}">Sign up</a> | <a href="{% url 'login' %}">Log in</a></p>
             {% endif %}
         </div>
-        <div class="page_title"><h2>Page Title</h2></div>
+        <div class="page_title"><h2>{{ page_title }}</h2></div>
     </div>
     {% block content %}
     {% endblock %}
