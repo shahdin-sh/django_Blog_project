@@ -17,7 +17,7 @@ post_detail
         <div class="post_detail">
             <div class="card shadow my-3 p-5">
                 <h1>{{ post_detail.title }}</h1>
-                <p class="small text-muted mt-2">By: {{post_detail.author}}</p>
+                <p class="small text-muted mt-2">By {{post_detail.author}}</p>
                 <p class="mt-2">{{post_detail.text}}</p>
                 {% if user.is_authenticated %}
                     {% if not fav %}
@@ -78,7 +78,7 @@ post_detail
                  </div>
             {% elif not user.is_authenticated %}
                  <div class="card shadow my-3 p-5">
-                 for writing comments please <span><a href="{% url 'signin' %}">Sign IN</a> |
+                 for writing comments please <span><a href="{% url 'signup' %}">Sign IN</a> |
                      <a href="{% url 'login' %}">Login</a></span> first!!!
                  </div>
             {% endif %}
