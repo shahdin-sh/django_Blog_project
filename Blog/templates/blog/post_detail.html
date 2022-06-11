@@ -19,6 +19,14 @@ post_detail
                 <h1>{{ post_detail.title }}</h1>
                 <p class="small text-muted mt-2">By {{post_detail.author}}</p>
                 <p class="mt-2">{{post_detail.text}}</p>
+                {% if post_detail.author.id == user.id %}
+                    <div>
+                        <a href="{% url "post_edit_option" post_detail.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    </div>
+                    <div>
+                        <a href="{% url "post_delete_option" post_detail.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                {% endif %}
                 {% if user.is_authenticated %}
                     {% if not fav %}
                         <form method="post" action="">
@@ -30,13 +38,8 @@ post_detail
                         <a href="{% url 'delete_fav_user_post' post_detail.id %}" class="mt-2">Remove from your favorite</a>
                     {% endif %}
                 {% endif %}
-                {% if post_detail.author.id == user.id %}
-                    <div>
-                        <a href="{% url "post_edit_option" post_detail.id %}" class="btn btn-sm btn-warning">Edit</a>
-                    </div>
-                    <div>
-                        <a href="{% url "post_delete_option" post_detail.id %}" class="btn btn-sm btn-danger">Delete</a>
-                    </div>
+                {% if post_detail.author.id == user.id and post_detail.status == 'drf' %}
+                    <p><span class="text-danger">Notice:</span>Your post status is draft for publishing it change the status to 'publish' situation.</p>
                 {% endif %}
             </div>
             {% if comments %}

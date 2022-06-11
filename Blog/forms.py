@@ -8,6 +8,12 @@ class NewPostForm(forms.ModelForm):
         fields = ['title', 'text', 'status']
 
 
+class DraftPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        exclude = ('title', 'text', 'author', 'status')
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

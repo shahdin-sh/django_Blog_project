@@ -25,10 +25,7 @@ def post_list_view(request):
 
 def post_detail_view(request, pk):
     # post with its pk or id
-    if get_object_or_404(Post.objects.all().filter(status='drf', author_id=request.user.id), pk=pk):
-        post_detail = get_object_or_404(Post, pk=pk)
-    else:
-        post_detail = get_object_or_404(Post.objects.all().filter(status='pub'), pk=pk)
+    post_detail = get_object_or_404(Post.objects.all().filter(status='pub'), pk=pk)
     # comments section.
     comments = post_detail.comments.all().order_by('-datetime_comment')
     if request.method == 'POST':
@@ -62,7 +59,7 @@ def post_detail_view(request, pk):
         'comment_form': comment_form,
         'fav_form': fav_form,
         'fav': user_fav_post_check,
-        'page_title': page_title
+        'page_title': page_title,
     }
     # rendering the request.
     return render(request, 'blog/post_detail.html', dic)
@@ -206,3 +203,33 @@ def delete_fav_user_post(request, pk):
     }
     return render(request, 'blog/remove_fav_user_post.html', dic)
 
+
+def draft_user_posts_detail(request, pk):
+    current_user_id = request.user.id
+    draft_post_detail = Post.objects.all().filter(author_id=current_user_id, status='drf')
+    draft_user_post = get_object_or_404(draft_post_detail, pk=pk)
+    draft_title = ''
+    draft_text = ''
+    for i in draft_post_detail:
+        if i.title:
+            draft_title = i.title
+        if i.text:
+            draft_text = i.text
+    if request.method == 'POST':
+        draft_form = DraftPostForm(request.POST)
+        if draft_form.is_valid():
+            publish_form = draft_form.save(commit=False)
+            publish_form.status = 'pub'
+            publish_form.author = request.user
+            publish_form.title = draft_title
+            publish_form.text = draft_text
+            publish_form.save()
+            draft_post_detail.delete()
+            draft_form = DraftPostForm()
+    else:
+        draft_form = DraftPostForm()
+    dic = {
+        'post_detail': draft_user_post,
+        'form': draft_form,
+    }
+    return render(request, 'blog/drf_user_post_detail_view.html', dic)
