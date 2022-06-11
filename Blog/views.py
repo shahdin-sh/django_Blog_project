@@ -10,7 +10,7 @@ from account.models import UserProfilePic
 
 
 def post_list_view(request):
-    post = Post.objects.all().order_by('-date_created')
+    post = Post.objects.all().order_by('-date_created').filter(status='pub')
     paginator = Paginator(post, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -24,8 +24,11 @@ def post_list_view(request):
 
 
 def post_detail_view(request, pk):
-    # post with its pk or id.
-    post_detail = get_object_or_404(Post, pk=pk)
+    # post with its pk or id
+    if get_object_or_404(Post.objects.all().filter(status='drf', author_id=request.user.id), pk=pk):
+        post_detail = get_object_or_404(Post, pk=pk)
+    else:
+        post_detail = get_object_or_404(Post.objects.all().filter(status='pub'), pk=pk)
     # comments section.
     comments = post_detail.comments.all().order_by('-datetime_comment')
     if request.method == 'POST':
@@ -94,7 +97,8 @@ class PostUpdateView(UserPassesTestMixin, generic.UpdateView):
 
     def test_func(self):
         obj = self.get_object()
-        return obj.author == self.request.user
+        if obj.author == self.request.user:
+            return True
 
     def get_context_data(self, *args, **kwargs):
         data = super(PostUpdateView, self).get_context_data(*args, **kwargs)
@@ -127,7 +131,7 @@ def comment_update_view(request, pk, comment_id):
         if i.pk == comment_id:
             auth = i.pk
     if auth != 0:
-        post = get_object_or_404(Post, pk=pk)
+        post = get_object_or_404(Post.objects.all().filter(status='pub'), pk=pk)
         comment = get_object_or_404(post.comments.all().filter(pk=comment_id))
         form = CommentForm(request.POST or None, instance=comment)
         if form.is_valid():
@@ -147,7 +151,7 @@ def comment_delete_view(request, pk, comment_id):
         if i.pk == comment_id:
             auth = i.pk
     if auth != 0:
-        post = get_object_or_404(Post, pk=pk)
+        post = get_object_or_404(Post.objects.all().filter(status='pub'), pk=pk)
         comment = get_object_or_404(post.comments.all().filter(pk=comment_id))
         if request.method == 'POST':
             comment.delete()
@@ -162,8 +166,8 @@ def comment_delete_view(request, pk, comment_id):
 
 def user_posts_view(request):
     current_user = request.user.id
-    post_bool = Post.objects.all().filter(author=current_user).exists()
-    posts_pg = Post.objects.all().filter(author=current_user).order_by('-date_created')
+    post_bool = Post.objects.all().filter(author=current_user, status='pub').exists()
+    posts_pg = Post.objects.all().filter(author=current_user, status='pub').order_by('-date_created')
     paginator = Paginator(posts_pg, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -177,7 +181,7 @@ def user_posts_view(request):
 
 def user_fav_view(request):
     current_user = request.user.id
-    user_fav_post = Post.objects.all().filter(fav_post__user_id=current_user).order_by('-date_created')
+    user_fav_post = Post.objects.all().filter(fav_post__user_id=current_user, status='pub').order_by('-date_created')
     paginator = Paginator(user_fav_post, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -190,7 +194,7 @@ def user_fav_view(request):
 
 
 def delete_fav_user_post(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+    post = get_object_or_404(Post.objects.all().filter(status='pub'), pk=pk)
     current_user = request.user.id
     fav_user_post = Favorite.objects.all().filter(user_id=current_user, fav_post_id=pk)
     if request.method == 'POST':
