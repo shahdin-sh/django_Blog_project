@@ -15,6 +15,11 @@ class SignUpView(generic.CreateView):
     template_name = 'registration/signup.html'
     success_url = reverse_lazy('login')
 
+    def get_context_data(self, *args, **kwargs):
+        data = super(SignUpView, self).get_context_data(*args, **kwargs)
+        data['page_title'] = 'Sign In'
+        return data
+
 
 @login_required
 def user_profile(request):
@@ -60,6 +65,11 @@ class UploadUserAvatar(generic.CreateView):
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
+    def get_context_data(self, *args, **kwargs):
+        data = super(UploadUserAvatar, self).get_context_data(*args, **kwargs)
+        data['page_title'] = 'Upload User Pic'
+        return data
+
 
 class UpdateUserAvatar(generic.UpdateView):
     form_class = UserProfilePicForm
@@ -78,6 +88,11 @@ class UpdateUserAvatar(generic.UpdateView):
         self.object.user = self.request.user
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
+
+    def get_context_data(self, *args, **kwargs):
+        data = super(UpdateUserAvatar, self).get_context_data(*args, **kwargs)
+        data['page_title'] = 'Edit User Pic'
+        return data
 
 
 @login_required

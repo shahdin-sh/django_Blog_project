@@ -78,6 +78,11 @@ class PostCreatView(generic.CreateView):
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
+    def get_context_data(self, *args, **kwargs):
+        data = super(PostCreatView, self).get_context_data(*args, **kwargs)
+        data['page_title'] = 'Add Post'
+        return data
+
 
 class PostUpdateView(UserPassesTestMixin, generic.UpdateView):
     model = Post
@@ -91,6 +96,11 @@ class PostUpdateView(UserPassesTestMixin, generic.UpdateView):
         obj = self.get_object()
         return obj.author == self.request.user
 
+    def get_context_data(self, *args, **kwargs):
+        data = super(PostUpdateView, self).get_context_data(*args, **kwargs)
+        data['page_title'] = 'Edit Post'
+        return data
+
 
 class PostDeleteView(UserPassesTestMixin, generic.DeleteView):
     model = Post
@@ -102,6 +112,11 @@ class PostDeleteView(UserPassesTestMixin, generic.DeleteView):
 
     def get_success_url(self):
         return reverse('post_view_of_blog')
+
+    def get_context_data(self, *args, **kwargs):
+        data = super(PostDeleteView, self).get_context_data(*args, **kwargs)
+        data['page_title'] = 'Delete Post'
+        return data
 
 
 @login_required
