@@ -1,5 +1,4 @@
 {% extends '_base.html' %}
-{% load static %}
 {%block page_title%}
 User_profile
 {% endblock page_title %}
@@ -30,7 +29,7 @@ User_profile
                                 <img src="{{ i.profile_pic.url }}" alt="Avatar" class="user_avatar">
                             {% endfor%}
                         {% elif not user_pic %}
-                             <img src="{% static 'images/img_avatar.png' %}" alt="Avatar" class="user_avatar">
+                             <img src="{{ i.profile_pic }}" alt="Avatar" class="user_avatar">
                         {% endif %}
                     </div>
                 </div>

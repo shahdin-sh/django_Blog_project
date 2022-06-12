@@ -1,10 +1,9 @@
-from Blog.models import Post
 from django.db import models
 from django.contrib.auth.models import User
 
 
 class UserProfilePic(models.Model):
-    profile_pic = models.ImageField(upload_to='profile/')
+    profile_pic = models.ImageField(upload_to='profile/', default='profile/img_avatar.png')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):

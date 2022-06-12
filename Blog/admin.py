@@ -3,8 +3,8 @@ from .models import Post, Comment, Favorite
 
 
 class Postadmin(admin.ModelAdmin):
-    list_display = ('title', 'status', 'datetime_modified', 'author')
-    ordering = ['datetime_modified']
+    list_display = ('title', 'status', 'date_created', 'author', 'author_profile_pic')
+    ordering = ['-date_created']
 
 
 class CommentAdmin(admin.ModelAdmin):

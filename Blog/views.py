@@ -65,24 +65,22 @@ def post_detail_view(request, pk):
     return render(request, 'blog/post_detail.html', dic)
 
 
-class PostCreatView(generic.CreateView):
+class PostCreateView(generic.CreateView):
     form_class = NewPostForm
     template_name = 'blog/add_post.html'
-
-    def get_success_url(self):
-        if self.get_object().status == 'pub':
-            return reverse('post_detail_view', kwargs={'pk': self.object.pk})
-        elif self.get_object().status == 'drf':
-            return reverse('draft_user_detail_posts', kwargs={'pk': self.object.pk})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.author = self.request.user
+        self.object.author_profile_pic = UserProfilePic.objects.all().filter(user_id=self.object.author_id).get()
         self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
+        if self.object.status == 'pub':
+            return HttpResponseRedirect(reverse('post_detail_view', kwargs={'pk': self.object.pk}))
+        elif self.object.status == 'drf':
+            return HttpResponseRedirect( reverse('draft_user_detail_posts', kwargs={'pk': self.object.pk}))
 
     def get_context_data(self, *args, **kwargs):
-        data = super(PostCreatView, self).get_context_data(*args, **kwargs)
+        data = super(PostCreateView, self).get_context_data(*args, **kwargs)
         data['page_title'] = 'Add Post'
         return data
 
@@ -217,17 +215,21 @@ def draft_user_posts_detail(request, pk):
     draft_user_post = get_object_or_404(draft_post_detail, pk=pk)
     draft_title = ''
     draft_text = ''
+    author_id = 0
     for i in draft_post_detail:
         if i.title:
             draft_title = i.title
         if i.text:
             draft_text = i.text
+        if i.author_id:
+            author_id = i.author_id
     if request.method == 'POST':
         draft_form = DraftPostForm(request.POST)
         if draft_form.is_valid():
             publish_form = draft_form.save(commit=False)
             publish_form.status = 'pub'
             publish_form.author = request.user
+            publish_form.author_profile_pic = UserProfilePic.objects.all().filter(user_id=author_id).get()
             publish_form.title = draft_title
             publish_form.text = draft_text
             publish_form.save()

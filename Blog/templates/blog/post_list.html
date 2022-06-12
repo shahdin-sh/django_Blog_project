@@ -1,6 +1,4 @@
 {% extends '_base.html' %}
-{% load static %}
-
 {% block page_title %}
 {{ page_title }}
 {% endblock page_title %}
@@ -15,10 +13,10 @@
                         <h5 class="card-title">{{i.title}}</h5>
                         <div class="user_information">
                             <h6 class="card-subtitle mb-2 text-muted small py-2">By {{i.author}}</h6>
-                            {% if user_pic_id == i.author_id %}
-                                <img src="{{ j.profile_pic.url }}" alt="Avatar" class="user_avatar">
-                            {% elif user_pic_id != i.author_id %}
-                              <img src="{% static 'images/img_avatar.png' %}" alt="Avatar2" class="user_avatar">
+                            {% if i.author_profile_pic %}
+                                <img src="{{ i.author_profile_pic.profile_pic.url }}" alt="Avatar" class="user_avatar">
+                            {% elif not i.author_profile_pic %}
+                              <img src="{{ i.author_profile_pic.profile_pic.default }}" alt="Avatar2" class="user_avatar">
                             {% endif %}
                         </div>
                         <h6 class="card-subtitle mb-2 text-muted small py-2">{{i.date_created}}</h6>
