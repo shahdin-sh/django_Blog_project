@@ -90,7 +90,10 @@ class PostUpdateView(UserPassesTestMixin, generic.UpdateView):
     template_name = 'blog/add_post.html'
 
     def get_success_url(self):
-        return reverse('post_detail_view', kwargs={'pk': self.object.pk})
+        if self.get_object().status == 'pub':
+            return reverse('post_detail_view', kwargs={'pk': self.object.pk})
+        elif self.get_object().status == 'drf':
+            return reverse('draft_user_posts', kwargs={'pk': self.object.pk})
 
     def test_func(self):
         obj = self.get_object()
@@ -204,6 +207,7 @@ def delete_fav_user_post(request, pk):
     return render(request, 'blog/remove_fav_user_post.html', dic)
 
 
+@login_required
 def draft_user_posts_detail(request, pk):
     current_user_id = request.user.id
     draft_post_detail = Post.objects.all().filter(author_id=current_user_id, status='drf')
