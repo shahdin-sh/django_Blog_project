@@ -13,5 +13,6 @@ urlpatterns = [
     path('user_posts/', user_posts_view, name='user_post_view'),
     path('user_fav/', user_fav_view, name='user_fav_post_view'),
     path('<int:pk>/delete_fav_post/', delete_fav_user_post, name='delete_fav_user_post'),
-    path('draft/status/<int:pk>/', draft_user_posts_detail, name='draft_user_posts')
+    path('user_posts/draft', draft_user_posts_view, name='draft_user_posts'),
+    path('draft/status/<int:pk>/', draft_user_posts_detail, name='draft_user_detail_posts')
 ]

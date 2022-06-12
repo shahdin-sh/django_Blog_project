@@ -42,7 +42,8 @@
                      {% if user.is_authenticated %}
                         <a class="nav-link" href="{% url 'user_profile_view' %}">Profile</a>
                         <a class="nav-link" href="{% url 'user_fav_post_view' %}">favorite</a>
-                        <a class="nav-link" href="{% url 'user_post_view' %}"> {{ user.username }} posts</a>
+                        <a class="nav-link" href="{% url 'user_post_view' %}"> {{ user.username }} Posts</a>
+                        <a class="nav-link" href="{% url 'draft_user_posts' %}">Draft Inbox</a>
                      {% endif %}
                 </div>
             </div>

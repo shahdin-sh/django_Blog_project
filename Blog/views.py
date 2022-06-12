@@ -70,7 +70,10 @@ class PostCreatView(generic.CreateView):
     template_name = 'blog/add_post.html'
 
     def get_success_url(self):
-        return reverse('post_detail_view', kwargs={'pk': self.object.pk})
+        if self.get_object().status == 'pub':
+            return reverse('post_detail_view', kwargs={'pk': self.object.pk})
+        elif self.get_object().status == 'drf':
+            return reverse('draft_user_detail_posts', kwargs={'pk': self.object.pk})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -93,7 +96,7 @@ class PostUpdateView(UserPassesTestMixin, generic.UpdateView):
         if self.get_object().status == 'pub':
             return reverse('post_detail_view', kwargs={'pk': self.object.pk})
         elif self.get_object().status == 'drf':
-            return reverse('draft_user_posts', kwargs={'pk': self.object.pk})
+            return reverse('draft_user_detail_posts', kwargs={'pk': self.object.pk})
 
     def test_func(self):
         obj = self.get_object()
@@ -115,7 +118,7 @@ class PostDeleteView(UserPassesTestMixin, generic.DeleteView):
         return obj.author == self.request.user
 
     def get_success_url(self):
-        return reverse('post_view_of_blog')
+        return reverse('user_post_view')
 
     def get_context_data(self, *args, **kwargs):
         data = super(PostDeleteView, self).get_context_data(*args, **kwargs)
@@ -171,7 +174,7 @@ def user_posts_view(request):
     paginator = Paginator(posts_pg, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    page_title = "Your Posts"
+    page_title = "Your Published Posts"
     dic = {'user_posts_auth': post_bool,
            'post': page_obj,
            'page_title': page_title,
@@ -230,10 +233,28 @@ def draft_user_posts_detail(request, pk):
             publish_form.save()
             draft_post_detail.delete()
             draft_form = DraftPostForm()
+            return redirect('draft_user_posts')
     else:
         draft_form = DraftPostForm()
+    page_title = f'Draft Post:{pk}'
     dic = {
         'post_detail': draft_user_post,
         'form': draft_form,
+        'page_title': page_title
     }
     return render(request, 'blog/drf_user_post_detail_view.html', dic)
+
+
+@login_required
+def draft_user_posts_view(request):
+    current_user_id = request.user.id
+    draft_user_posts = Post.objects.all().filter(status='drf', author_id=current_user_id).order_by('-date_created')
+    paginator = Paginator(draft_user_posts, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    page_title = f'{len(draft_user_posts)} In Draft Inbox'
+    dic = {
+        'post': page_obj,
+        'page_title': page_title,
+    }
+    return render(request, 'blog/drf_user_posts_view.html', dic)
