@@ -72,7 +72,6 @@ class PostCreateView(generic.CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.author = self.request.user
-        self.object.author_profile_pic = UserProfilePic.objects.all().filter(user_id=self.object.author_id).get()
         self.object.save()
         if self.object.status == 'pub':
             return HttpResponseRedirect(reverse('post_detail_view', kwargs={'pk': self.object.pk}))
@@ -229,7 +228,6 @@ def draft_user_posts_detail(request, pk):
             publish_form = draft_form.save(commit=False)
             publish_form.status = 'pub'
             publish_form.author = request.user
-            publish_form.author_profile_pic = UserProfilePic.objects.all().filter(user_id=author_id).get()
             publish_form.title = draft_title
             publish_form.text = draft_text
             publish_form.save()
