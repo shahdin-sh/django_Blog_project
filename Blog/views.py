@@ -18,7 +18,7 @@ def post_list_view(request):
     page_title = 'HomePage'
     dic = {
         'post': page_obj,
-        'page_title': page_title
+        'page_title': page_title,
     }
     return render(request, 'blog/post_list.html', dic)
 

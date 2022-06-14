@@ -20,6 +20,11 @@ class SignUpView(generic.CreateView):
         data['page_title'] = 'Sign In'
         return data
 
+    def form_valid(self, form):
+        user = form.save()
+        UserProfilePic.objects.create(user=user)
+        return redirect(self.success_url)
+
 
 @login_required
 def user_profile(request):

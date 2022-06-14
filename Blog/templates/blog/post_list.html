@@ -14,10 +14,8 @@
                         <h5 class="card-title">{{i.title}}</h5>
                         <div class="user_information">
                             <h6 class="card-subtitle mb-2 text-muted small py-2">By {{i.author}}</h6>
-                            {% if i.author_profile_pic %}
-                                <img src="{{ i.author_profile_pic.profile_pic.url }}" alt="Avatar" class="user_avatar">
-                            {% elif not i.author_profile_pic %}
-                                <img src="{% static 'profile/img_avatar.png' %}" alt="Avatar2" class="user_avatar">
+                            {% if i.author.UserProfilePic.profile_pic.url %}
+                                <img src="{{  i.author.UserProfilePic.profile_pic.url }}" alt="Avatar" class="user_avatar">
                             {% endif %}
                         </div>
                         <h6 class="card-subtitle mb-2 text-muted small py-2">{{i.date_created}}</h6>
