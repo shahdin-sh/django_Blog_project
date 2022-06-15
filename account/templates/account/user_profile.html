@@ -27,10 +27,10 @@ User_profile
                     <div class="user_profile_avatar">
                         {% if user_pic %}
                             {% for i in user_pic %}
-                                <img src="{{ i.profile_pic.url }}" alt="Avatar" class="user_avatar">
-                            {% endfor%}
-                        {% elif not user_pic %}
-                             <img src="{% static 'profile/img_avatar.png' %}" alt="Avatar" class="user_avatar">
+                                    <img src="{{ i.get_user_profile_image }}" alt="Avatar222" class="user_avatar">
+                            {% endfor %}
+                        {% else %}
+                            <img src="{% static 'images/img_avatar.png' %}" alt="Avatar222" class="user_avatar">
                         {% endif %}
                     </div>
                 </div>

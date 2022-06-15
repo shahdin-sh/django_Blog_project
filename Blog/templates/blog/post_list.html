@@ -14,9 +14,7 @@
                         <h5 class="card-title">{{i.title}}</h5>
                         <div class="user_information">
                             <h6 class="card-subtitle mb-2 text-muted small py-2">By {{i.author}}</h6>
-                            {% if i.author.UserProfilePic.profile_pic.url %}
-                                <img src="{{  i.author.UserProfilePic.profile_pic.url }}" alt="Avatar" class="user_avatar">
-                            {% endif %}
+                            <img src="{{i.get_each_post_author_profile_image}}" alt="Avatar" class="user_avatar">
                         </div>
                         <h6 class="card-subtitle mb-2 text-muted small py-2">{{i.date_created}}</h6>
                         <p class="card-text py-3">{{i.text|truncatewords:40}}</p>
