@@ -18,7 +18,11 @@ Login
                     or
                 </span>
             </h2>
-            <button><a href="{{ get_success_url }}">No</a></button>
+            {% if post.status == 'pub' %}
+                <button><a href="{% url 'post_view_of_blog' %}">No</a></button>
+            {% elif post.status == 'drf' %}:
+                 <button><a href="{% url 'draft_user_posts' %}">No</a></button>
+            {% endif %}
         </div>
     </div>
 <style>

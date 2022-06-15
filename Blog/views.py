@@ -114,12 +114,6 @@ class PostDeleteView(UserPassesTestMixin, generic.DeleteView):
         obj = self.get_object()
         return obj.author == self.request.user
 
-    def get_success_url(self):
-        if self.get_object().status == 'pub':
-            return reverse('post_view_of_blog')
-        elif self.get_object().status == 'drf':
-            return reverse('draft_user_posts')
-
     def get_context_data(self, *args, **kwargs):
         data = super(PostDeleteView, self).get_context_data(*args, **kwargs)
         data['page_title'] = f'Delete Post {self.object.pk}'
