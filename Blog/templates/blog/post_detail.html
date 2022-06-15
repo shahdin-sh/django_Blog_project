@@ -32,7 +32,7 @@ post_detail
                         <form method="post" action="">
                             {% csrf_token %}
                             {{ fav_form|crispy }}
-                            <button type="submit" value="yes">add to your favorite</button>
+                            <button type="submit" value="yes" onclick="this.disabled=true;this.form.submit();">add to your favorite</button>
                         </form>
                     {% elif fav %}
                         <a href="{% url 'delete_fav_user_post' post_detail.id %}" class="mt-2">Remove from your favorite</a>
@@ -76,7 +76,7 @@ post_detail
                     <form method="POST">
                         {% csrf_token %}
                         {{ comment_form|crispy }}
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.form.submit();">Submit</button>
                      </form>
                  </div>
             {% elif not user.is_authenticated %}
