@@ -25,13 +25,7 @@
                         <h5 class="card-title">{{i.title}}</h5>
                          <div class="user_information">
                             <h6 class="card-subtitle mb-2 text-muted small py-2">By {{i.author}}</h6>
-                            {% for j in user_pic %}
-                                {% if j.user_id == i.author_id %}
-                                    <img src="{{ j.profile_pic.url }}" alt="Avatar" class="user_avatar">
-                                {% elif j.user_id != i.author_id %}
-                                  <img src="{% static 'images/img_avatar.png' %}" alt="Avatar2" class="user_avatar">
-                                {% endif %}
-                            {% endfor %}
+                             <img src="{{i.get_each_post_author_profile_image}}" alt="Avatar" class="user_avatar">
                         </div>
                         <h6 class="card-subtitle mb-2 text-muted small py-2">{{i.date_created}}</h6>
                         <p class="card-text py-3">{{i.text}}</p>

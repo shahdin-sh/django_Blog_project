@@ -76,7 +76,7 @@ class PostCreateView(generic.CreateView):
         if self.object.status == 'pub':
             return HttpResponseRedirect(reverse('post_detail_view', kwargs={'pk': self.object.pk}))
         elif self.object.status == 'drf':
-            return HttpResponseRedirect( reverse('draft_user_detail_posts', kwargs={'pk': self.object.pk}))
+            return HttpResponseRedirect(reverse('draft_user_detail_posts', kwargs={'pk': self.object.pk}))
 
     def get_context_data(self, *args, **kwargs):
         data = super(PostCreateView, self).get_context_data(*args, **kwargs)
@@ -115,11 +115,14 @@ class PostDeleteView(UserPassesTestMixin, generic.DeleteView):
         return obj.author == self.request.user
 
     def get_success_url(self):
-        return reverse('user_post_view')
+        if self.get_object().status == 'pub':
+            return reverse('post_view_of_blog')
+        elif self.get_object().status == 'drf':
+            return reverse('draft_user_posts')
 
     def get_context_data(self, *args, **kwargs):
         data = super(PostDeleteView, self).get_context_data(*args, **kwargs)
-        data['page_title'] = 'Delete Post'
+        data['page_title'] = f'Delete Post {self.object.pk}'
         return data
 
 
