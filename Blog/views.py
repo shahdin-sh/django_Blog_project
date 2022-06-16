@@ -26,20 +26,33 @@ def post_list_view(request):
 def post_detail_view(request, pk):
     # post with its pk or id
     post_detail = get_object_or_404(Post.objects.all().filter(status='pub'), pk=pk)
-    # comments section.
+    # comments section for authenticated users
     comments = post_detail.comments.all().order_by('-datetime_comment')
-    if request.method == 'POST':
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.post = post_detail
-            new_comment.user = request.user
-            new_comment.save()
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                new_comment = comment_form.save(commit=False)
+                new_comment.post = post_detail
+                new_comment.user = request.user
+                new_comment.save()
+                comment_form = CommentForm()
+        else:
             comment_form = CommentForm()
+    # comment section for anonymous users
     else:
-        comment_form = CommentForm()
+        if request.method == 'POST':
+            comment_form = NoneUserCommentForm(request.POST)
+            if comment_form.is_valid():
+                new_comment = comment_form.save(commit=False)
+                new_comment.post = post_detail
+                new_comment.user = None
+                new_comment.save()
+                comment_form = NoneUserCommentForm()
+        else:
+            comment_form = NoneUserCommentForm()
     # favorite post Backend for login users.
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated:
         fav_form = FavoritePostForm(request.POST)
         if fav_form.is_valid():
             new_fav = fav_form.save(commit=False)

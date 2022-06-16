@@ -1,5 +1,6 @@
 from django import forms
 from .models import *
+from django.contrib.auth.models import User
 
 
 class NewPostForm(forms.ModelForm):
@@ -18,6 +19,19 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['comment_text', 'recommended']
+
+
+class NoneUserCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['name', 'email', 'comment_text', 'recommended']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError('this email has given before!')
+        else:
+            return email
 
 
 class FavoritePostForm(forms.ModelForm):
