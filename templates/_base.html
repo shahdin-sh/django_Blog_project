@@ -19,8 +19,23 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../Css/recent-news-boxes.css" rel="stylesheet">
+    <link href="../Css/Homepage.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../Css/Blog_cards.css">
+    <script src="https://kit.fontawesome.com/65dc8809fa.js" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../Css/recent-news-boxes.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../Css/footer.css">
+    <!-- CSS Files -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <!-- End Css Files -->
     <script src="https://kit.fontawesome.com/65dc8809fa.js" crossorigin="anonymous"></script>
     <title>{% block page_title %}{% endblock page_title %}</title>
     {% block styles %}
@@ -49,38 +64,85 @@
             </div>
         </div>
     </nav>
-    <div class="header">
-        <div class="welcome_massage_container">
+    <header>
+        <div class="welcome">
             {% if user.is_authenticated %}
-            <p>welcome {{ user.username }} | <a href="{% url 'logout' %}">Log out</a></p>
+                <span>Welcome {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></span>
+                <img src="{% static 'images/img_avatar.png' %}" alt="Avatar">
             {% elif not user.is_authenticated %}
-            <p><a href="{% url 'signup' %}">Sign up</a> | <a href="{% url 'login' %}">Log in</a></p>
+                <span><a href="{% url 'signin'%}">Sign in</a> | <a href="{% url 'login' %}">Login</a></span>
             {% endif %}
         </div>
-        <div class="page_title"><h2>{{ page_title }}</h2></div>
-    </div>
+        <div class="title">
+            <h1>{{ page_title }}</h1>
+        </div>
+    </header>
     {% block content %}
     {% endblock %}
     <footer>
-        <div class="footer">
-            <p>برنامه نویس سایت: شهدین شهدایی
-            <br>
-            با من از طریق اینستاگرام در ارتباط باشید و برای دیدن کار های بیشتر به اکانت گیت هاب من مراجعه کنید
-            <br>
-            با تشکر از توجه شما</p>
-            <div class="icon">
+         <!-- FOOTER START -->
+          <div class="footer">
+            <div class="contain">
+            <div class="col">
+              <h1>Company</h1>
+              <ul>
+                <li>About</li>
+                <li>Mission</li>
+                <li>Services</li>
+                <li>Social</li>
+                <li>Get in touch</li>
+              </ul>
+            </div>
+            <div class="col">
+              <h1>Products</h1>
+              <ul>
+                <li>About</li>
+                <li>Mission</li>
+                <li>Services</li>
+                <li>Social</li>
+                <li>Get in touch</li>
+              </ul>
+            </div>
+            <div class="col">
+              <h1>Accounts</h1>
+              <ul>
+                <li>About</li>
+                <li>Mission</li>
+                <li>Services</li>
+                <li>Social</li>
+                <li>Get in touch</li>
+              </ul>
+            </div>
+            <div class="col">
+              <h1>Resources</h1>
+              <ul>
+                <li>Webmail</li>
+                <li>Redeem code</li>
+                <li>WHOIS lookup</li>
+                <li>Site map</li>
+                <li>Web templates</li>
+                <li>Email templates</li>
+              </ul>
+            </div>
+            <div class="col">
+              <h1>Support</h1>
+              <ul>
+                <li>Contact us</li>
+                <li>Web chat</li>
+                <li>Open ticket</li>
+              </ul>
+            </div>
+            <div class="col social">
+              <h1>Social</h1>
+              <div class="footer_icon">
                 <a href="#"><i class="fa-brands fa-instagram-square"></i></a>
                 <a href="#"><i class="fa-brands fa-github"></i></a>
+               </div>
             </div>
-        </div>
+          <div class="clearfix"></div>
+          </div>
+          </div>
     </footer>
-    <style>
-        #blogyar{
-            border: #003366 solid 3px;
-            padding: 1rem;
-            border-radius: 1rem;
-        }
-    </style>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
