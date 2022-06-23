@@ -11,7 +11,7 @@ from account.models import UserProfilePic
 
 def post_list_view(request):
     post = Post.objects.all().order_by('-date_created').filter(status='pub')
-    paginator = Paginator(post, 4)
+    paginator = Paginator(post, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     # dic

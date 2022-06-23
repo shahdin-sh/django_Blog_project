@@ -3,55 +3,153 @@
 {% block page_title %}
 {{ page_title }}
 {% endblock page_title %}
-
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+{% endblock %}
 
 {% block content %}
-    <div class="post_container">
-        <div class="post">
-            {% for i in post %}
-                <div class="card shadow-sm my-3">
-                    <div class="card-body">
-                        <h5 class="card-title">{{i.title}}</h5>
-                        <div class="user_information">
-                            <h6 class="card-subtitle mb-2 text-muted small py-2">By {{i.author}}</h6>
-                            <img src="{{i.get_each_post_author_profile_image}}" alt="Avatar" class="user_avatar">
+     <div class="main_container">
+        <aside>
+            <div class="homepage_aside">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae sit qui atque nisi cupiditate. Ab consequatur id animi quos saepe ea aliquid itaque, placeat eaque, dolores doloribus, tempora delectus quae!
+                Laboriosam voluptatem eos eligendi sequi fugit tempora magnam deserunt quasi nobis perferendis quas nesciunt, nihil, doloremque unde. A doloribus earum dolorum totam repellat architecto eius fugit possimus perspiciatis. Aliquid, nihil!
+                Error, ipsam ad earum velit voluptate quasi labore. Deleniti autem ipsam sunt placeat voluptate quam, culpa non impedit error ratione libero dignissimos minima quia, et quibusdam tempore repudiandae quas. Possimus.
+                Porro ipsum reiciendis asperiores numquam iure accusantium dicta inventore cumque quaerat veniam voluptatum maxime, tenetur eaque deserunt. Odio possimus aperiam hic iusto molestiae eveniet? Quidem cumque pariatur tempore culpa possimus.
+                Accusamus alias veniam, explicabo commodi fugit provident dicta soluta quod excepturi deleniti unde quo est necessitatibus illum? Consequuntur iste enim voluptate illo veniam maxime iure laudantium ipsa, blanditiis asperiores praesentium.
+                Temporibus quos iusto accusamus saepe numquam sapiente nam harum cupiditate, accusantium minus similique doloremque labore eligendi, quia possimus facilis, adipisci unde consectetur debitis. Similique, deleniti? Ipsum pariatur illum facere maxime!
+                Quae voluptas, error aliquid doloribus repudiandae architecto, voluptatem debitis tenetur culpa et eveniet atque quibusdam in corporis? Sint, minus, laudantium facilis modi ad impedit, eaque repellendus voluptate laborum quia saepe!
+                Cum esse dolores nihil a et atque, optio sequi totam nesciunt ut minus quis hic perspiciatis facilis distinctio corrupti nemo sit aliquid minima inventore vel beatae. Eos, aliquam. Ab, ratione?
+                Quidem est officiis possimus magnam voluptatibus rerum necessitatibus nisi magni doloremque voluptatum, similique architecto ipsa doloribus earum eius cumque consequatur aspernatur consectetur iusto saepe fuga. Sit aspernatur minima possimus quaerat.
+                Ipsa debitis veritatis ab sed dignissimos eum, laborum molestiae rem, esse voluptate accusamus praesentium vero nisi magni obcaecati corrupti, cumque ea totam nesciunt harum consequatur! Veniam obcaecati adipisci id veritatis?
+            </div>
+        </aside>
+        <div class="post_news">
+            <section class="post">
+                <div class="wrapper">
+                    {% for i in post %}
+                        <div class="card">
+                            <div class="card-banner">
+                                <p class="category-tag popular">{{ i.title }}</p>
+                                <img class="banner-img" src='{% static 'images/django.png' %}' alt='Banner'>
+                            </div>
+                            <div class="card-body">
+                                <a href="{% url 'post_detail_view' i.id %}"><h4 class="blog-title"> {{ i.text|truncatewords:20 }}</h4></a>
+                                <p class="blog-description">
+                                    {{ i.date_created }}
+                                </p>
+                                <div class="card-profile">
+                                    <img class="profile-img" src="{{ i.get_each_post_author_profile_image }}" alt="user_avatar" />
+                                    <div class="card-profile-info">
+                                        <h2 class="profile-name">{{ i.author }}</h2>
+                                    </div>
+                                </div>
+                                <div class="icon">
+                                    <a href="#"><i class="fa-brands fa-instagram-square"></i></a>
+                                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                                </div>
+                            </div>
                         </div>
-                        <h6 class="card-subtitle mb-2 text-muted small py-2">{{i.date_created}}</h6>
-                        <p class="card-text py-3">{{i.text|truncatewords:40}}</p>
-                        <div class="btn btn-sm">
-                            <a href="{% url "post_detail_view" i.id %}">Read More</a>
+                    {% endfor %}
+                </div>
+            </section>
+            <section class="Recentnews">
+                <div class="all_news_container">
+                    <div class="row">
+                        <div class="ct-blog col-sm-6 col-md-4" id="each_news_box">
+                            <div class="inner">
+                                <div class="fauxcrop">
+                                    <img alt="News Entry" src="../images/download (2).jpg">
+                                </div>
+                                <div class="ct-blog-content">
+                                    <div class="ct-blog-date">
+                                        <span>March</span><strong>1</strong>
+                                    </div>
+                                    <h3 class="ct-blog-header">
+                                        <a href="#"> WebCorpCo Will Be Visiting a Number of Upcoming Conferences</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ct-blog col-sm-6 col-md-4" id="each_news_box">
+                            <div class="inner">
+                                <div class="fauxcrop">
+                                    <img alt="News Entry" src="../images/download (2).jpg">
+                                </div>
+                                <div class="ct-blog-content">
+                                    <div class="ct-blog-date">
+                                        <span>March</span><strong>1</strong>
+                                    </div>
+                                    <h3 class="ct-blog-header">
+                                       <a href="#"> WebCorpCo Will Be Visiting a Number of Upcoming Conferences</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ct-blog col-sm-6 col-md-4" id="each_news_box">
+                            <div class="inner">
+                                <div class="fauxcrop">
+                                    <img alt="News Entry" src="../images/download (2).jpg">
+                                </div>
+                                <div class="ct-blog-content">
+                                    <div class="ct-blog-date">
+                                        <span>March</span><strong>1</strong>
+                                    </div>
+                                    <h3 class="ct-blog-header">
+                                       <a href="#"> WebCorpCo Will Be Visiting a Number of Upcoming Conferences</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ct-blog col-sm-6 col-md-4" id="each_news_box">
+                            <div class="inner">
+                                <div class="fauxcrop">
+                                    <img alt="News Entry" src="../images/download (2).jpg">
+                                </div>
+                                <div class="ct-blog-content">
+                                    <div class="ct-blog-date">
+                                        <span>March</span><strong>1</strong>
+                                    </div>
+                                    <h3 class="ct-blog-header">
+                                       <a href="#"> WebCorpCo Will Be Visiting a Number of Upcoming Conferences</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ct-blog col-sm-6 col-md-4" id="each_news_box">
+                            <div class="inner">
+                                <div class="fauxcrop">
+                                    <img alt="News Entry" src="../images/download (2).jpg">
+                                </div>
+                                <div class="ct-blog-content">
+                                    <div class="ct-blog-date">
+                                        <span>March</span><strong>1</strong>
+                                    </div>
+                                    <h3 class="ct-blog-header">
+                                       <a href="#"> WebCorpCo Will Be Visiting a Number of Upcoming Conferences</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ct-blog col-sm-6 col-md-4" id="each_news_box">
+                            <div class="inner">
+                                <div class="fauxcrop">
+                                    <img alt="News Entry" src="../images/download (2).jpg">
+                                </div>
+                                <div class="ct-blog-content">
+                                    <div class="ct-blog-date">
+                                        <span>March</span><strong>1</strong>
+                                    </div>
+                                    <h3 class="ct-blog-header">
+                                       <a href="#"> WebCorpCo Will Be Visiting a Number of Upcoming Conferences</a>
+                                    </h3>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
+            </section>
         </div>
     </div>
-     <nav aria-label="Page navigation">
-        <ul class="pagination  justify-content-center mt-3">
-        {% if post.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page={{ post.previous_page_number }}">Previous</a></li>
-        {% endif %}
-        <li class="page-item"><a class="page-link" href="?page={{ post.number }}">{{ post.number }}</a></li>
-        {% if post.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{ post.next_page_number }}">Next</a></li>
-        {% endif %}
-        </ul>
-     </nav>  <style>
-        .user_information{
-            display: flex;
-            flex-direction: row;
-            gap: 2%;
-        }
-        .user_information h6{
-            margin-top: 1%;
-        }
-        .user_avatar{
-            width: 5%;
-            border-radius: 50%;
-            border: #CC3434 3px solid;
-        }
-    </style>
-
 {% endblock content %}
 
 
