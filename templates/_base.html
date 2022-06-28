@@ -65,15 +65,9 @@
         <div class="welcome">
             {% if user.is_authenticated %}
                 <span>Welcome {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></span>
-                {% if user_pic %}
-                   {% for i in user_pic %}
-                       <img src="{{ i.get_user_profile_image }}" alt="Avatar" class="user_avatar">
-                   {% endfor %}
-                {% elif not user_pic %}
-                    <img src="{% static 'images/img_avatar.png' %}" alt="Avatar">
-                {% endif %}
+                <img src="{{ user.userprofilepic.profile_pic.url }}" alt="Avatar" class="user_avatar">
             {% elif not user.is_authenticated %}
-                <span><a href="{% url 'signin'%}">Sign in</a> | <a href="{% url 'login' %}">Login</a></span>
+                <span><a href="{% url 'signup'%}">Sign Up</a> | <a href="{% url 'login' %}">Login</a></span>
             {% endif %}
         </div>
         <div class="title">

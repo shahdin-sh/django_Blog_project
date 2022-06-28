@@ -1,50 +1,83 @@
-from django.shortcuts import render
-from .models import Post
-from django.shortcuts import get_object_or_404, redirect, reverse
-from .forms import *
-from django.views import generic
-
-
-def post_view_of_blog(request):
-    all_posts = Post.objects.filter(status='pub').order_by('-datetime_modified')
-    post_list_dic = {
-        'post_list': all_posts
-    }
-    return render(request, 'blog/post_list.html', post_list_dic)
-
-
-def post_detail_view(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': post})
-
-
-def showing_add_post_page(request):
-    if request.method == 'POST':
-        form = NewPostFrom(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('post_view_of_blog'))
-    else:
-        form = NewPostFrom()
-    return render(request, 'blog/add_post.html', context={'form_1': form})
-
-
-def edit_posts(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    form = NewPostFrom(request.POST or None, instance=post)
-    if form.is_valid():
-        form.save()
-        return redirect(reverse('post_view_of_blog'))
-    return render(request, 'blog/add_post.html', context={'form_1': form})
-
-
-def delete_post(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
-        post.delete()
-        return redirect(reverse('post_view_of_blog'))
-    if request.method == 'GET':
-        return render(request, 'blog/delete_post.html', context={'post': post})
-
-
-
+<div class="post_detail_container">
+        <div class="post_detail">
+            <div class="card shadow my-3 p-5">
+                <h1>{{ post_detail.title }}</h1>
+                <p class="small text-muted mt-2">By {{post_detail.author}}</p>
+                <p class="mt-2">{{post_detail.text}}</p>
+                {% if post_detail.author.id == user.id %}
+                    <div>
+                        <a href="{% url "post_edit_option" post_detail.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    </div>
+                    <div>
+                        <a href="{% url "post_delete_option" post_detail.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    {% if not fav %}
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            {{ fav_form|crispy }}
+                            <button type="submit" value="yes" onclick="this.disabled=true;this.form.submit();">add to your favorite</button>
+                        </form>
+                    {% elif fav %}
+                        <a href="{% url 'delete_fav_user_post' post_detail.id %}" class="mt-2">Remove from your favorite</a>
+                    {% endif %}
+                {% endif %}
+                {% if post_detail.author.id == user.id and post_detail.status == 'drf' %}
+                    <p><span class="text-danger">Notice:</span>Your post status is draft for publishing it change the status to 'publish' situation.</p>
+                {% endif %}
+            </div>
+            {% if comments %}
+                <div class="d-flex justify-content-center">
+                    <div class="card shadow my-3 p-5 w-sm-75 w-100" id="comments_box">
+                         {% for i in comments %}
+                            {% if i.is_active %}
+                                <div id="each_comments_box">
+                                    {% if i.user %}
+                                        <h5 class="mb-3">{{ i.user.username }} |
+                                            <span class="username_for_comment">user</span></h5>
+                                    {% elif i.name %}
+                                        <h5 class="mb-3">{{ i.name }} |
+                                            <span class="name_for_comment">anonymous</span></h5>
+                                    {% endif %}
+                                    {% if i.recommended %}
+                                        <h6 class=" w-25 mb-3 bg-success text-white">:)</h6>
+                                    {% elif not i.recommended %}
+                                        <h6 class=" w-25 mb-3 bg-danger text-white">:(</h6>
+                                    {% endif %}
+                                    <h6 class="mb-3">release: {{ i.datetime_comment }}</h6>
+                                    <p>{{ i.comment_text|linebreaks }}</p>
+                                    {% if i.user.id == user.id and user.is_authenticated %}
+                                        <span><a href="{% url 'comment_update_view' post_detail.id i.id %}">Edit</a> |
+                                        <a href="{% url 'comment_delete_view' post_detail.id i.id %}">Delete</a></span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                         {% endfor %}
+                    </div>
+                </div>
+            {% elif not comments %}
+                <div class="card shadow my-3 p-5">
+                    <h3>There is no comment for this post, yet! Be the First one :)</h3>
+                </div>
+            {% endif %}
+             <div class="card shadow my-3 p-5">
+                <h3>Add new comment:</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ comment_form|crispy }}
+                    <button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.form.submit();">Submit</button>
+                </form>
+             </div>
+        </div>
+    </div>
+    <style>
+        .username_for_comment{
+            font-size: smaller;
+            color: #003366;
+        }
+        .name_for_comment{
+            font-size: smaller;
+            color: #CC3434;
+        }
+    </style>

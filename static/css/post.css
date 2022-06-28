@@ -100,7 +100,6 @@
     margin-top: 2rem;
     align-items: center;
   }
-
   /* Profile image */
 
   .profile-img {
@@ -116,7 +115,7 @@
 
   /* profile name */
   .profile-name {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   /*Profile followers */
@@ -136,7 +135,7 @@
         margin-top: 10%;
     }
     .icon a{
-        color: #651fff;
+        color: #d11b27;
         font-size: 2rem;
         margin-bottom: 3%;
     }

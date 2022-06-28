@@ -4,6 +4,9 @@
     margin: 0;
     padding: 0;
 }
+.body{
+    color: #414b56;
+}
 #NAV{
     margin: 0;
 }
@@ -18,6 +21,7 @@ header .welcome img{
     width: 50px;
     border-radius: 50%;
     margin-left: 5px;
+    border: #CC3434 3px solid;
 }
 header .welcome span{
     display: inline-block;

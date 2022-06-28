@@ -1,99 +1,91 @@
 {% extends '_base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
-
-{% block styles %}
-     <link rel="stylesheet" href="{% static 'css/post_detail.css' %}">
-{% endblock %}
-
-
 {%block page_title%}
 post_detail
 {% endblock page_title %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/post_detail.css' %}">
+{% endblock %}
 
 
 {% block content %}
-    <div class="post_detail_container">
-        <div class="post_detail">
-            <div class="card shadow my-3 p-5">
-                <h1>{{ post_detail.title }}</h1>
-                <p class="small text-muted mt-2">By {{post_detail.author}}</p>
-                <p class="mt-2">{{post_detail.text}}</p>
-                {% if post_detail.author.id == user.id %}
-                    <div>
-                        <a href="{% url "post_edit_option" post_detail.id %}" class="btn btn-sm btn-warning">Edit</a>
-                    </div>
-                    <div>
-                        <a href="{% url "post_delete_option" post_detail.id %}" class="btn btn-sm btn-danger">Delete</a>
-                    </div>
-                {% endif %}
-                {% if user.is_authenticated %}
-                    {% if not fav %}
-                        <form method="post" action="">
-                            {% csrf_token %}
-                            {{ fav_form|crispy }}
-                            <button type="submit" value="yes" onclick="this.disabled=true;this.form.submit();">add to your favorite</button>
-                        </form>
-                    {% elif fav %}
-                        <a href="{% url 'delete_fav_user_post' post_detail.id %}" class="mt-2">Remove from your favorite</a>
-                    {% endif %}
-                {% endif %}
-                {% if post_detail.author.id == user.id and post_detail.status == 'drf' %}
-                    <p><span class="text-danger">Notice:</span>Your post status is draft for publishing it change the status to 'publish' situation.</p>
-                {% endif %}
+    <div class="wrapper">
+        <div class="card">
+            <div class="card-banner">
+                <img class="banner-img" src='{{ post_detail.image_post.url }}' alt='Banner'>
             </div>
-            {% if comments %}
-                <div class="d-flex justify-content-center">
-                    <div class="card shadow my-3 p-5 w-sm-75 w-100" id="comments_box">
-                         {% for i in comments %}
-                            {% if i.is_active %}
-                                <div id="each_comments_box">
-                                    {% if i.user %}
-                                        <h5 class="mb-3">{{ i.user.username }} |
-                                            <span class="username_for_comment">user</span></h5>
-                                    {% elif i.name %}
-                                        <h5 class="mb-3">{{ i.name }} |
-                                            <span class="name_for_comment">anonymous</span></h5>
-                                    {% endif %}
-                                    {% if i.recommended %}
-                                        <h6 class=" w-25 mb-3 bg-success text-white">:)</h6>
-                                    {% elif not i.recommended %}
-                                        <h6 class=" w-25 mb-3 bg-danger text-white">:(</h6>
-                                    {% endif %}
-                                    <h6 class="mb-3">release: {{ i.datetime_comment }}</h6>
-                                    <p>{{ i.comment_text|linebreaks }}</p>
-                                    {% if i.user.id == user.id and user.is_authenticated %}
-                                        <span><a href="{% url 'comment_update_view' post_detail.id i.id %}">Edit</a> |
-                                        <a href="{% url 'comment_delete_view' post_detail.id i.id %}">Delete</a></span>
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-                         {% endfor %}
-                    </div>
+            <div class="card-body">
+                <h2 class="blog-title">{{ post_detail.title }}</h2>
+                <h4>by {{ post_detail.author }}</h4>
+                <h4>{{ post_detail.date_created }}</h4>
+                <p class="blog-description">
+                    {{ post_detail.text }}
+                </p>
+                <div class="options">
+                    {% if user.id == post_detail.author.id %}
+                        <div>
+                             <a href="{% url "post_edit_option" post_detail.id %}"><i class="far fa-edit"></i></a>
+                            <a href="{% url "post_delete_option" post_detail.id %}"><i class="far fa-trash-alt"></i></a>
+                        </div>
+                    {% endif %}
+                     {% if user.is_authenticated %}
+                         <div>
+                          {% if not fav %}
+                            <form method="post" action="">
+                                {% csrf_token %}
+                                {{ fav_form|crispy }}
+                                <button class="favorite_post_button" type="submit" value="yes" onclick="this.disabled=true;this.form.submit();"><i class="far fa-heart"></i></button>
+                            </form>
+                          {% elif fav %}
+                              <a href="{% url 'delete_fav_user_post' post_detail.id %}" class="mt-2"><i class='fas fa-heart'></i></a>
+                          {% endif %}
+                         </div>
+                    {% endif %}
                 </div>
-            {% elif not comments %}
-                <div class="card shadow my-3 p-5">
-                    <h3>There is no comment for this post, yet! Be the First one :)</h3>
+                <div class="icon">
+                    <a href="#"><i class="fa-brands fa-instagram-square"></i></a>
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
                 </div>
-            {% endif %}
-             <div class="card shadow my-3 p-5">
-                <h3>Add new comment:</h3>
-                <form method="POST">
-                    {% csrf_token %}
-                    {{ comment_form|crispy }}
-                    <button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.form.submit();">Submit</button>
-                </form>
-             </div>
+            </div>
         </div>
     </div>
-    <style>
-        .username_for_comment{
-            font-size: smaller;
-            color: #003366;
-        }
-        .name_for_comment{
-            font-size: smaller;
-            color: #CC3434;
-        }
-    </style>
+    {% if comments %}
+        <div class="container mt-5">
+            <div class="row  d-flex justify-content-center">
+                <div class="col-md-8">
+                    {% for i in comments %}
+                        <div class="cards p-3 mt-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="user d-flex flex-row align-items-center">
+                                    <img src="{{ i.get_each_post_author_profile_image }}" width="30" class="user-img rounded-circle mr-2">
+                                    <span><small class="font-weight-bold text-primary">
+                                        {% if i.user %}
+                                            {{ i.user.username }}
+                                        {% elif i.name %}
+                                            {{ i.name }}
+                                        {% endif %}
+                                    </small> <small class="font-weight-bold">{{ i.comment_text }}</small></span>
+                                </div>
+                                <small>{{ i.datetime_comment }}</small>
+                                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                                    <div class="reply px-4">
+                                        <small>Remove</small>
+                                        <span class="dots"></span>
+                                        <small>Reply</small>
+                                        <span class="dots"></span>
+                                        <small>Translate</small>
+                                    </div>
+                                    <div class="icons align-items-center">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-check-circle-o check-icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock content %}

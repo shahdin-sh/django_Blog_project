@@ -1,15 +1,201 @@
-.post_detail{
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 3%;
-}
-#each_comments_box{
-    border: 3px solid grey;
-    padding: 5%;
-}
-@media screen and (min-width:640px){
-    .post_detail{
-        margin-left: 20%;
-        margin-right: 20%;
+* {
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  /* Basic design of blog card */
+  .wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Blog post design starts from here */
+  .card {
+    overflow: hidden;
+    box-shadow: 0px 2px 20px #d7dfe2; /* Card outline shadow */
+    background: white; /* post background color */
+    border-radius: 0.5rem;
+    position: relative;
+    width: 600px; /* post card width */
+    margin: 1rem;
+    cursor: pointer;
+  }
+
+  /*Design banner image*/
+  .banner-img {
+    object-fit: cover;
+    width: 100%;
+    height:100%;
+  }
+
+  /* Design catagory text */
+  .category-tag {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white; /* text color */
+    background: red;  /* text background color */
+    padding: 0.5rem 1.3rem 0.5rem 1rem;
+    text-transform: uppercase;
+    position: absolute;
+    z-index: 1;
+    top: 1rem;
+    border-radius: 0 2rem 2rem 0;
+  }
+
+  /* 1st catagory text background color */
+  .popular {
+    background: #ef257a;
+  }
+
+  /* 2st catagory text background color */
+  .technology {
+    background: #651fff;
+  }
+
+  /* 3st catagory text background color */
+  .psychology {
+    background: #e85808;
+  }
+
+  /* Design of # tags, heading, description starts from here */
+  .card-body {
+    margin: 1rem;
+  }
+
+  /* #tags design */
+  .blog-hashtag {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #4d97b2;
+  }
+
+  /* heading design */
+  .blog-title {
+    line-height: 1.5rem;
+    margin: 1rem 0 2rem 0;
+  }
+
+  /* description design */
+  .blog-description {
+    font-size: 1.2rem;
+  }
+
+  /*Design of profile image, name, followers starts from here*/
+  .card-profile {
+    display: flex;
+    margin-top: 2rem;
+    align-items: center;
+  }
+  /* instagram and github icon */
+    .icon{
+        display: flex;
+        flex-direction: row;
+        font-size: 1.5rem;
+        gap: 10px;
+        margin-left: 3%;
+        text-decoration: none;
+        margin-top: 10%;
     }
+    .icon a{
+        color: #d11b27;
+        font-size: 4rem;
+        margin-bottom: 3%;
+    }
+
+
+
+
+
+/* comment section*/
+body {
+    background-color: #f7f6f6
+}
+
+.cards {
+
+    border: none;
+    box-shadow: 5px 6px 6px 2px #e9ecef;
+    border-radius: 4px;
+}
+
+
+.dots{
+
+    height: 4px;
+  width: 4px;
+  margin-bottom: 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.badge{
+
+        padding: 7px;
+        padding-right: 9px;
+    padding-left: 16px;
+    box-shadow: 5px 6px 6px 2px #e9ecef;
+}
+
+.user-img{
+
+    margin-top: 4px;
+}
+
+.check-icon{
+
+    font-size: 17px;
+    color: #c3bfbf;
+    top: 1px;
+    position: relative;
+    margin-left: 3px;
+}
+
+.form-check-input{
+    margin-top: 6px;
+    margin-left: -24px !important;
+    cursor: pointer;
+}
+.form-check-input:focus{
+    box-shadow: none;
+}
+.icons i{
+
+    margin-left: 8px;
+}
+.reply{
+
+    margin-left: 12px;
+}
+.reply small{
+
+    color: #b7b4b4;
+
+}
+.reply small:hover{
+
+    color: green;
+    cursor: pointer;
+
+}
+/* End comment section*/
+
+/* options */
+.options{
+    font-size: 2rem;
+    gap: 3px;
+    display: flex;
+    flex-direction: row;
+}
+.options a{
+    color: #003366;
+}
+.favorite_post_button{
+    background: none;
+    padding: 0;
+    border: none;
+    color:#003366;
+    margin-left: 1px;
 }
