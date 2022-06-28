@@ -30,7 +30,7 @@
                         <div class="card">
                             <div class="card-banner">
                                 <p class="category-tag popular">{{ i.title }}</p>
-                                <img class="banner-img" src='{% static 'images/django.png' %}' alt='Banner'>
+                                <img class="banner-img" src='{{ i.image_post.url }}' alt='Banner'>
                             </div>
                             <div class="card-body">
                                 <a href="{% url 'post_detail_view' i.id %}"><h4 class="blog-title"> {{ i.text|truncatewords:20 }}</h4></a>
@@ -50,102 +50,6 @@
                             </div>
                         </div>
                     {% endfor %}
-                </div>
-            </section>
-            <section class="Recentnews">
-                <div class="all_news_container">
-                    <div class="row">
-                        <div class="ct-blog col-sm-6 col-md-4" id="each_news_box">
-                            <div class="inner">
-                                <div class="fauxcrop">
-                                    <img alt="News Entry" src="../images/download (2).jpg">
-                                </div>
-                                <div class="ct-blog-content">
-                                    <div class="ct-blog-date">
-                                        <span>March</span><strong>1</strong>
-                                    </div>
-                                    <h3 class="ct-blog-header">
-                                        <a href="#"> WebCorpCo Will Be Visiting a Number of Upcoming Conferences</a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ct-blog col-sm-6 col-md-4" id="each_news_box">
-                            <div class="inner">
-                                <div class="fauxcrop">
-                                    <img alt="News Entry" src="../images/download (2).jpg">
-                                </div>
-                                <div class="ct-blog-content">
-                                    <div class="ct-blog-date">
-                                        <span>March</span><strong>1</strong>
-                                    </div>
-                                    <h3 class="ct-blog-header">
-                                       <a href="#"> WebCorpCo Will Be Visiting a Number of Upcoming Conferences</a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ct-blog col-sm-6 col-md-4" id="each_news_box">
-                            <div class="inner">
-                                <div class="fauxcrop">
-                                    <img alt="News Entry" src="../images/download (2).jpg">
-                                </div>
-                                <div class="ct-blog-content">
-                                    <div class="ct-blog-date">
-                                        <span>March</span><strong>1</strong>
-                                    </div>
-                                    <h3 class="ct-blog-header">
-                                       <a href="#"> WebCorpCo Will Be Visiting a Number of Upcoming Conferences</a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ct-blog col-sm-6 col-md-4" id="each_news_box">
-                            <div class="inner">
-                                <div class="fauxcrop">
-                                    <img alt="News Entry" src="../images/download (2).jpg">
-                                </div>
-                                <div class="ct-blog-content">
-                                    <div class="ct-blog-date">
-                                        <span>March</span><strong>1</strong>
-                                    </div>
-                                    <h3 class="ct-blog-header">
-                                       <a href="#"> WebCorpCo Will Be Visiting a Number of Upcoming Conferences</a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ct-blog col-sm-6 col-md-4" id="each_news_box">
-                            <div class="inner">
-                                <div class="fauxcrop">
-                                    <img alt="News Entry" src="../images/download (2).jpg">
-                                </div>
-                                <div class="ct-blog-content">
-                                    <div class="ct-blog-date">
-                                        <span>March</span><strong>1</strong>
-                                    </div>
-                                    <h3 class="ct-blog-header">
-                                       <a href="#"> WebCorpCo Will Be Visiting a Number of Upcoming Conferences</a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ct-blog col-sm-6 col-md-4" id="each_news_box">
-                            <div class="inner">
-                                <div class="fauxcrop">
-                                    <img alt="News Entry" src="../images/download (2).jpg">
-                                </div>
-                                <div class="ct-blog-content">
-                                    <div class="ct-blog-date">
-                                        <span>March</span><strong>1</strong>
-                                    </div>
-                                    <h3 class="ct-blog-header">
-                                       <a href="#"> WebCorpCo Will Be Visiting a Number of Upcoming Conferences</a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
         </div>

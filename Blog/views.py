@@ -224,14 +224,14 @@ def draft_user_posts_detail(request, pk):
     draft_user_post = get_object_or_404(draft_post_detail, pk=pk)
     draft_title = ''
     draft_text = ''
-    author_id = 0
+    post_image_url = ''
     for i in draft_post_detail:
         if i.title:
             draft_title = i.title
         if i.text:
             draft_text = i.text
-        if i.author_id:
-            author_id = i.author_id
+        if i.image_post:
+            post_image_url = i.image_post
     if request.method == 'POST':
         draft_form = DraftPostForm(request.POST)
         if draft_form.is_valid():
@@ -240,6 +240,7 @@ def draft_user_posts_detail(request, pk):
             publish_form.author = request.user
             publish_form.title = draft_title
             publish_form.text = draft_text
+            publish_form.image_post = post_image_url
             publish_form.save()
             draft_post_detail.delete()
             draft_form = DraftPostForm()

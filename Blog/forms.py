@@ -6,13 +6,13 @@ from django.contrib.auth.models import User
 class NewPostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'text', 'status']
+        fields = ['title', 'text', 'status', 'image_post']
 
 
 class DraftPostForm(forms.ModelForm):
     class Meta:
         model = Post
-        exclude = ('title', 'text', 'author', 'status')
+        exclude = ('title', 'text', 'author', 'status', 'image_post')
 
 
 class CommentForm(forms.ModelForm):
