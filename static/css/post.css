@@ -34,10 +34,9 @@
 
   /*Design banner image*/
   .banner-img {
-    position: absolute;
     object-fit: cover;
-    height: 16rem; /* image height */
-    width: 40%;
+    height: 18rem; /* image height */
+    width: 100%;
   }
   /* Design catagory text */
   .category-tag {
@@ -70,7 +69,7 @@
 
   /* Design of # tags, heading, description starts from here */
   .card-body {
-    margin: 15rem 1rem 1rem 1rem;
+    margin: 1rem 1rem 1rem 1rem;
   }
 
   /* #tags design */
@@ -129,7 +128,7 @@
         display: flex;
         flex-direction: row;
         font-size: 1.5rem;
-        gap: 3%;
+        gap: 3px;
         margin-left: 3%;
         text-decoration: none;
         margin-top: 10%;
