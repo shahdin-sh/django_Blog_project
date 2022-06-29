@@ -43,9 +43,12 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment_text
 
-    def get_each_post_author_profile_image(self):
+    def get_each_post_user_profile_image(self):
         try:
-            return self.user.userprofilepic.profile_pic.url
+            if self.user:
+                return self.user.userprofilepic.profile_pic.url
+            if self.name:
+                return ''
         except ValueError:
             return ''
 

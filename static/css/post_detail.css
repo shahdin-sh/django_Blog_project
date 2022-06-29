@@ -114,24 +114,13 @@
     margin-left: 20px;
 }
 
-.darker{
-    border: 1px solid  #d11b27;
-    background-color: white;
-    float: right;
-    border-radius: 5px;
-    padding-left: 40px;
-    padding-right: 30px;
-    padding-top: 10px;
-}
-
 .comment{
-    border: 1px solid #d11b27;
     background-color: white;
-    float: left;
     border-radius: 5px;
     padding-left: 40px;
     padding-right: 30px;
     padding-top: 10px;
+    border: solid 5px #f7f7f5;
 
 }
 .comment h4,.comment span,.darker h4,.darker span{
@@ -168,16 +157,18 @@ label{
 
 .form-group input,.form-group textarea{
     background-color: white;
-    border: 1px solid #d11b27;
     border-radius: 12px;
 }
 
-form{
-    border: 1px solid #d11b27;
+.comment_form{
     background-color: white;
     border-radius: 5px;
     padding: 20px;
+    box-shadow: 1px 1px 3px 3px #888888;
  }
+#comment_box{
+ box-shadow: 1px 1px 3px 3px #888888;
+}
 /* End comment section*/
 
 /* options */
