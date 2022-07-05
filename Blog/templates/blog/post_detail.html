@@ -65,11 +65,14 @@ post_detail
                             {% endif %}
                             <span>-{{ i.datetime_comment }}</span>
                             <br>
+                            <span>last time modified: {{ i.datetime_modified }}</span>
+                            <br>
                             <p>{{ i.comment_text }}</p>
                             {% if i.user_id == user.id and user.is_authenticated %}
                                 <span><a href="{% url 'comment_update_view' post_detail.id i.id %}">
                                 Edit</a>|<a href="{% url 'comment_delete_view' post_detail.id i.id %}">Delete</a></span>
                             {% endif %}
+                             <a href="{% url "liked_user_comment" post_detail.id i.id %}"><i class="fas fa-heart"></i></a>{{ i.get_likes }}
                         </div>
                     {% endfor %}
                 {% elif not comments %}

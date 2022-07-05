@@ -11,4 +11,7 @@ class UserProfilePic(models.Model):
         return f'{self.user} profile pic'
 
     def get_user_profile_image(self):
-        return self.profile_pic.url
+        try:
+            return self.profile_pic.url
+        except ValueError:
+            return ''

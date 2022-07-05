@@ -18,13 +18,13 @@ class DraftPostForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['comment_text', 'recommended']
+        fields = ['comment_text']
 
 
 class NoneUserCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['name', 'email', 'comment_text', 'recommended']
+        fields = ['name', 'email', 'comment_text']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -38,4 +38,3 @@ class FavoritePostForm(forms.ModelForm):
     class Meta:
         model = Favorite
         exclude = ('fav_post', 'user',)
-

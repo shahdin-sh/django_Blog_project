@@ -29,7 +29,9 @@
                             <div class="card-body">
                                 <a href="{% url 'post_detail_view' i.id %}"><h4 class="blog-title"> {{ i.text|truncatewords:20 }}</h4></a>
                                 <p class="blog-description">
-                                    {{ i.date_created }}
+                                    <span>{{ i.date_created }}</span>
+                                    <br>
+                                    <span>Last modified: {{ i.datetime_modified }}</span>
                                 </p>
                                 <div class="card-profile">
                                     <img class="profile-img" src="{{ i.get_each_post_author_profile_image }}" alt="user_avatar" />

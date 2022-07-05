@@ -1,7 +1,6 @@
 from django.db import models
 from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
-from account.models import UserProfilePic
 
 
 class Post(models.Model):
@@ -37,8 +36,13 @@ class Comment(models.Model):
     comment_text = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     datetime_comment = models.DateTimeField(auto_now_add=True)
+    datetime_modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
-    recommended = models.BooleanField(default=True)
+    user_likes = models.ManyToManyField(get_user_model(), blank=True, related_name='liked_comments_by_user')
+
+    # showing how many users like the particular comment
+    def get_likes(self):
+        return self.user_likes.count()
 
     def __str__(self):
         return self.comment_text
@@ -56,4 +60,3 @@ class Comment(models.Model):
 class Favorite(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     fav_post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='fav_post')
-

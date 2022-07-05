@@ -1,16 +1,15 @@
 from django.shortcuts import redirect, get_object_or_404, render, HttpResponseRedirect
-from django.urls import reverse_lazy
 from .forms import *
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import Http404
 from django.core.paginator import Paginator
-from account.models import UserProfilePic
+from django.urls import reverse_lazy
 
 
 def post_list_view(request):
-    post = Post.objects.all().order_by('-date_created').filter(status='pub')
+    post = Post.objects.all().order_by('-datetime_modified').filter(status='pub')
     paginator = Paginator(post, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -27,7 +26,7 @@ def post_detail_view(request, pk):
     # post with its pk or id
     post_detail = get_object_or_404(Post.objects.all().filter(status='pub'), pk=pk)
     # comments section for authenticated users
-    comments = post_detail.comments.all().order_by('-datetime_comment')
+    comments = post_detail.comments.all().order_by('-datetime_modified')
     if request.user.is_authenticated:
         if request.method == 'POST':
             comment_form = CommentForm(request.POST)
@@ -51,6 +50,7 @@ def post_detail_view(request, pk):
                 comment_form = NoneUserCommentForm()
         else:
             comment_form = NoneUserCommentForm()
+    # Managing comment like by users
     # favorite post Backend for login users.
     if request.method == 'POST' and request.user.is_authenticated:
         fav_form = FavoritePostForm(request.POST)
@@ -269,3 +269,14 @@ def draft_user_posts_view(request):
         'page_title': page_title,
     }
     return render(request, 'blog/drf_user_posts_view.html', dic)
+
+
+def liked_user_comment(request, comment_id, pk):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    user = request.user
+    if user.is_authenticated:
+        if comment.user not in comment.user_likes.all():
+            comment.user_likes.add(user)
+            return redirect('post_detail_view', pk)
+    return render(request, 'blog/comment_likes.html')
+

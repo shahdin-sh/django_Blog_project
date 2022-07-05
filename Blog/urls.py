@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path('', post_list_view, name='post_view_of_blog'),
     path('<int:pk>', post_detail_view, name='post_detail_view'),
+    path('<int:pk>/liked/<int:comment_id>/comment', liked_user_comment, name='liked_user_comment'),
     path('add/', login_required(PostCreateView.as_view()), name='post_view_add'),
     path('<int:pk>/edit/',  login_required(PostUpdateView.as_view()), name='post_edit_option'),
     path('<int:pk>/delete/', login_required(PostDeleteView.as_view()), name='post_delete_option'),
