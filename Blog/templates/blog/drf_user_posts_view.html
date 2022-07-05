@@ -19,7 +19,7 @@
                                 <img src="{{i.get_each_post_author_profile_image}}" alt="Avatar" class="user_avatar">
                             </div>
                             <h6 class="card-subtitle mb-2 text-muted small py-2">{{i.date_created}}</h6>
-                            <p class="card-text py-3">{{i.text|truncatewords:40}}</p>
+                            <p class="card-text py-3">{{i.text|truncatewords:40|safe}}</p>
                             <div class="btn btn-sm">
                                 <a href="{% url "draft_user_detail_posts" i.id %}">Read More</a>
                             </div>

@@ -27,7 +27,7 @@
                                 <img class="banner-img" src='{{ i.image_post.url }}' alt='Banner'>
                             </div>
                             <div class="card-body">
-                                <a href="{% url 'post_detail_view' i.id %}"><h4 class="blog-title"> {{ i.text|truncatewords:20 }}</h4></a>
+                                <a href="{% url 'post_detail_view' i.id %}"><h4 class="blog-title"> {{ i.text|truncatewords:20|safe }}</h4></a>
                                 <p class="blog-description">
                                     <span>{{ i.date_created }}</span>
                                     <br>

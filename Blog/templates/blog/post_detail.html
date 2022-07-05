@@ -20,7 +20,7 @@ post_detail
                 <h4>by {{ post_detail.author }}</h4>
                 <h4>{{ post_detail.date_created }}</h4>
                 <p class="blog-description">
-                    {{ post_detail.text }}
+                    {{ post_detail.text|safe }}
                 </p>
                 <div class="options">
                     {% if user.id == post_detail.author.id %}
