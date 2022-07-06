@@ -39,6 +39,7 @@ class Comment(models.Model):
     datetime_comment = models.DateTimeField(auto_now_add=True)
     datetime_modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
+    parent = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE, related_name='replies')
     user_likes = models.ManyToManyField(get_user_model(), blank=True, related_name='liked_comments_by_user')
 
     # showing how many users like the particular comment

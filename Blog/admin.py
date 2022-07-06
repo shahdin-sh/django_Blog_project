@@ -8,7 +8,7 @@ class Postadmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('comment_text', 'post', 'datetime_comment', 'is_active', 'user', 'name', 'email', 'likes')
+    list_display = ('comment_text', 'post', 'datetime_comment', 'is_active', 'user', 'name', 'email', 'likes', 'parent')
     ordering = ['-datetime_comment']
 
     def likes(self, obj):

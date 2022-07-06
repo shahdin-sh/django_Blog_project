@@ -26,11 +26,23 @@ def post_detail_view(request, pk):
     # post with its pk or id
     post_detail = get_object_or_404(Post.objects.all().filter(status='pub'), pk=pk)
     # comments section for authenticated users
-    comments = post_detail.comments.all().order_by('-datetime_modified')
+    comments = post_detail.comments.all().filter(is_active=True, parent__isnull=True).order_by('-datetime_modified')
     if request.user.is_authenticated:
         if request.method == 'POST':
             comment_form = CommentForm(request.POST)
             if comment_form.is_valid():
+                # managing reply for authenticated users
+                parent_obj = None
+                try:
+                    parent_id = int(request.POST.get('parent_id'))
+                except:
+                    parent_id = None
+                if parent_id:
+                    parent_obj = Comment.objects.get(id=parent_id)
+                    if parent_obj:
+                        replay_comment = comment_form.save(commit=False)
+                        replay_comment.parent = parent_obj
+                # normal comment form
                 new_comment = comment_form.save(commit=False)
                 new_comment.post = post_detail
                 new_comment.user = request.user
@@ -50,7 +62,6 @@ def post_detail_view(request, pk):
                 comment_form = NoneUserCommentForm()
         else:
             comment_form = NoneUserCommentForm()
-    # Managing comment like by users
     # favorite post Backend for login users.
     if request.method == 'POST' and request.user.is_authenticated:
         fav_form = FavoritePostForm(request.POST)
