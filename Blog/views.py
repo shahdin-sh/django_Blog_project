@@ -278,5 +278,4 @@ def liked_user_comment(request, comment_id, pk):
         if comment.user not in comment.user_likes.all():
             comment.user_likes.add(user)
             return redirect('post_detail_view', pk)
-    return render(request, 'blog/comment_likes.html')
 
