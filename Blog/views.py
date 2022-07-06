@@ -279,3 +279,11 @@ def liked_user_comment(request, comment_id, pk):
             comment.user_likes.add(user)
             return redirect('post_detail_view', pk)
 
+
+def delete_liked_user_comment(request, comment_id, pk):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    user = request.user
+    if user.is_authenticated:
+        if comment.user in comment.user_likes.all():
+            comment.user_likes.remove(user)
+            return redirect('post_detail_view', pk)

@@ -75,7 +75,7 @@ post_detail
                             {% if user not in i.user_likes.all %}
                                 <a href="{% url "liked_user_comment" post_detail.id i.id %}"><i class="far fa-heart"></i></a>{{ i.get_likes }}
                             {% elif user in  i.user_likes.all %}
-                                <a href="#"><i class="fas fa-heart"></i></a>{{ i.get_likes }}
+                                <a href="{% url "delete_liked_user_comment" post_detail.id i.id %}"><i class="fas fa-heart"></i></a>{{ i.get_likes }}
                             {% endif %}
                         </div>
                     {% endfor %}
