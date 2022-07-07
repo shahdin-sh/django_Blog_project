@@ -24,10 +24,16 @@ User_profile
             <a href="{% url 'user_post_view' %}" target="_blank">{{ user.username }}</a>
           </div>
           <div class="button">
-              <span>
-                  <a href="{% url 'edit_user_profile_view' %}">Edit Profile</a> || <a href="{% url "update_user_profile_pic" %}">Change Avatar</a> ||
-                  <a href="{% url 'delete_user_profile_pic' %}">Delete Avatar</a> ||
-              </span>
+              {% if user_pic %}
+                  <span>
+                      <a href="{% url 'edit_user_profile_view' %}">Edit Profile</a> || <a href="{% url "update_user_profile_pic" %}">Change Avatar</a> ||
+                      <a href="{% url 'delete_user_profile_pic' %}">Delete Avatar</a> ||
+                  </span>
+              {% elif not user_pic %}
+                     <span>
+                      <a href="{% url 'edit_user_profile_view' %}">Edit Profile</a> || <a href="{% url "add_user_profile_pic" %}">Add avatar</a>
+                  </span>
+              {% endif %}
           </div>
           <div class="ds-info">
             <div class="ds pens">

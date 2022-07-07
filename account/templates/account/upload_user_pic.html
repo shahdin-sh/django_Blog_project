@@ -6,7 +6,7 @@ upload_user_profile
 
 {% block content %}
       <div class="container">
-        <h3>Profile Picture</h3>
+        <h3>Add Avatar</h3>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}

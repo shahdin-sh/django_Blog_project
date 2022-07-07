@@ -27,7 +27,7 @@ class Post(models.Model):
         try:
             return self.author.userprofilepic.profile_pic.url
         except ValueError:
-            return ''
+            return 'default/img_avatar.png'
 
 
 class Comment(models.Model):
@@ -49,14 +49,14 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment_text
 
-    def get_each_post_user_profile_image(self):
+    def get_each_post_user_profile_image(self, request):
         try:
             if self.user:
                 return self.user.userprofilepic.profile_pic.url
             if self.name:
-                return ''
+                return 'media/default/img_avatar.png'
         except ValueError:
-            return ''
+            return 'media/default/img_avatar.png'
 
 
 class Favorite(models.Model):

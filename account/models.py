@@ -14,4 +14,4 @@ class UserProfilePic(models.Model):
         try:
             return self.profile_pic.url
         except ValueError:
-            return ''
+            return 'default/img_avatar.png'
