@@ -3,75 +3,46 @@
 {% load static %}
 User_profile
 {% endblock page_title %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'js/profile.js' %}">
+{% endblock %}
 
 {% block content %}
-    <div class="post_container">
-        <div class="post">
-            <div class="card shadow my-3 p-5">
-                <h3>Profile</h3>
-                <div class="user_profile_container">
-                    <div class="user_profile_info">
-                        <ol>
-                            <li><span>username:</span> {{ user.username }}</li>
-                            <li><span>firstname:</span> {{ user.first_name }}</li>
-                            <li><span>lastname:</span> {{user.last_name}}</li>
-                            <li><span>email:</span> {{ user.email }}</li>
-                            {% if user_post %}
-                                <li><span>number of posts: </span>{{ user_post }}</li>
-                            {% elif not user_post %}
-                                <li>number of posts: None</li>
-                                <a href="{% url 'post_view_add' %}">Do you want to Create one?</a>
-                            {% endif %}
-                        </ol>
-                    </div>
-                    <div class="user_profile_avatar">
-                        {% if user_pic %}
-                            {% for i in user_pic %}
-                                    <img src="{{ i.get_user_profile_image }}" alt="Avatar222" class="user_avatar">
-                            {% endfor %}
-                        {% else %}
-                            <img src="{% static 'images/img_avatar.png' %}" alt="Avatar222" class="user_avatar">
-                        {% endif %}
-                    </div>
-                </div>
+    <div class="card">
+        <div class="ds-top"></div>
+          <div class="avatar-holder">
                 {% if user_pic %}
-                    <p><a href="{% url 'edit_user_profile_view' %}">Edit profile</a> | <a href="{% url 'update_user_profile_pic' %}">Change your avatar</a> |
-                        <a href="{% url 'delete_user_profile_pic' %}">Delete avatar</a></p>
+                    {% for i in user_pic %}
+                        <img src="{{ i.profile_pic.url }}" ALT="Avatar">
+                    {% endfor %}
                 {% elif not user_pic %}
-                    <p><a href="{% url 'edit_user_profile_view' %}">edit profile</a> | <a href="{% url 'add_user_profile_pic' %}">add avatar</a></p>
+                    <img src="{% static 'images/img_avatar.png' %}" ALT="Avatar">
                 {% endif %}
+          </div>
+          <div class="name">
+            <a href="{% url 'user_post_view' %}" target="_blank">{{ user.username }}</a>
+          </div>
+          <div class="button">
+              <span>
+                  <a href="{% url 'edit_user_profile_view' %}">Edit Profile</a> ||| <a href="{% url "update_user_profile_pic" %}">Change Avatar</a>
+              </span>
+          </div>
+          <div class="ds-info">
+            <div class="ds pens">
+              <h6 title="Number of pens created by the user">Posts</h6>
+              <p>{{ user_post }}</p>
             </div>
-        </div>
+            <div class="ds projects">
+              <h6 title="Number of projects created by the user">favorite posts</h6>
+              <p>{{ user_fav_post }}</p>
+            </div>
+            <div class="ds posts">
+              <h6 title="Number of posts">draft inbox</h6>
+              <p>{{ user_draft_inbox }}</p>
+            </div>
+          </div>
     </div>
-    <style>
-        .user_profile_container{
-             border: 1px solid #003366;
-        }
-        .user_profile_info ol{
-            font-size: 1.5rem;
-            padding: 1rem;
-            list-style: none;
-        }
-        .user_profile_info span{
-            font-weight: bold;
-            color: #CC3434;
-        }
-        .user_profile_container{
-            display: flex;
-            flex-direction: row;
-        }
-        @media screen and (min-width:640px){
-             .user_profile_avatar {
-                max-width: 40%;
-                text-align: center;
-            }
-            .user_profile_avatar .user_avatar {
-                border-radius: 50%;
-                width: 60%;
-                margin-top: 10%;
-            }
-        }
-    </style>
 {% endblock content %}
 
 

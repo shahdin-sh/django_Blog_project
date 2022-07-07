@@ -1,10 +1,9 @@
 from django.shortcuts import redirect, get_object_or_404, render, HttpResponseRedirect
 from Blog.models import Post
-# from django.views import generic
 from django.urls import reverse
 from django.urls import reverse_lazy
 from .forms import UserCreateForm, UserForm, UserProfilePicForm
-from django.contrib.auth.models import User
+from Blog.models import *
 from django.contrib.auth.decorators import login_required
 from django.views import generic
 from .models import *
@@ -29,11 +28,16 @@ class SignUpView(generic.CreateView):
 @login_required
 def user_profile(request):
     current_user_id = request.user.id
+    # user posts, favorite posts, draft inbox and user profile avatar for showing in profile section!
     user_post = Post.objects.all().filter(author_id=current_user_id)
+    user_fav_post = Favorite.objects.all().filter(user_id=current_user_id)
+    user_draft_inbox = Post.objects.all().filter(author_id=current_user_id, status='drf')
     user_pic = UserProfilePic.objects.all().filter(user_id=current_user_id)
     page_title = 'Profile'
     dic = {
         'user_post': len(user_post),
+        'user_fav_post': len(user_fav_post),
+        'user_draft_inbox': len(user_draft_inbox),
         'user_pic': user_pic,
         'page_title': page_title
     }
