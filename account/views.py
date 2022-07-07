@@ -39,7 +39,7 @@ def user_profile(request):
         'user_fav_post': len(user_fav_post),
         'user_draft_inbox': len(user_draft_inbox),
         'user_pic': user_pic,
-        'page_title': page_title
+        'page_title': page_title,
     }
     return render(request, 'account/user_profile.html', dic)
 

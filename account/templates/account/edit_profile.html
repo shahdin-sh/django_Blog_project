@@ -5,28 +5,26 @@ User_profile
 {% endblock page_title %}
 
 {% block content %}
-    <div class="post_container">
-        <div class="post">
-            <div class="card shadow my-3 p-5">
-                <h3>Edit Profile</h3>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
-                </form>
-                <a href="{% url 'user_profile_view' %}">back to your previous profile page</a>
-            </div>
-        </div>
-    </div>
+      <div class="container">
+        <h3>Edit Profile</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+        <a href="{% url 'user_profile_view' %}">back to your previous profile page</a>
+      </div>
     <style>
-        form{
-            border: #003366 solid 1px;
-            padding: 1rem;
-            font-size: 1.1rem;
+        .container {
+          padding: 2px 16px;
+          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+          width: 500px;
+          margin-top: 20px;
+            text-align: center;
+
         }
     </style>
 {% endblock content %}
-
 
 
 
