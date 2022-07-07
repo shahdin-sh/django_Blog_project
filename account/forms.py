@@ -24,6 +24,8 @@ class UserCreateForm(UserCreationForm):
 
 
 class UserProfilePicForm(forms.ModelForm):
+    profile_avatar = forms.ImageField(label=('Profile_Avatar'), required=False, widget=forms.FileInput)
+
     class Meta:
         model = UserProfilePic
-        fields = ('profile_pic',)
+        fields = ('profile_avatar',)
