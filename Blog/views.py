@@ -134,6 +134,9 @@ class PostDeleteView(UserPassesTestMixin, generic.DeleteView):
     model = Post
     template_name = 'blog/delete_post.html'
 
+    def get_success_url(self):
+        return reverse('post_view_of_blog')
+
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user

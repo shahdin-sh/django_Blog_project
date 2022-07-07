@@ -24,8 +24,7 @@ class UserCreateForm(UserCreationForm):
 
 
 class UserProfilePicForm(forms.ModelForm):
-    profile_avatar = forms.ImageField(label=('Profile_Avatar'), required=False, widget=forms.FileInput)
-
+    # delete the currently and clear section from thr form
     class Meta:
         model = UserProfilePic
-        fields = ('profile_avatar',)
+        fields = ('profile_pic',)
