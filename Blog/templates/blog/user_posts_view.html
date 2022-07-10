@@ -21,36 +21,38 @@
         </div>
     {% elif user_posts_auth == True %}
         <div class="main_container">
-            <section class="post">
-                <div class="wrapper">
-                    {% for i in post %}
-                        <div class="card">
-                            <div class="card-banner">
-                                <p class="category-tag popular">{{ i.title }}</p>
-                                <img class="banner-img" src='{{ i.image_post.url }}' alt='Banner'>
-                            </div>
-                            <div class="card-body">
-                                <a href="{% url 'post_detail_view' i.id %}"><h4 class="blog-title"> {{ i.text|truncatewords:20|safe }}</h4></a>
-                                <p class="blog-description">
-                                    <span>{{ i.date_created }}</span>
-                                    <br>
-                                    <span>Last modified: {{ i.datetime_modified }}</span>
-                                </p>
-                                <div class="card-profile">
-                                    <img class="profile-img" src="{{ i.get_each_post_author_profile_image }}" alt="user_avatar" />
-                                    <div class="card-profile-info">
-                                        <h2 class="profile-name">By {{ i.author }}</h2>
+            <div class="post_news">
+                <section class="post">
+                    <div class="wrapper">
+                        {% for i in post %}
+                            <div class="card">
+                                <div class="card-banner">
+                                    <p class="category-tag popular">{{ i.title }}</p>
+                                    <img class="banner-img" src='{{ i.image_post.url }}' alt='Banner'>
+                                </div>
+                                <div class="card-body">
+                                    <a href="{% url 'post_detail_view' i.id %}"><h4 class="blog-title"> {{ i.text|truncatewords:20|safe }}</h4></a>
+                                    <p class="blog-description">
+                                        <span>{{ i.date_created }}</span>
+                                        <br>
+                                        <span>Last modified: {{ i.datetime_modified }}</span>
+                                    </p>
+                                    <div class="card-profile">
+                                        <img class="profile-img" src="{{ i.get_each_post_author_profile_image }}" alt="user_avatar" />
+                                        <div class="card-profile-info">
+                                            <h2 class="profile-name">By {{ i.author }}</h2>
+                                        </div>
+                                    </div>
+                                    <div class="icon">
+                                        <a href="#"><i class="fa-brands fa-instagram-square"></i></a>
+                                        <a href="#"><i class="fa-brands fa-github"></i></a>
                                     </div>
                                 </div>
-                                <div class="icon">
-                                    <a href="#"><i class="fa-brands fa-instagram-square"></i></a>
-                                    <a href="#"><i class="fa-brands fa-github"></i></a>
-                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
         </div>
     {% endif %}
      <nav aria-label="Page navigation">
