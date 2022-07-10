@@ -9,7 +9,6 @@ User_profile
 {% endblock %}
 
 {% block content %}
-    {{ user_pic }}
     <div class="card">
         <div class="ds-top"></div>
           <div class="avatar-holder">
@@ -21,11 +20,12 @@ User_profile
           <div class="button">
               <span>
                   {% if user.userprofilepic.profile_pic %}
-                    <a href="{% url 'update_user_profile_pic' %}">Change avatar</a> || <a href="{% url 'delete_user_profile_pic' %}">Delete avatar</a>
+                    <a href="{% url 'update_user_profile_pic' %}">Change avatar</a> ||
+                      <a href="{% url 'delete_user_profile_pic' %}">Delete avatar</a> ||
+                      <a href="{% url 'edit_user_profile_view'%}">Edit profile</a>
                   {% else %}
-                    <span>
-                        <a href="{% url 'update_user_profile_pic' %}">add avatar</a>
-                    </span>
+                    <a href="{% url 'update_user_profile_pic' %}">add avatar</a> |||
+                    <a href="{% url 'edit_user_profile_view'%}">Edit profile</a>
                   {% endif %}
               </span>
           </div>

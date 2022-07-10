@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, get_object_or_404, render, HttpResponseRedirect
-from Blog.models import Post
+from django.http import Http404
 from django.urls import reverse
 from django.urls import reverse_lazy
 from .forms import UserCreateForm, UserForm, UserProfilePicForm
@@ -81,12 +81,19 @@ class UpdateUserAvatar(generic.UpdateView):
 
 @login_required
 def delete_user_avatar(request):
-    current_user_id = request.user.id
-    current_user_avatar = get_object_or_404(UserProfilePic.objects.all().filter(user_id=current_user_id))
-    if request.method == 'POST':
-        current_user_avatar.profile_pic.delete()
-        return redirect('user_profile_view')
-    page_title = 'Delete Avatar'
-    return render(request, 'account/delete_current_user_avatar.html', {'current_user_avatar': current_user_avatar,
-                                                                       'page_title': page_title})
+    # limiting accesses to the delete section for users who don't have profile picture
+    try:
+        user = request.user
+        user_avatar = user.userprofilepic.profile_pic.url
+        if user_avatar:
+            current_user_id = request.user.id
+            current_user_avatar = get_object_or_404(UserProfilePic.objects.all().filter(user_id=current_user_id))
+            if request.method == 'POST':
+                current_user_avatar.profile_pic.delete()
+                return redirect('user_profile_view')
+            page_title = 'Delete Avatar'
+            return render(request, 'account/delete_current_user_avatar.html', {'current_user_avatar': current_user_avatar,
+                                                                               'page_title': page_title})
+    except ValueError:
+        raise Http404()
 
