@@ -2,6 +2,7 @@ from django.db import models
 from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
+from account.models import UserProfilePic
 
 
 class Post(models.Model):
@@ -27,7 +28,7 @@ class Post(models.Model):
         try:
             return self.author.userprofilepic.profile_pic.url
         except ValueError:
-            return 'default/img_avatar.png'
+            return '/media/default/img_avatar.png'
 
 
 class Comment(models.Model):
@@ -49,14 +50,14 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment_text
 
-    def get_each_post_user_profile_image(self, request):
+    def get_each_post_user_profile_image(self):
         try:
             if self.user:
                 return self.user.userprofilepic.profile_pic.url
             if self.name:
-                return 'media/default/img_avatar.png'
+                return '/media/default/img_avilepic.pratar.png'
         except ValueError:
-            return 'media/default/img_avatar.png'
+            return '/media/default/img_avatar.png'
 
 
 class Favorite(models.Model):

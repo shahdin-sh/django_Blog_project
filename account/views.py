@@ -7,6 +7,7 @@ from Blog.models import *
 from django.contrib.auth.decorators import login_required
 from django.views import generic
 from .models import *
+from django.contrib.auth.models import User
 
 
 class SignUpView(generic.CreateView):
@@ -60,26 +61,6 @@ def edit_profile(request):
                                                                  'page_title': page_title})
 
 
-class UploadUserAvatar(generic.CreateView):
-    form_class = UserProfilePicForm
-    model = UserProfilePic
-    template_name = 'account/upload_user_pic.html'
-
-    def get_success_url(self):
-        return reverse('user_profile_view')
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.user = self.request.user
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
-
-    def get_context_data(self, *args, **kwargs):
-        data = super(UploadUserAvatar, self).get_context_data(*args, **kwargs)
-        data['page_title'] = 'Upload User Pic'
-        return data
-
-
 class UpdateUserAvatar(generic.UpdateView):
     form_class = UserProfilePicForm
     model = UserProfilePic
@@ -92,12 +73,6 @@ class UpdateUserAvatar(generic.UpdateView):
         pic = get_object_or_404(UserProfilePic.objects.all().filter(user_id=self.request.user.id))
         return pic
 
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.user = self.request.user
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
-
     def get_context_data(self, *args, **kwargs):
         data = super(UpdateUserAvatar, self).get_context_data(*args, **kwargs)
         data['page_title'] = 'Edit User Pic'
@@ -109,7 +84,7 @@ def delete_user_avatar(request):
     current_user_id = request.user.id
     current_user_avatar = get_object_or_404(UserProfilePic.objects.all().filter(user_id=current_user_id))
     if request.method == 'POST':
-        current_user_avatar.delete()
+        current_user_avatar.profile_pic.delete()
         return redirect('user_profile_view')
     page_title = 'Delete Avatar'
     return render(request, 'account/delete_current_user_avatar.html', {'current_user_avatar': current_user_avatar,

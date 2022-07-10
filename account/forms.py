@@ -27,4 +27,4 @@ class UserProfilePicForm(forms.ModelForm):
     # delete the currently and clear section from thr form
     class Meta:
         model = UserProfilePic
-        fields = ('profile_pic',)
+        fields = ('profile_pic', )

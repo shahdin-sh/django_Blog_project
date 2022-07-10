@@ -9,31 +9,25 @@ User_profile
 {% endblock %}
 
 {% block content %}
+    {{ user_pic }}
     <div class="card">
         <div class="ds-top"></div>
           <div class="avatar-holder">
-                {% if user_pic %}
-                    {% for i in user_pic %}
-                        <img src="{{ i.profile_pic.url }}" ALT="Avatar">
-                    {% endfor %}
-                {% elif not user_pic %}
-                    <img src="{% static 'images/img_avatar.png' %}" ALT="Avatar">
-                {% endif %}
+            <img src="{{ user.userprofilepic.get_user_profile_image }}" ALT="Avatar">
           </div>
           <div class="name">
             <a href="{% url 'user_post_view' %}" target="_blank">{{ user.username }}</a>
           </div>
           <div class="button">
-              {% if user_pic %}
-                  <span>
-                      <a href="{% url 'edit_user_profile_view' %}">Edit Profile</a> || <a href="{% url "update_user_profile_pic" %}">Change Avatar</a> ||
-                      <a href="{% url 'delete_user_profile_pic' %}">Delete Avatar</a> ||
-                  </span>
-              {% elif not user_pic %}
-                     <span>
-                      <a href="{% url 'edit_user_profile_view' %}">Edit Profile</a> || <a href="{% url "add_user_profile_pic" %}">Add avatar</a>
-                  </span>
-              {% endif %}
+              <span>
+                  {% if user.userprofilepic.profile_pic %}
+                    <a href="{% url 'update_user_profile_pic' %}">Change avatar</a> || <a href="{% url 'delete_user_profile_pic' %}">Delete avatar</a>
+                  {% else %}
+                    <span>
+                        <a href="{% url 'update_user_profile_pic' %}">add avatar</a>
+                    </span>
+                  {% endif %}
+              </span>
           </div>
           <div class="ds-info">
             <div class="ds pens">

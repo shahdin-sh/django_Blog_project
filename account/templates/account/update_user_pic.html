@@ -10,7 +10,7 @@ upload_user_profile
         <form  method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" class="btn btn-primary mt-3">Change your profile photo</button>
+             <button type="submit" class="btn btn-primary mt-3">fix your profile photo</button>
         </form>
         <a href="{% url 'user_profile_view' %}">back to your previous profile page</a>
      </div>

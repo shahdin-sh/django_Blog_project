@@ -3,8 +3,12 @@ from .models import Post, Comment, Favorite
 
 
 class Postadmin(admin.ModelAdmin):
-    list_display = ('title', 'status', 'date_created', 'author', 'image_post')
+    list_display = ('title', 'status', 'date_created', 'author', 'image_post', 'comments')
     ordering = ['-date_created']
+
+    def comments(self, obj):
+        comment = Comment.objects.all().filter(post_id=obj.id)
+        return f'{len(comment)}'
 
 
 class CommentAdmin(admin.ModelAdmin):
