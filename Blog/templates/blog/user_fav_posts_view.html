@@ -1,15 +1,18 @@
 {% extends '_base.html' %}
 {% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+{% endblock %}
 {% block page_title %}
 Post list
 {% endblock page_title %}
 {% block content %}
-     {% if user_fav_post %}
+    {% if user_fav_post %}
          <div class="main_container">
             <div class="post_news">
                 <section class="post">
                     <div class="wrapper">
-                        {% for i in post %}
+                        {% for i in user_fav_post %}
                             <div class="card">
                                 <div class="card-banner">
                                     <p class="category-tag popular">{{ i.title }}</p>
@@ -39,32 +42,52 @@ Post list
                 </section>
             </div>
         </div>
+         <nav aria-label="Page navigation">
+            <ul class="pagination  justify-content-center mt-3">
+            {% if user_fav_post.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ user_fav_post.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="?page={{ user_fav_post.number }}">{{ user_fav_post.number }}</a></li>
+            {% if user_fav_post.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ user_fav_post.next_page_number }}">Next</a></li>
+            {% endif %}
+            </ul>
+        </nav>
     {% elif not user_fav_post %}
-          <div class="d-flex justify-content-center mt-3" id="main_signin_container">
-                <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-xs-6 bg-white m-3 m-sm-5 border rounded px-4 pt-4 pb-3 shadow" id="signin_container">
-                    <h2>you have no favorite post :(</h2>
-                    <h5><a href="{% url 'post_view_of_blog' %}">Check it out</a></h5>
-                    <div class="icons">
-                        <a href="#"><i class="fa-brands fa-instagram-square"></i></a>
-                        <a href="#"><i class="fa-brands fa-github"></i></a>
-                    </div>
-                </div>
-          </div>
+         <div class="container">
+            <h3>you have no favorite post :(</h3>
+            <h5><a href="{% url 'post_view_of_blog' %}">Check it out</a></h5>
+            <div class="draft_icon">
+                <a href="#"><i class="fa-brands fa-instagram-square"></i></a>
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+            </div>
+         </div>
     {% endif %}
-     <nav aria-label="Page navigation">
-        <ul class="pagination  justify-content-center mt-3">
-        {% if post.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page={{ post.previous_page_number }}">Previous</a></li>
-        {% endif %}
-        <li class="page-item"><a class="page-link" href="?page={{ post.number }}">{{ post.number }}</a></li>
-        {% if post.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{ post.next_page_number }}">Next</a></li>
-        {% endif %}
-        </ul>
-     </nav>
     <style>
-        nav{
+         nav{
+             text-align: center;
+         }
+         .container {
+          padding: 2px 16px;
+          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+          width: 500px;
+          margin-top: 20px;
             text-align: center;
+        }
+        .draft_icon{
+            display: flex;
+            flex-direction: row;
+            font-size: 1.5rem;
+            gap: 7px;
+            justify-content: center;
+            text-decoration: none;
+            margin-top: 10%;
+            direction: rtl;
+        }
+        .draft_icon a {
+        color: #d11b27;
+        font-size: 5rem;
+        margin-bottom: 3%;
         }
     </style>
 {% endblock content %}
