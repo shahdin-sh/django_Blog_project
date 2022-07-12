@@ -31,15 +31,16 @@ post_detail
                     {% endif %}
                      {% if user.is_authenticated %}
                          <div>
-                          {% if not fav %}
-                            <form method="post" action="">
-                                {% csrf_token %}
-                                {{ fav_form|crispy }}
-                                <button class="favorite_post_button" type="submit" value="yes" onclick="this.disabled=true;this.form.submit();"><i class="far fa-heart"></i></button>
-                            </form>
-                          {% elif fav %}
-                              <a href="{% url 'delete_fav_user_post' post_detail.id %}" class="mt-2"><i class='fas fa-heart'></i></a>
-                          {% endif %}
+                              {% if not fav %}
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                    {{ fav_form|crispy }}
+                                    <button class="favorite_post_button" type="submit" value="yes"
+                                            onclick="this.disabled=true;this.form.submit();"><i class="far fa-heart"></i></button>
+                                </form>
+                              {% elif fav %}
+                                  <a href="{% url 'delete_fav_user_post' post_detail.id %}" class="mt-2"><i class='fas fa-heart'></i></a>
+                              {% endif %}
                          </div>
                     {% endif %}
                 </div>

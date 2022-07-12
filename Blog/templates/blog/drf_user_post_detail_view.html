@@ -6,35 +6,42 @@
      <link rel="stylesheet" href="{% static 'css/post_detail.css' %}">
 {% endblock %}
 
-
 {%block page_title%}
 post_detail
 {% endblock page_title %}
 
-
 {% block content %}
-    <div class="post_detail_container">
-        <div class="post_detail">
-            <div class="card shadow my-3 p-5">
-                <h1>{{ post_detail.title }}</h1>
-                <p class="small text-muted mt-2">By {{post_detail.author}}</p>
-                <p class="mt-2">{{post_detail.text}}</p>
-                {% if post_detail.author.id == user.id %}
-                    <div>
-                        <a href="{% url "post_edit_option" post_detail.id %}" class="btn btn-sm btn-warning">Edit</a>
-                    </div>
-                    <div>
-                        <a href="{% url "post_delete_option" post_detail.id %}" class="btn btn-sm btn-danger">Delete</a>
-                    </div>
-                {% endif %}
-                {% if post_detail.author.id == user.id and post_detail.status == 'drf' %}
-                    <p><span class="text-danger">Notice:</span>Your post status is draft for publishing it change the status to 'publish' situation.</p>
-                    <form method="post" action="">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <button type="submit" value="yes" onclick="this.disabled=true;this.form.submit();">Publish</button>
-                    </form>
-                {% endif %}
+     <div class="wrapper">
+        <div class="card">
+            <div class="card-banner">
+                <img class="banner-img" src='{{ post_detail.image_post.url }}' alt='Banner'>
+            </div>
+            <div class="card-body">
+                <h2 class="blog-title">{{ post_detail.title }}</h2>
+                <h4>by {{ post_detail.author }}</h4>
+                <h4>{{ post_detail.date_created }}</h4>
+                <p class="blog-description">
+                    {{ post_detail.text|safe }}
+                </p>
+                <div class="options">
+                    {% if user.id == post_detail.author.id %}
+                          <div>
+                             <a href="{% url "post_edit_option" post_detail.id %}"><i class="far fa-edit"></i></a>
+                             <a href="{% url "post_delete_option" post_detail.id %}"><i class="far fa-trash-alt"></i></a>
+                          </div>
+                    {% endif %}
+                     <div>
+                         <form method="post" action="">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button class="publish_button" type="submit" value="yes" onclick="this.disabled=true;this.form.submit();"><i class="fa fa-file-o fa-stack-2x"></i></button>
+                         </form>
+                     </div>
+                </div>
+                <div class="icon">
+                    <a href="#"><i class="fa-brands fa-instagram-square"></i></a>
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                </div>
             </div>
         </div>
     </div>

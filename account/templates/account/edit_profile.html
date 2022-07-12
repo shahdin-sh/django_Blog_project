@@ -10,7 +10,8 @@ User_profile
         <form method="post">
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            <button type="submit" class="btn btn-primary mt-3" onclick="this.disabled=true;this.form.submit();"
+            >Submit</button>
         </form>
         <a href="{% url 'user_profile_view' %}">back to your previous profile page</a>
       </div>

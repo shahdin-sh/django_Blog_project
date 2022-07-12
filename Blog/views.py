@@ -125,9 +125,13 @@ class PostUpdateView(UserPassesTestMixin, generic.UpdateView):
             return True
 
     def get_context_data(self, *args, **kwargs):
-        data = super(PostUpdateView, self).get_context_data(*args, **kwargs)
-        data['page_title'] = 'Edit Post'
-        return data
+        dic = super(PostUpdateView, self).get_context_data(*args, **kwargs)
+        dic['page_title'] = 'Edit Post'
+        if self.object.status == 'drf':
+            dic['draft_post_status'] = get_object_or_404(Post.objects.all().filter(status='drf', pk=self.kwargs['pk']))
+        if self.object.status == 'pub':
+            dic['publish_post_status'] = get_object_or_404(Post.objects.all().filter(status='pub', pk=self.kwargs['pk']))
+        return dic
 
 
 class PostDeleteView(UserPassesTestMixin, generic.DeleteView):

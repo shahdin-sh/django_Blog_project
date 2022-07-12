@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import *
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path('', post_list_view, name='post_view_of_blog'),
@@ -8,7 +9,7 @@ urlpatterns = [
     path('<int:pk>/liked/comment/<int:comment_id>', liked_user_comment, name='liked_user_comment'),
     path('<int:pk>/delete_like/comment/<int:comment_id>', delete_liked_user_comment, name='delete_liked_user_comment'),
     path('add/', login_required(PostCreateView.as_view()), name='post_view_add'),
-    path('<int:pk>/edit/',  login_required(PostUpdateView.as_view()), name='post_edit_option'),
+    path('<int:pk>/edit/',  csrf_exempt(login_required(PostUpdateView.as_view())), name='post_edit_option'),
     path('<int:pk>/delete/', login_required(PostDeleteView.as_view()), name='post_delete_option'),
     path('<int:pk>/update/<int:comment_id>/comment', comment_update_view, name='comment_update_view'),
     path('<int:pk>/delete/<int:comment_id>/comment', comment_delete_view, name='comment_delete_view'),

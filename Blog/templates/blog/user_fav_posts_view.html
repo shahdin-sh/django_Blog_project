@@ -1,11 +1,14 @@
 {% extends '_base.html' %}
 {% load static %}
+
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/post.css' %}">
 {% endblock %}
+
 {% block page_title %}
-Post list
+    Post list
 {% endblock page_title %}
+
 {% block content %}
     {% if user_fav_post %}
          <div class="main_container">

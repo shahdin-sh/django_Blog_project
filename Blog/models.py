@@ -54,9 +54,9 @@ class Comment(models.Model):
         try:
             if self.user:
                 return self.user.userprofilepic.profile_pic.url
-            if self.name:
-                return '/media/default/img_avilepic.pratar.png'
         except ValueError:
+            return '/media/default/img_avatar.png'
+        if self.name not in UserProfilePic.objects.all():
             return '/media/default/img_avatar.png'
 
 

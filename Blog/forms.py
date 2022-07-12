@@ -8,6 +8,11 @@ class NewPostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'text', 'status', 'image_post']
 
+    def __init__(self, *args, **kwargs,):
+        super(NewPostForm, self).__init__(*args, **kwargs)
+        if self.initial['status'] == 'drf':
+            self.fields['status'].widget = forms.HiddenInput()
+
 
 class DraftPostForm(forms.ModelForm):
     class Meta:

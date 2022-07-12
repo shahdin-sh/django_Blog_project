@@ -181,7 +181,7 @@ label{
 .options a{
     color: #003366;
 }
-.favorite_post_button{
+.favorite_post_button, .publish_button{
     background: none;
     padding: 0;
     border: none;
