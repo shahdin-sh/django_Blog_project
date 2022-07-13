@@ -191,3 +191,6 @@ label{
 #username_in_comments{
     margin-left: 4px;
 }
+form{
+    width: 50%;
+}

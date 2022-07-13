@@ -3,6 +3,8 @@ from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
 from account.models import UserProfilePic
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 
 class Post(models.Model):
@@ -35,15 +37,16 @@ class Comment(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=20, null=True, blank=True)
     email = models.EmailField(max_length=50, null=True, blank=True)
-    comment_text = models.TextField()
+    comment_text = models.TextField(null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     datetime_comment = models.DateTimeField(auto_now_add=True)
     datetime_modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
+    # this section is for comments(replies) that they are inside the main comment or their parent
     parent = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE, related_name='replies')
     user_likes = models.ManyToManyField(get_user_model(), blank=True, related_name='liked_comments_by_user')
-
     # showing how many users like the particular comment
+
     def get_likes(self):
         return self.user_likes.count()
 

@@ -34,7 +34,7 @@ class NoneUserCommentForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email__iexact=email).exists():
-            raise forms.ValidationError('this email has given before!')
+            raise forms.ValidationError('this email was given before!')
         else:
             return email
 

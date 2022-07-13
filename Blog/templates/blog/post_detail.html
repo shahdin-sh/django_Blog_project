@@ -57,7 +57,7 @@ post_detail
                 <h1>Comments</h1>
                 {% if comments %}
                     {% for i in comments %}
-                        <div class="comment mt-4 text-justify float-left">
+                        <div class="comment mt-4 text-justify float-left" id="comment_div">
                             <img src="{{ i.get_each_post_user_profile_image }}" alt="avatar" class="rounded-circle" width="40" height="40">
                             {% if i.user %}
                                 <h4>{{ i.user }}</h4>
@@ -78,19 +78,33 @@ post_detail
                             {% elif user in  i.user_likes.all %}
                                 <a href="{% url "delete_liked_user_comment" post_detail.id i.id %}"><i class="fas fa-heart"></i></a>{{ i.get_likes }}
                             {% endif %}
+                            <br>
                             <!-- start of the Replay section -->
-                             {% for replay in i.replies.all %}
-                                <p class="info">{{ replay.user }} | {{ replay.datetime_comment }}</p>
-                                <li>{{ replay.comment_text }}</li>
-                            {% endfor %}
-                            <h3>Replay</h3>
-                            <form action="." method="post">
-                                {% csrf_token %}
-                                {{ comment_form|crispy }}
-                                  <!-- Hidden input for parent comment.id -->
-                                <input type="hidden" name="parent_id" value="{{ i.id }}">
-                                <input class="btn btn-primary" type="submit" value="Replay">
-                            </form>
+                            <div class="replay_div">
+                                   <h4>Replies</h4>
+                                  <br>
+                                 {% for replay in i.replies.all %}
+                                       <img src="{{ replay.get_each_post_user_profile_image }}" alt="avatar" class="rounded-circle" width="40" height="40">
+                                     {% if replay.user %}
+                                        <span>{{ replay.user }}</span>
+                                     {% elif replay.name %}
+                                        <span>{{ replay.name }}</span>
+                                     {% endif %}
+                                     <br>
+                                     <span>datetime:{{ replay.datetime_comment }}</span>
+                                     <br>
+                                    <li>{{ replay.comment_text }}</li>
+                                     <br>
+                                {% endfor %}
+                                <h3> Add Replay</h3>
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    {{ comment_form|crispy }}
+                                      <!-- Hidden input for parent comment.id -->
+                                    <input type="hidden" name="parent_id" value="{{ i.id }}">
+                                    <input class="btn btn-primary" type="submit" value="Replay">
+                                </form>
+                            </div>
                             <!--End of the replay section-->
                         </div>
                     {% endfor %}
@@ -110,4 +124,14 @@ post_detail
             </div>
         </div>
     </div>
+    <style>
+        #comment_div{
+            border: 3px solid darkgray;
+        }
+        .replay_div{
+            margin-top:10px;
+            border: darkkhaki solid 3px;
+            padding: 1rem;
+        }
+    </style>
 {% endblock content %}
