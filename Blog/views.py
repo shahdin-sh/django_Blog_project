@@ -190,7 +190,11 @@ def comment_update_view(request, pk, comment_id):
             form.save()
             return redirect('post_detail_view', pk)
         page_title = f'Update Comment {comment_id}'
-        return render(request, 'blog/comment_update_view.html', {'form': form, 'page_title': page_title})
+        dic = {
+            'form': form,
+            'page_title': page_title,
+        }
+        return render(request, 'blog/comment_update_view.html', dic)
     else:
         raise Http404()
 

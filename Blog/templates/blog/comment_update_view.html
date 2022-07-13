@@ -5,18 +5,22 @@ add_post
 {% endblock page_title %}
 
 {% block content %}
-<div class="post_container">
-    <div class="post">
-        <div class="card shadow my-3 p-5">
-            <h3>Edit your comments:</h3>
-            <form method="POST">
-                {% csrf_token %}
-                <table>
-                    <ul>{{ form|crispy }}</ul>
-                </table>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </div>
-</div>
+    <div class="container">
+        <h3>Edit Comment or Replay</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary mt-3" onclick="this.disabled=true;this.form.submit();"
+            >Submit</button>
+        </form>
+      </div>
+    <style>
+        .container {
+          padding: 2px 16px;
+          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+          width: 900px;
+          margin-top: 20px;
+            text-align: left;
+        }
+    </style>
 {% endblock content %}

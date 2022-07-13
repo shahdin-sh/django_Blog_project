@@ -94,6 +94,15 @@ post_detail
                                      <span>datetime:{{ replay.datetime_comment }}</span>
                                      <br>
                                     <li>{{ replay.comment_text }}</li>
+                                       {% if replay.user_id == user.id and user.is_authenticated %}
+                                            <span><a href="{% url 'comment_update_view' post_detail.id replay.id %}">
+                                            Edit</a>|<a href="{% url 'comment_delete_view' post_detail.id replay.id %}">Delete</a></span>
+                                       {% endif %}
+                                       {% if user not in replay.user_likes.all %}
+                                            <a href="{% url "liked_user_comment" post_detail.id replay.id %}"><i class="far fa-heart"></i></a>{{ replay.get_likes }}
+                                       {% elif user in  replay.user_likes.all %}
+                                            <a href="{% url "delete_liked_user_comment" post_detail.id i.id %}"><i class="fas fa-heart"></i></a>{{ replay.get_likes }}
+                                       {% endif %}
                                      <br>
                                 {% endfor %}
                                 <h3> Add Replay</h3>
