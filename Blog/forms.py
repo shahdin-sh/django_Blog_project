@@ -10,8 +10,12 @@ class NewPostForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs,):
         super(NewPostForm, self).__init__(*args, **kwargs)
-        if self.initial['status'] == 'drf':
-            self.fields['status'].widget = forms.HiddenInput()
+        try:
+            if self.initial['status'] == 'drf':
+                self.fields['status'].widget = forms.HiddenInput()
+        # in add post view when we might set the status as draft and this except key error would solve the problem
+        except KeyError:
+            ''
 
 
 class DraftPostForm(forms.ModelForm):

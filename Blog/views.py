@@ -333,3 +333,7 @@ def delete_liked_user_comment(request, comment_id, pk):
         if comment.user in comment.user_likes.all():
             comment.user_likes.remove(user)
             return redirect('post_detail_view', pk)
+
+
+def liked_anonymous_comment():
+    pass
