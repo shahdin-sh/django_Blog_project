@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'account',
     'crispy_forms',
     'ckeditor',
-    'django_cleanup.apps.CleanupConfig',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -150,3 +150,9 @@ MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
 
 # ckeditor form setting
 CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': None,
+        'width': 300,
+    },
+}

@@ -152,3 +152,8 @@ header h1{
     color:  #d11b27;
     font-size: 3rem;
 }
+
+/* ckeditor setting */
+.django-ckeditor-widget {
+  width: 100%;
+}
