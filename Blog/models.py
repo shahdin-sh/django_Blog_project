@@ -3,8 +3,7 @@ from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
 from account.models import UserProfilePic
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.sessions.models import Session
 
 
 class Post(models.Model):
@@ -45,9 +44,8 @@ class Comment(models.Model):
     # this section is for comments(replies) that they are inside the main comment or their parent
     parent = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE, related_name='replies')
     user_likes = models.ManyToManyField(get_user_model(), blank=True, related_name='liked_comments_by_user')
-    # showing how many users like the particular comment
 
-    def get_likes(self):
+    def get_likes(self):  # showing how many users like the particular comment
         return self.user_likes.count()
 
     def __str__(self):

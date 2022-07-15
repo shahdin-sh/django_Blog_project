@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import Http404
 from django.core.paginator import Paginator
-from django.urls import reverse_lazy
+from django import forms
 
 
 def post_list_view(request):
@@ -321,7 +321,7 @@ def liked_user_comment(request, comment_id, pk):
     comment = get_object_or_404(Comment, pk=comment_id)
     user = request.user
     if user.is_authenticated:
-        if comment.user not in comment.user_likes.all():
+        if user not in comment.user_likes.all():
             comment.user_likes.add(user)
             return redirect('post_detail_view', pk)
 
@@ -330,10 +330,6 @@ def delete_liked_user_comment(request, comment_id, pk):
     comment = get_object_or_404(Comment, pk=comment_id)
     user = request.user
     if user.is_authenticated:
-        if comment.user in comment.user_likes.all():
+        if user in comment.user_likes.all():
             comment.user_likes.remove(user)
             return redirect('post_detail_view', pk)
-
-
-def liked_anonymous_comment():
-    pass

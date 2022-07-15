@@ -12,7 +12,8 @@ class Postadmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('comment_or_replay', 'comment_text', 'post', 'datetime_comment', 'is_active', 'user', 'name', 'email', 'likes', 'parent')
+    list_display = ('comment_or_replay', 'comment_text', 'post', 'datetime_comment',
+                    'is_active', 'user', 'name', 'email',  'likes', 'parent')
     ordering = ['-datetime_comment']
 
     def likes(self, obj):
@@ -26,9 +27,6 @@ class CommentAdmin(admin.ModelAdmin):
            return f'Children of Comment {obj.parent.id}'
         else:
             return f'Comment {obj.id}'
-
-
-
 
 
 class FavPostAdmin(admin.ModelAdmin):
