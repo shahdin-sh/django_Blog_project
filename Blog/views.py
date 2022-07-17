@@ -14,13 +14,11 @@ def post_list_view(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     # access authors if they are user
-    users = get_user_model().objects.all()
     # dic
     page_title = 'HomePage'
     dic = {
         'post': page_obj,
         'page_title': page_title,
-        'users': users
     }
     return render(request, 'blog/post_list.html', dic)
 

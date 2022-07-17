@@ -16,18 +16,6 @@
                 Error, ipsam ad earum velit voluptate quasi labore. Deleniti autem ipsam sunt placeat voluptate quam, culpa non impedit error ratione libero dignissimos minima quia, et quibusdam tempore repudiandae quas. Possimus.
                 Porro ipsum reiciendis asperiores numquam iure accusantium dicta inventore cumque quaerat veniam voluptatum maxime, tenetur eaque deserunt. Odio possimus aperiam hic iusto molestiae eveniet? Quidem cumque pariatur tempore culpa possimus.
             </div>
-            <div class="authors">
-                 <div class="col-sm-7 col-md-6 col-12 pb-4" id="comment_box">
-                    <h1>Authors</h1>
-                    {% for user in users %}
-                        <div class="comment mt-4 text-justify float-left">
-                            <img src="{{ user.userprofilepic.get_user_profile_image }}" alt="avatar" class="rounded-circle" width="40" height="40">
-                                <h4>{{ user.username }}</h4>
-                            <span><a href="#">Click</a> for seeing this author's posts</span>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
         </aside>
         <div class="post_news">
             <section class="post">
