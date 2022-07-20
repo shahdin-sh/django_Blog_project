@@ -174,7 +174,7 @@ label{
 /* options */
 .options{
     font-size: 2rem;
-    gap: 3px;
+    gap: 4px;
     display: flex;
     flex-direction: row;
 }

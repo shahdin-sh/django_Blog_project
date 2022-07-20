@@ -25,18 +25,19 @@ post_detail
                 </p>
                 <div class="options">
                     {% if user.id == post_detail.author.id %}
-                          <div>
-                             <a href="{% url "post_edit_option" post_detail.id %}"><i class="far fa-edit"></i></a>
+                        <div>
+                            <a href="{% url 'post_edit_option' post_detail.id%}"><i class="fa fa-edit"></i></a>
                              <a href="{% url "post_delete_option" post_detail.id %}"><i class="far fa-trash-alt"></i></a>
-                          </div>
+                        </div>
+                         <div>
+                             <form method="post" action="">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <button class="publish_button" type="submit" value="yes" onclick="this.disabled=true;this.form.submit();">
+                                    <i class="fa fa-file-o"></i></button>
+                             </form>
+                         </div>
                     {% endif %}
-                     <div>
-                         <form method="post" action="">
-                            {% csrf_token %}
-                            {{ form|crispy }}
-                            <button class="publish_button" type="submit" value="yes" onclick="this.disabled=true;this.form.submit();"><i class="fa fa-file-o fa-stack-2x"></i></button>
-                         </form>
-                     </div>
                 </div>
                 <div class="icon">
                     <a href="#"><i class="fa-brands fa-instagram-square"></i></a>

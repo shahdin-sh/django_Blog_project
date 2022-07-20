@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import Http404
 from django.core.paginator import Paginator
-from django import forms
 
 
 def post_list_view(request):
