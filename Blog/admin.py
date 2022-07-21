@@ -32,6 +32,7 @@ class CommentAdmin(admin.ModelAdmin):
 class FavPostAdmin(admin.ModelAdmin):
     list_display = ('user', 'fav_post')
 
+
 # registering Datas in admin panel
 admin.site.register(Post, Postadmin)
 admin.site.register(Comment, CommentAdmin)

@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import Http404
 from django.core.paginator import Paginator
+from django.db.models.aggregates import Count
+from django.contrib.auth import get_user_model
 
 
 def post_list_view(request):
@@ -12,12 +14,19 @@ def post_list_view(request):
     paginator = Paginator(post, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    # access authors if they are user
-    # dic
+    # access all authors
+    user = get_user_model()
+    authors = user.objects.alias(post_count=Count('author_post')).filter(post_count__gt=0)
+    # limiting the number of authors
+    few_authors_list = []
+    for few_authors in authors[:5]:
+        few_authors_list.append(few_authors)
+    # context
     page_title = 'HomePage'
     dic = {
         'post': page_obj,
         'page_title': page_title,
+        'authors': few_authors_list,
     }
     return render(request, 'blog/post_list.html', dic)
 

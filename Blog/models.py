@@ -3,7 +3,7 @@ from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
 from account.models import UserProfilePic
-from django.contrib.sessions.models import Session
+from django.db.models.aggregates import Count
 
 
 class Post(models.Model):
@@ -13,7 +13,7 @@ class Post(models.Model):
     )
     title = models.CharField(max_length=100)
     text = RichTextField()
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='author_post')
     date_created = models.DateTimeField(auto_now_add=True)
     datetime_modified = models.DateTimeField(auto_now=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=10)
@@ -30,6 +30,9 @@ class Post(models.Model):
             return self.author.userprofilepic.profile_pic.url
         except ValueError:
             return '/media/default/img_avatar.png'
+
+    def count_number_of_post(self):
+        pass
 
 
 class Comment(models.Model):

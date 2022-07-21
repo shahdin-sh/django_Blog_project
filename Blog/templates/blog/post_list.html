@@ -10,12 +10,22 @@
 {% block content %}
      <div class="main_container">
         <aside>
-            <div class="homepage_aside">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae sit qui atque nisi cupiditate. Ab consequatur id animi quos saepe ea aliquid itaque, placeat eaque, dolores doloribus, tempora delectus quae!
-                Laboriosam voluptatem eos eligendi sequi fugit tempora magnam deserunt quasi nobis perferendis quas nesciunt, nihil, doloremque unde. A doloribus earum dolorum totam repellat architecto eius fugit possimus perspiciatis. Aliquid, nihil!
-                Error, ipsam ad earum velit voluptate quasi labore. Deleniti autem ipsam sunt placeat voluptate quam, culpa non impedit error ratione libero dignissimos minima quia, et quibusdam tempore repudiandae quas. Possimus.
-                Porro ipsum reiciendis asperiores numquam iure accusantium dicta inventore cumque quaerat veniam voluptatum maxime, tenetur eaque deserunt. Odio possimus aperiam hic iusto molestiae eveniet? Quidem cumque pariatur tempore culpa possimus.
-            </div>
+              <div class="authors_section">
+                     <h3>Authors</h3>
+                    {% for author in authors %}
+                        <img class="profile-img" src="{{ author.userprofilepic.get_user_profile_image }}" alt="user_avatar" />
+                        <div class="card-profile-info">
+                            <h2 class="profile-name">{{ author.username}} ~  {{ author.author_post.all.count }}</h2>
+                        </div>
+                    {% endfor %}
+                    <span class="dot">...</span>
+              </div>
+          <div class="homepage_aside">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae sit qui atque nisi cupiditate. Ab consequatur id animi quos saepe ea aliquid itaque, placeat eaque, dolores doloribus, tempora delectus quae!
+            Laboriosam voluptatem eos eligendi sequi fugit tempora magnam deserunt quasi nobis perferendis quas nesciunt, nihil, doloremque unde. A doloribus earum dolorum totam repellat architecto eius fugit possimus perspiciatis. Aliquid, nihil!
+            Error, ipsam ad earum velit voluptate quasi labore. Deleniti autem ipsam sunt placeat voluptate quam, culpa non impedit error ratione libero dignissimos minima quia, et quibusdam tempore repudiandae quas. Possimus.
+            Porro ipsum reiciendis asperiores numquam iure accusantium dicta inventore cumque quaerat veniam voluptatum maxime, tenetur eaque deserunt. Odio possimus aperiam hic iusto molestiae eveniet? Quidem cumque pariatur tempore culpa possimus.
+          </div>
         </aside>
         <div class="post_news">
             <section class="post">
@@ -64,6 +74,14 @@
     <style>
         nav{
             text-align: center;
+        }
+        .authors_section{
+            border: 3px solid crimson;
+            margin: 5px 0 5px 0;
+            text-align: center;
+        }
+        .dot{
+            font-size: 4rem;
         }
     </style>
 {% endblock content %}
