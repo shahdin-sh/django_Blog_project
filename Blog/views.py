@@ -342,3 +342,33 @@ def delete_liked_user_comment(request, comment_id, pk):
         if user in comment.user_likes.all():
             comment.user_likes.remove(user)
             return redirect('post_detail_view', pk)
+
+
+def each_authors_view(request, author_pk):
+    each_authors_post = Post.objects.all().filter(author_id=author_pk)
+    paginator = Paginator(each_authors_post, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    # getting author
+    user = get_user_model()
+    # author means users that have more than 0 posts
+    author = user.objects.alias(post_count=Count('author_post')).filter(post_count__gt=0)
+    get_author = get_object_or_404(author, pk=author_pk)
+    page_title = f"{get_author} Post's"
+    # context
+    dic = {
+        'post': page_obj,
+        'author':  get_author,
+        'page_title': page_title,
+    }
+    return render(request, 'blog/each_author_view.html', dic)
+
+
+def all_authors(request):
+    user = get_user_model()
+    authors = user.objects.alias(post_count=Count('author_post')).filter(post_count__gt=0)
+    page_title = 'Authors'
+    return render(request, 'blog/all_author_view.html', context={
+        'authors': authors,
+        'page_title': page_title,
+    })

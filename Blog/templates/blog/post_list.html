@@ -15,10 +15,12 @@
                     {% for author in authors %}
                         <img class="profile-img" src="{{ author.userprofilepic.get_user_profile_image }}" alt="user_avatar" />
                         <div class="card-profile-info">
-                            <h2 class="profile-name">{{ author.username}} ~  {{ author.author_post.all.count }}</h2>
+                            <h2 class="profile-name">
+                                <a href="{% url 'each_authors_view' author.id %}">{{ author.username}}</a>
+                                <span>~ {{ author.author_post.all.count }}</span></h2>
                         </div>
                     {% endfor %}
-                    <span class="dot">...</span>
+                    <a href="{% url 'all_authors_view' %}"><span class="dot">...</span></a>
               </div>
           <div class="homepage_aside">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae sit qui atque nisi cupiditate. Ab consequatur id animi quos saepe ea aliquid itaque, placeat eaque, dolores doloribus, tempora delectus quae!
@@ -76,7 +78,6 @@
             text-align: center;
         }
         .authors_section{
-            border: 3px solid crimson;
             margin: 5px 0 5px 0;
             text-align: center;
         }

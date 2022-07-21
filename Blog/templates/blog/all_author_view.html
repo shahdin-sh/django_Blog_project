@@ -1,0 +1,47 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+{%block page_title%}
+{{ page_title }}
+{% endblock page_title %}
+{% load static %}
+
+
+{% block content %}
+    <div class="container">
+         {% for author in authors %}
+             <div class="content_holder">
+                  <div class="user_img">
+                    <img class="profile-img" src="{{ author.userprofilepic.get_user_profile_image }}" alt="user_avatar" />
+                  </div>
+                  <div class="user_content">
+                    <h2>
+                        <a href="{% url 'each_authors_view' author.id %}">{{ author.username}}</a>
+                    </h2>
+                    <h4>total posts:{{ author.author_post.all.count }}</h4>
+                  </div>
+             </div>
+        {% endfor %}
+    </div>
+    <style>
+        .container{
+            display: flex;
+            gap: 150px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .container img{
+            width: 150px;
+            height: 150px;
+            border-radius: 100px;
+        }
+        .content_holder{
+            display: flex;
+            flex-direction: column;
+        }
+        .content_holder h2,h4{
+            text-align: center;
+        }
+    </style>
+{% endblock content %}

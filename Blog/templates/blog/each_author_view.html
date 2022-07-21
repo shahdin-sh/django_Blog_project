@@ -1,0 +1,90 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block page_title %}
+{{ page_title }}
+{% endblock page_title %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="whole_content">
+         <div class="author">
+             <div>
+                 <img class="profile-img" src="{{ author.userprofilepic.get_user_profile_image }}" alt="user_avatar" />
+             </div>
+            <div>
+                <h2 class="profile-name">{{ author.username }}</h2>
+                <h4>total posts: {{ author.author_post.all.count }}</h4>
+            </div>
+        </div>
+         <div class="main_container">
+            <div class="post_news">
+                <section class="post">
+                    <div class="wrapper">
+                        {% for i in post %}
+                            <div class="card">
+                                <div class="card-banner">
+                                    <p class="category-tag popular">{{ i.title }}</p>
+                                    <img class="banner-img" src='{{ i.image_post.url }}' alt='Banner'>
+                                </div>
+                                <div class="card-body">
+                                    <a href="{% url 'post_detail_view' i.id %}"><h4 class="blog-title"> {{ i.text|truncatewords:20|safe }}</h4></a>
+                                    <p class="blog-description">
+                                        <span>{{ i.date_created }}</span>
+                                        <br>
+                                        <span>Last modified: {{ i.datetime_modified }}</span>
+                                    </p>
+                                    <div class="icon">
+                                        <a href="#"><i class="fa-brands fa-instagram-square"></i></a>
+                                        <a href="#"><i class="fa-brands fa-github"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+     <nav aria-label="Page navigation">
+        <ul class="pagination  justify-content-center mt-3">
+        {% if post.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ post.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        <li class="page-item"><a class="page-link" href="?page={{ post.number }}">{{ post.number }}</a></li>
+        {% if post.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ post.next_page_number }}">Next</a></li>
+        {% endif %}
+        </ul>
+     </nav>
+    <style>
+        @media screen and (min-width: 700px) {
+             .whole_content{
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+            }
+        }
+        nav{
+            text-align: center;
+        }
+        .author{
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            gap: 1rem;
+            margin: 30px 0 30px 0;
+        }
+        .author img{
+            width: 100px;
+            height: 100px;
+        }
+        .author h2{
+            font-size: 3rem;
+            font-weight: bold;
+        }
+    </style>
+{% endblock content %}
+
+

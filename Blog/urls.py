@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path('', post_list_view, name='post_view_of_blog'),
+    path('authors_view/author_id:<int:author_pk>', each_authors_view, name='each_authors_view'),
+    path('authors/', all_authors, name='all_authors_view'),
     path('<int:pk>', post_detail_view, name='post_detail_view'),
     path('<int:pk>/liked/comment/<int:comment_id>', liked_user_comment, name='liked_user_comment'),
     path('<int:pk>/delete_like/comment/<int:comment_id>', delete_liked_user_comment, name='delete_liked_user_comment'),
